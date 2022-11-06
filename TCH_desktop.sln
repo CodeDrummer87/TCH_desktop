@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCH_desktop", "TCH_desktop\TCH_desktop.csproj", "{B41A346F-4B63-4A5D-9EA0-7ABB89415163}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B41A346F-4B63-4A5D-9EA0-7ABB89415163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B41A346F-4B63-4A5D-9EA0-7ABB89415163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B41A346F-4B63-4A5D-9EA0-7ABB89415163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B41A346F-4B63-4A5D-9EA0-7ABB89415163}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6858ACF6-5440-4B4E-9E45-55D9FB7C629C}
+	EndGlobalSection
+EndGlobal
