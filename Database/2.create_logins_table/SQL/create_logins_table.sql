@@ -1,0 +1,13 @@
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE ID = OBJECT_ID(N'tchDb'))
+USE tchDb;
+
+GO
+
+IF OBJECT_ID('Logins', 'u') IS NULL
+CREATE TABLE Logins
+(
+	LoginId INT IDENTITY(1, 1) PRIMARY KEY,
+	Email NCHAR(50) NOT NULL,
+	Password NVARCHAR(50) NOT NULL,
+	Salt BINARY(16) NOT NULL
+)
