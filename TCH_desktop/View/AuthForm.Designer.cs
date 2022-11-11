@@ -28,7 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.exitButton = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // exitButton
+            // 
+            this.exitButton.AutoSize = true;
+            this.exitButton.BackColor = System.Drawing.Color.Transparent;
+            this.exitButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.exitButton.Font = new System.Drawing.Font("Lucida Console", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.exitButton.ForeColor = System.Drawing.Color.Green;
+            this.exitButton.Location = new System.Drawing.Point(846, 9);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(25, 23);
+            this.exitButton.TabIndex = 0;
+            this.exitButton.Text = "o";
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            this.exitButton.MouseEnter += new System.EventHandler(this.exitButton_MouseEnter);
+            this.exitButton.MouseLeave += new System.EventHandler(this.exitButton_MouseLeave);
             // 
             // AuthForm
             // 
@@ -36,14 +53,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::TCH_desktop.Properties.Resources.authorization_background_image;
             this.ClientSize = new System.Drawing.Size(882, 392);
+            this.Controls.Add(this.exitButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "AuthForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AuthForm";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private Label exitButton;
     }
 }

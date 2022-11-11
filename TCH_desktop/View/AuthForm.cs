@@ -16,5 +16,22 @@ namespace TCH_desktop.View
         {
             InitializeComponent();
         }
+
+        private void exitButton_Click(object? sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void exitButton_MouseEnter(object sender, EventArgs e)
+        {
+            exitButton.Text = "x";
+            exitButton.ForeColor = Color.Red;
+        }
+
+        private void exitButton_MouseLeave(object sender, EventArgs e)
+        {
+            exitButton.Text = "o";
+            exitButton.ForeColor = Color.Green;
+        }
     }
 }
