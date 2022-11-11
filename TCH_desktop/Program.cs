@@ -6,7 +6,7 @@ namespace TCH_desktop
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run();  //.:: new MyForm()
+            Application.Run(new View.AuthForm());
         }
     }
 }
