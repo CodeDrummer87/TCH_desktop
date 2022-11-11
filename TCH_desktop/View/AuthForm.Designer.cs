@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.exitButton = new System.Windows.Forms.Label();
+            this.title = new System.Windows.Forms.Label();
+            this.developerEmail = new System.Windows.Forms.Label();
+            this.loginInp = new System.Windows.Forms.TextBox();
+            this.pswdInp = new System.Windows.Forms.TextBox();
+            this.authButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // exitButton
@@ -47,12 +52,73 @@
             this.exitButton.MouseEnter += new System.EventHandler(this.exitButton_MouseEnter);
             this.exitButton.MouseLeave += new System.EventHandler(this.exitButton_MouseLeave);
             // 
+            // title
+            // 
+            this.title.BackColor = System.Drawing.Color.Transparent;
+            this.title.Location = new System.Drawing.Point(12, 35);
+            this.title.Name = "title";
+            this.title.Size = new System.Drawing.Size(407, 143);
+            this.title.TabIndex = 1;
+            this.title.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // developerEmail
+            // 
+            this.developerEmail.AutoSize = true;
+            this.developerEmail.BackColor = System.Drawing.Color.Transparent;
+            this.developerEmail.ForeColor = System.Drawing.Color.BurlyWood;
+            this.developerEmail.Location = new System.Drawing.Point(584, 353);
+            this.developerEmail.Name = "developerEmail";
+            this.developerEmail.Size = new System.Drawing.Size(206, 20);
+            this.developerEmail.TabIndex = 2;
+            this.developerEmail.Text = "code.drummer87@gmail.com";
+            // 
+            // loginInp
+            // 
+            this.loginInp.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.loginInp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.loginInp.Location = new System.Drawing.Point(45, 208);
+            this.loginInp.Name = "loginInp";
+            this.loginInp.PlaceholderText = "email";
+            this.loginInp.Size = new System.Drawing.Size(329, 27);
+            this.loginInp.TabIndex = 3;
+            this.loginInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // pswdInp
+            // 
+            this.pswdInp.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.pswdInp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pswdInp.Location = new System.Drawing.Point(44, 252);
+            this.pswdInp.Name = "pswdInp";
+            this.pswdInp.PasswordChar = '★';
+            this.pswdInp.PlaceholderText = "пароль";
+            this.pswdInp.Size = new System.Drawing.Size(330, 27);
+            this.pswdInp.TabIndex = 4;
+            this.pswdInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // authButton
+            // 
+            this.authButton.BackColor = System.Drawing.Color.LightBlue;
+            this.authButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.authButton.Location = new System.Drawing.Point(99, 295);
+            this.authButton.Name = "authButton";
+            this.authButton.Size = new System.Drawing.Size(220, 29);
+            this.authButton.TabIndex = 5;
+            this.authButton.Text = "войти";
+            this.authButton.UseVisualStyleBackColor = false;
+            this.authButton.MouseEnter += new System.EventHandler(this.authButton_MouseEnter);
+            this.authButton.MouseLeave += new System.EventHandler(this.authButton_MouseLeave);
+            // 
             // AuthForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::TCH_desktop.Properties.Resources.authorization_background_image;
             this.ClientSize = new System.Drawing.Size(882, 392);
+            this.Controls.Add(this.authButton);
+            this.Controls.Add(this.pswdInp);
+            this.Controls.Add(this.loginInp);
+            this.Controls.Add(this.developerEmail);
+            this.Controls.Add(this.title);
             this.Controls.Add(this.exitButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "AuthForm";
@@ -66,5 +132,10 @@
         #endregion
 
         private Label exitButton;
+        private Label title;
+        private Label developerEmail;
+        private TextBox loginInp;
+        private TextBox pswdInp;
+        private Button authButton;
     }
 }
