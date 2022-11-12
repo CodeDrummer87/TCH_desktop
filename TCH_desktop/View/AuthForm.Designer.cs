@@ -34,6 +34,7 @@
             this.loginInp = new System.Windows.Forms.TextBox();
             this.pswdInp = new System.Windows.Forms.TextBox();
             this.authButton = new System.Windows.Forms.Button();
+            this.authFormErrorMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // exitButton
@@ -42,12 +43,12 @@
             this.exitButton.BackColor = System.Drawing.Color.Transparent;
             this.exitButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exitButton.Font = new System.Drawing.Font("Lucida Console", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.exitButton.ForeColor = System.Drawing.Color.Green;
+            this.exitButton.ForeColor = System.Drawing.Color.Black;
             this.exitButton.Location = new System.Drawing.Point(846, 9);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(25, 23);
             this.exitButton.TabIndex = 0;
-            this.exitButton.Text = "o";
+            this.exitButton.Text = "-";
             this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             this.exitButton.MouseEnter += new System.EventHandler(this.exitButton_MouseEnter);
             this.exitButton.MouseLeave += new System.EventHandler(this.exitButton_MouseLeave);
@@ -66,7 +67,7 @@
             this.developerEmail.AutoSize = true;
             this.developerEmail.BackColor = System.Drawing.Color.Transparent;
             this.developerEmail.ForeColor = System.Drawing.Color.BurlyWood;
-            this.developerEmail.Location = new System.Drawing.Point(584, 353);
+            this.developerEmail.Location = new System.Drawing.Point(580, 360);
             this.developerEmail.Name = "developerEmail";
             this.developerEmail.Size = new System.Drawing.Size(206, 20);
             this.developerEmail.TabIndex = 2;
@@ -82,6 +83,7 @@
             this.loginInp.Size = new System.Drawing.Size(329, 27);
             this.loginInp.TabIndex = 3;
             this.loginInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.loginInp.Enter += new System.EventHandler(this.loginInp_Enter);
             // 
             // pswdInp
             // 
@@ -94,6 +96,7 @@
             this.pswdInp.Size = new System.Drawing.Size(330, 27);
             this.pswdInp.TabIndex = 4;
             this.pswdInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.pswdInp.Enter += new System.EventHandler(this.pswdInp_Enter);
             // 
             // authButton
             // 
@@ -105,8 +108,19 @@
             this.authButton.TabIndex = 5;
             this.authButton.Text = "войти";
             this.authButton.UseVisualStyleBackColor = false;
+            this.authButton.Click += new System.EventHandler(this.authButton_Click);
             this.authButton.MouseEnter += new System.EventHandler(this.authButton_MouseEnter);
             this.authButton.MouseLeave += new System.EventHandler(this.authButton_MouseLeave);
+            // 
+            // authFormErrorMessage
+            // 
+            this.authFormErrorMessage.BackColor = System.Drawing.Color.Transparent;
+            this.authFormErrorMessage.ForeColor = System.Drawing.Color.Yellow;
+            this.authFormErrorMessage.Location = new System.Drawing.Point(99, 335);
+            this.authFormErrorMessage.Name = "authFormErrorMessage";
+            this.authFormErrorMessage.Size = new System.Drawing.Size(771, 25);
+            this.authFormErrorMessage.TabIndex = 6;
+            this.authFormErrorMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // AuthForm
             // 
@@ -114,6 +128,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::TCH_desktop.Properties.Resources.authorization_background_image;
             this.ClientSize = new System.Drawing.Size(882, 392);
+            this.Controls.Add(this.authFormErrorMessage);
             this.Controls.Add(this.authButton);
             this.Controls.Add(this.pswdInp);
             this.Controls.Add(this.loginInp);
@@ -137,5 +152,6 @@
         private TextBox loginInp;
         private TextBox pswdInp;
         private Button authButton;
+        private Label authFormErrorMessage;
     }
 }
