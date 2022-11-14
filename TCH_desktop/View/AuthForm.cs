@@ -214,5 +214,20 @@ namespace TCH_desktop.View
 
             return mLogin;
         }
+
+        private void addAccountPicture_MouseEnter(object? sender, EventArgs e)
+        {
+            addAccountPicture.BackColor = Color.LightGreen;
+        }
+
+        private void addAccountPicture_MouseLeave(object sender, EventArgs e)
+        {
+            addAccountPicture.BackColor = SystemColors.InactiveCaption;
+        }
+
+        private void addAccountPicture_Click(object sender, EventArgs e)
+        {
+            RegForm regForm = new RegForm(this);
+        }
     }
 }

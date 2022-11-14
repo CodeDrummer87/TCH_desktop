@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.exitButton = new System.Windows.Forms.Label();
             this.title = new System.Windows.Forms.Label();
             this.developerEmail = new System.Windows.Forms.Label();
@@ -35,6 +36,9 @@
             this.pswdInp = new System.Windows.Forms.TextBox();
             this.authButton = new System.Windows.Forms.Button();
             this.authFormErrorMessage = new System.Windows.Forms.Label();
+            this.addAccountPicture = new System.Windows.Forms.PictureBox();
+            this.authFormToolTip = new System.Windows.Forms.ToolTip(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.addAccountPicture)).BeginInit();
             this.SuspendLayout();
             // 
             // exitButton
@@ -49,6 +53,7 @@
             this.exitButton.Size = new System.Drawing.Size(25, 23);
             this.exitButton.TabIndex = 0;
             this.exitButton.Text = "-";
+            this.authFormToolTip.SetToolTip(this.exitButton, "Закрыть");
             this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             this.exitButton.MouseEnter += new System.EventHandler(this.exitButton_MouseEnter);
             this.exitButton.MouseLeave += new System.EventHandler(this.exitButton_MouseLeave);
@@ -72,6 +77,7 @@
             this.developerEmail.Size = new System.Drawing.Size(206, 20);
             this.developerEmail.TabIndex = 2;
             this.developerEmail.Text = "code.drummer87@gmail.com";
+            this.authFormToolTip.SetToolTip(this.developerEmail, "Разработчик Андрей Бодров");
             // 
             // loginInp
             // 
@@ -122,12 +128,30 @@
             this.authFormErrorMessage.TabIndex = 6;
             this.authFormErrorMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // addAccountPicture
+            // 
+            this.addAccountPicture.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.addAccountPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.addAccountPicture.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addAccountPicture.Image = global::TCH_desktop.Properties.Resources.account_add_avatar_person_plus_icon;
+            this.addAccountPicture.Location = new System.Drawing.Point(380, 208);
+            this.addAccountPicture.Name = "addAccountPicture";
+            this.addAccountPicture.Size = new System.Drawing.Size(30, 30);
+            this.addAccountPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.addAccountPicture.TabIndex = 7;
+            this.addAccountPicture.TabStop = false;
+            this.authFormToolTip.SetToolTip(this.addAccountPicture, "Создать аккаунт\r\n");
+            this.addAccountPicture.Click += new System.EventHandler(this.addAccountPicture_Click);
+            this.addAccountPicture.MouseEnter += new System.EventHandler(this.addAccountPicture_MouseEnter);
+            this.addAccountPicture.MouseLeave += new System.EventHandler(this.addAccountPicture_MouseLeave);
+            // 
             // AuthForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::TCH_desktop.Properties.Resources.authorization_background_image;
             this.ClientSize = new System.Drawing.Size(882, 392);
+            this.Controls.Add(this.addAccountPicture);
             this.Controls.Add(this.authFormErrorMessage);
             this.Controls.Add(this.authButton);
             this.Controls.Add(this.pswdInp);
@@ -139,6 +163,7 @@
             this.Name = "AuthForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AuthForm";
+            ((System.ComponentModel.ISupportInitialize)(this.addAccountPicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,5 +178,7 @@
         private TextBox pswdInp;
         private Button authButton;
         private Label authFormErrorMessage;
+        private PictureBox addAccountPicture;
+        private ToolTip authFormToolTip;
     }
 }
