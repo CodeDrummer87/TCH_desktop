@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TCH_desktop.Models;
+using TCH_desktop.Presenter;
 
 namespace TCH_desktop.View
 {
@@ -25,11 +26,11 @@ namespace TCH_desktop.View
             InitializeComponent();
 
             title.Text = "ТЧЭ-2\nЗСЖД";
-            title.Font = LoadFont(@".\source\fonts\docker.ttf", 50, true);
-            developerEmail.Font = LoadFont(@".\source\fonts\zekton.ttf", 11, true);
-            loginInp.Font = pswdInp.Font = LoadFont(@".\source\fonts\zekton.ttf", 12, true);
-            authButton.Font = LoadFont(@".\source\fonts\zekton.ttf", 10, true);
-            authFormErrorMessage.Font = LoadFont(@".\source\fonts\zekton.ttf", 11, true);
+            title.Font = Source.LoadFont(@".\source\fonts\docker.ttf", 50, true);
+            developerEmail.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 11, true);
+            loginInp.Font = pswdInp.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 12, true);
+            authButton.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 10, true);
+            authFormErrorMessage.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 11, true);
         }
 
         private void exitButton_Click(object? sender, EventArgs e)
@@ -47,14 +48,6 @@ namespace TCH_desktop.View
         {
             exitButton.Text = "-";
             exitButton.ForeColor = Color.Black;
-        }
-    
-        private Font LoadFont(string path, int size, bool isBold)
-        {
-            PrivateFontCollection customFont = new ();
-            customFont.AddFontFile(@path);
-
-            return new Font(customFont.Families[0], size, isBold? FontStyle.Bold : FontStyle.Regular);
         }
 
         private void authButton_MouseEnter(object? sender, EventArgs e)
