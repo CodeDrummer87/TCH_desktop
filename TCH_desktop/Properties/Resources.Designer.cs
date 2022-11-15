@@ -83,6 +83,26 @@ namespace TCH_desktop.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap closed_eye_icon {
+            get {
+                object obj = ResourceManager.GetObject("closed_eye_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap open_eye_icon {
+            get {
+                object obj = ResourceManager.GetObject("open_eye_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap registration_background_image {
             get {
                 object obj = ResourceManager.GetObject("registration_background_image", resourceCulture);

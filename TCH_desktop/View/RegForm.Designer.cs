@@ -109,7 +109,7 @@
             this.loginInp.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.loginInp.Location = new System.Drawing.Point(28, 267);
             this.loginInp.Name = "loginInp";
-            this.loginInp.PlaceholderText = "Укажите ваш email";
+            this.loginInp.PlaceholderText = "укажите email";
             this.loginInp.Size = new System.Drawing.Size(344, 27);
             this.loginInp.TabIndex = 4;
             this.loginInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -155,7 +155,7 @@
             this.confirmPswdInp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.confirmPswdInp.Location = new System.Drawing.Point(29, 350);
             this.confirmPswdInp.Name = "confirmPswdInp";
-            this.confirmPswdInp.PlaceholderText = "введите пароль ещё раз";
+            this.confirmPswdInp.PlaceholderText = "повторите пароль";
             this.confirmPswdInp.Size = new System.Drawing.Size(343, 27);
             this.confirmPswdInp.TabIndex = 8;
             this.confirmPswdInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -168,7 +168,7 @@
             this.confirmEmailButton.Name = "confirmEmailButton";
             this.confirmEmailButton.Size = new System.Drawing.Size(245, 29);
             this.confirmEmailButton.TabIndex = 9;
-            this.confirmEmailButton.Text = "подтвердить мой email";
+            this.confirmEmailButton.Text = "подтвердить email";
             this.confirmEmailButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.confirmEmailButton.UseVisualStyleBackColor = false;
             this.confirmEmailButton.MouseEnter += new System.EventHandler(this.confirmEmailButton_MouseEnter);

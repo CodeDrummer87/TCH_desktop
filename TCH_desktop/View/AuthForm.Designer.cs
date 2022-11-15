@@ -38,7 +38,9 @@
             this.authFormErrorMessage = new System.Windows.Forms.Label();
             this.addAccountPicture = new System.Windows.Forms.PictureBox();
             this.authFormToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.showHidePasswordPicture = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.addAccountPicture)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.showHidePasswordPicture)).BeginInit();
             this.SuspendLayout();
             // 
             // exitButton
@@ -145,12 +147,30 @@
             this.addAccountPicture.MouseEnter += new System.EventHandler(this.addAccountPicture_MouseEnter);
             this.addAccountPicture.MouseLeave += new System.EventHandler(this.addAccountPicture_MouseLeave);
             // 
+            // showHidePasswordPicture
+            // 
+            this.showHidePasswordPicture.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.showHidePasswordPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.showHidePasswordPicture.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.showHidePasswordPicture.Image = global::TCH_desktop.Properties.Resources.closed_eye_icon;
+            this.showHidePasswordPicture.Location = new System.Drawing.Point(380, 252);
+            this.showHidePasswordPicture.Name = "showHidePasswordPicture";
+            this.showHidePasswordPicture.Size = new System.Drawing.Size(30, 30);
+            this.showHidePasswordPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.showHidePasswordPicture.TabIndex = 8;
+            this.showHidePasswordPicture.TabStop = false;
+            this.authFormToolTip.SetToolTip(this.showHidePasswordPicture, "Показать / Скрыть пароль");
+            this.showHidePasswordPicture.Click += new System.EventHandler(this.showHidePasswordPicture_Click);
+            this.showHidePasswordPicture.MouseEnter += new System.EventHandler(this.showHidePasswordPicture_MouseEnter);
+            this.showHidePasswordPicture.MouseLeave += new System.EventHandler(this.showHidePasswordPicture_MouseLeave);
+            // 
             // AuthForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::TCH_desktop.Properties.Resources.authorization_background_image;
             this.ClientSize = new System.Drawing.Size(882, 392);
+            this.Controls.Add(this.showHidePasswordPicture);
             this.Controls.Add(this.addAccountPicture);
             this.Controls.Add(this.authFormErrorMessage);
             this.Controls.Add(this.authButton);
@@ -164,6 +184,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AuthForm";
             ((System.ComponentModel.ISupportInitialize)(this.addAccountPicture)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.showHidePasswordPicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -180,5 +201,6 @@
         private Label authFormErrorMessage;
         private PictureBox addAccountPicture;
         private ToolTip authFormToolTip;
+        private PictureBox showHidePasswordPicture;
     }
 }

@@ -18,6 +18,8 @@ namespace TCH_desktop.View
 {
     public partial class AuthForm : Form
     {
+        private bool isHiddenPassword = true;
+
         DataBase db = new();
         SqlDataAdapter adapter = new();
 
@@ -104,12 +106,12 @@ namespace TCH_desktop.View
             return false;
         }
 
-        private void loginInp_Enter(object sender, EventArgs e)
+        private void loginInp_Enter(object? sender, EventArgs e)
         {
             ClearAuthFormErrorMessage();
         }
 
-        private void pswdInp_Enter(object sender, EventArgs e)
+        private void pswdInp_Enter(object? sender, EventArgs e)
         {
             ClearAuthFormErrorMessage();
         }
@@ -213,14 +215,40 @@ namespace TCH_desktop.View
             addAccountPicture.BackColor = Color.LightGreen;
         }
 
-        private void addAccountPicture_MouseLeave(object sender, EventArgs e)
+        private void addAccountPicture_MouseLeave(object? sender, EventArgs e)
         {
             addAccountPicture.BackColor = SystemColors.InactiveCaption;
         }
 
-        private void addAccountPicture_Click(object sender, EventArgs e)
+        private void addAccountPicture_Click(object? sender, EventArgs e)
         {
             RegForm regForm = new RegForm(this);
+        }
+
+        private void showHidePasswordPicture_MouseEnter(object? sender, EventArgs e)
+        {
+            showHidePasswordPicture.BackColor = Color.LightGreen;
+        }
+
+        private void showHidePasswordPicture_MouseLeave(object? sender, EventArgs e)
+        {
+            showHidePasswordPicture.BackColor = SystemColors.InactiveCaption;
+        }
+
+        private void showHidePasswordPicture_Click(object? sender, EventArgs e)
+        {
+            if (isHiddenPassword)
+            {
+                isHiddenPassword = false;
+                showHidePasswordPicture.Image = Properties.Resources.open_eye_icon;
+                pswdInp.PasswordChar = '\0';
+            }
+            else
+            {
+                isHiddenPassword = true;
+                showHidePasswordPicture.Image = Properties.Resources.closed_eye_icon;
+                pswdInp.PasswordChar = '★';
+            }
         }
     }
 }
