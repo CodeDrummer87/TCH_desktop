@@ -105,6 +105,7 @@
             this.pswdInp.TabIndex = 4;
             this.pswdInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.pswdInp.Enter += new System.EventHandler(this.pswdInp_Enter);
+            this.pswdInp.KeyUp += new System.Windows.Forms.KeyEventHandler(this.pswdInp_KeyUp);
             // 
             // authButton
             // 

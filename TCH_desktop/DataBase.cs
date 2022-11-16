@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
 
 namespace TCH_desktop
 {
-    internal class DataBase
+    internal static class DataBase
     {
-        SqlConnection sqlConnection = new
+        static SqlConnection sqlConnection = new
             (@"Data Source=LANCELOT\SQLEXPRESS;Initial Catalog=tchDb;Integrated Security=True;");
 
-        public void OpenConnection()
+        public static SqlDataAdapter adapter = new();
+
+        public static void OpenConnection()
         {
             if (sqlConnection.State == System.Data.ConnectionState.Closed)
             {
@@ -20,14 +17,14 @@ namespace TCH_desktop
             }
         }
 
-        public void CloseConnection()
+        public static void CloseConnection()
         {
             if (sqlConnection.State == System.Data.ConnectionState.Open)
             {
                 sqlConnection.Close();
-            }    
+            }
         }
 
-        public SqlConnection GetConnection() => sqlConnection;
+        public static SqlConnection GetConnection() => sqlConnection;
     }
 }

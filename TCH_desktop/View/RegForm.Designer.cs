@@ -144,6 +144,7 @@
             this.pswdInp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pswdInp.Location = new System.Drawing.Point(28, 314);
             this.pswdInp.Name = "pswdInp";
+            this.pswdInp.PasswordChar = '★';
             this.pswdInp.PlaceholderText = "придумайте пароль";
             this.pswdInp.Size = new System.Drawing.Size(344, 27);
             this.pswdInp.TabIndex = 7;
@@ -155,10 +156,12 @@
             this.confirmPswdInp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.confirmPswdInp.Location = new System.Drawing.Point(29, 350);
             this.confirmPswdInp.Name = "confirmPswdInp";
+            this.confirmPswdInp.PasswordChar = '★';
             this.confirmPswdInp.PlaceholderText = "повторите пароль";
             this.confirmPswdInp.Size = new System.Drawing.Size(343, 27);
             this.confirmPswdInp.TabIndex = 8;
             this.confirmPswdInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.confirmPswdInp.TextChanged += new System.EventHandler(this.confirmPswdInp_TextChanged);
             // 
             // confirmEmailButton
             // 
@@ -199,6 +202,7 @@
             this.regButton.Text = "создать аккаунт";
             this.regButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.regButton.UseVisualStyleBackColor = false;
+            this.regButton.Click += new System.EventHandler(this.regButton_Click);
             this.regButton.MouseEnter += new System.EventHandler(this.regButton_MouseEnter);
             this.regButton.MouseLeave += new System.EventHandler(this.regButton_MouseLeave);
             // 

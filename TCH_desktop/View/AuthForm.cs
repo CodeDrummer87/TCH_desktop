@@ -1,17 +1,4 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using TCH_desktop.Models;
+﻿using TCH_desktop.Models;
 using TCH_desktop.Presenter;
 
 namespace TCH_desktop.View
@@ -19,9 +6,6 @@ namespace TCH_desktop.View
     public partial class AuthForm : Form
     {
         private bool isHiddenPassword = true;
-
-        DataBase db = new();
-        SqlDataAdapter adapter = new();
 
         public AuthForm()
         {
@@ -69,11 +53,11 @@ namespace TCH_desktop.View
 
             if (CheckInput(uEmail, false) && CheckInput(uPswd, true))
             {
-                if (CheckInputedEmail(uEmail))
+                if (AccountAction.CheckInputedEmail(uEmail))
                 {
-                    LoginModel loginDb = GetCurrentLoginData(uEmail);
+                    LoginModel loginDb = AccountAction.GetCurrentLoginData(uEmail);
 
-                    if (loginDb != null && (loginDb.Password == GetHashImage(uPswd, loginDb.Salt)))
+                    if (loginDb != null && (loginDb.Password == AccountAction.GetHashImage(uPswd, loginDb.Salt)))
                     {
                         MessageBox.Show("Welcome!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -89,7 +73,7 @@ namespace TCH_desktop.View
                     loginInp.Text = String.Empty;
                     pswdInp.Text = String.Empty;
                 }
-            }       
+            }
         }
 
         private bool CheckInput(string value, bool isPassword)
@@ -120,94 +104,6 @@ namespace TCH_desktop.View
         {
             if (authFormErrorMessage.Text != String.Empty)
                 authFormErrorMessage.Text = String.Empty;
-        }
-
-
-        private bool CheckInputedEmail(string email)
-        {
-            string query = "SELECT * FROM Logins WHERE Email = @uEmail";
-            SqlCommand command = new(query, db.GetConnection());
-            command.Parameters.Add("@uEmail", SqlDbType.VarChar).Value = email;
-
-            DataTable table = new();
-
-            adapter.SelectCommand = command;
-            adapter.Fill(table);
-
-            return table.Rows.Count == 1 ? true : false;
-        }
-
-        private byte[] GetSalt()
-        {
-            byte[] salt = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
-
-            return salt;
-        }
-
-        private string GetHashImage(string pswrd, byte[] salt)
-        {
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: pswrd,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA1,
-                iterationCount: 10000,
-                numBytesRequested: 256 / 8));
-
-            return hashed;
-        }
-
-        //.:: Temporary code :::
-
-        //private void RegisterAdmin()
-        //{
-        //    string query = "INSERT INTO Logins VALUES ('Admin', @p, @s)";
-
-        //    byte[] salt = GetSalt();
-        //    string pswdHashImage = GetHashImage("admin", salt);
-
-        //    SqlCommand command = new(query, db.GetConnection());
-        //    command.Parameters.Add("@p", SqlDbType.VarChar).Value = pswdHashImage;
-        //    command.Parameters.Add("@s", SqlDbType.VarBinary).Value = salt;
-
-        //    db.OpenConnection();
-
-        //    if (command.ExecuteNonQuery() == 1)
-        //    {
-        //        MessageBox.Show("Успешная регистрация", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //    }
-        //    else MessageBox.Show("Ошибка регистрации Админа", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-        //    db.CloseConnection();
-        //}
-
-        private LoginModel GetCurrentLoginData(string email)
-        {
-            LoginModel mLogin = new();
-
-            string query = "SELECT * FROM Logins WHERE Email=@e";
-
-            SqlCommand command = new(query, db.GetConnection());
-            command.Parameters.Add("@e", SqlDbType.VarChar).Value = email;
-            db.OpenConnection();
-
-            SqlDataReader reader = command.ExecuteReader();
-            while(reader.Read())
-            {
-                mLogin = new LoginModel
-                {
-                    LoginId = reader.GetInt32(0),
-                    Email = reader.GetString(1),
-                    Password = reader.GetString(2),
-                    Salt = (byte[])reader[3]
-                };
-            }
-            reader.Close();
-
-            return mLogin;
         }
 
         private void addAccountPicture_MouseEnter(object? sender, EventArgs e)
@@ -249,6 +145,12 @@ namespace TCH_desktop.View
                 showHidePasswordPicture.Image = Properties.Resources.closed_eye_icon;
                 pswdInp.PasswordChar = '★';
             }
+        }
+
+        private void pswdInp_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+                authButton_Click(sender, e);
         }
     }
 }

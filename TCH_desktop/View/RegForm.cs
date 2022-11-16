@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using TCH_desktop.Presenter;
+﻿using TCH_desktop.Presenter;
 
 namespace TCH_desktop.View
 {
@@ -31,8 +22,8 @@ namespace TCH_desktop.View
             loginInp.Font = pswdInp.Font = confirmPswdInp.Font = currentMessage.Font =
                 Source.LoadFont(Source.zektonFont, 12, true);
 
-             codeForReg.Font = confirmEmailButton.Font = regButton.Font =
-                Source.LoadFont(Source.zektonFont, 10, true);
+            codeForReg.Font = confirmEmailButton.Font = regButton.Font =
+               Source.LoadFont(Source.zektonFont, 10, true);
         }
 
         private void exitButton_Click(object? sender, EventArgs e)
@@ -82,12 +73,43 @@ namespace TCH_desktop.View
 
         private void regButton_MouseEnter(object sender, EventArgs e)
         {
-            regButton.BackColor = Color.LightSkyBlue;
+            regButton.BackColor = Color.GreenYellow;
         }
 
         private void regButton_MouseLeave(object sender, EventArgs e)
         {
-            regButton.BackColor = Color.LightBlue;
+            regButton.BackColor = Color.PaleGreen;
+        }
+
+        private void confirmPswdInp_TextChanged(object sender, EventArgs e)
+        {
+            if (pswdInp.Text == confirmPswdInp.Text && !regButton.Enabled)
+            {
+                regButton.Enabled = true;
+                regButton.BackColor = Color.PaleGreen;
+            }
+            else
+            {
+                regButton.Enabled = false;
+                regButton.BackColor = Color.PaleGoldenrod;
+            }
+        }
+
+        private void regButton_Click(object sender, EventArgs e)
+        {
+            string message = String.Empty;
+
+            string email = loginInp.Text.Trim();
+            string password = pswdInp.Text.Trim();
+            string confirmedPassword = confirmPswdInp.Text.Trim();
+
+            if (email != String.Empty && email != null)
+            {
+                message = AccountAction.CreateNewAccount(email, password, confirmedPassword);
+            }
+            else message = "Укажите свой email";
+
+            currentMessage.Text = message;
         }
     }
 }
