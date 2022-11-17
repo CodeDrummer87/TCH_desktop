@@ -1,15 +1,19 @@
 ﻿using TCH_desktop.Models;
 using TCH_desktop.Presenter;
+using TCH_desktop.Presenter.interfaces;
 
 namespace TCH_desktop.View
 {
     public partial class AuthForm : Form
     {
         private bool isHiddenPassword = true;
+        IAccountAction account;
 
-        public AuthForm()
+        public AuthForm(IAccountAction account)
         {
             InitializeComponent();
+
+            this.account = account;
 
             title.Text = "ТЧЭ-2\nЗСЖД";
             title.Font = Source.LoadFont(@".\source\fonts\docker.ttf", 50, true);
@@ -53,11 +57,11 @@ namespace TCH_desktop.View
 
             if (CheckInput(uEmail, false) && CheckInput(uPswd, true))
             {
-                if (AccountAction.CheckInputedEmail(uEmail))
+                if (account.CheckInputedEmail(uEmail))
                 {
-                    LoginModel loginDb = AccountAction.GetCurrentLoginData(uEmail);
+                    LoginModel loginDb = account.GetCurrentLoginData(uEmail);
 
-                    if (loginDb != null && (loginDb.Password == AccountAction.GetHashImage(uPswd, loginDb.Salt)))
+                    if (loginDb != null && (loginDb.Password == account.GetHashImage(uPswd, loginDb.Salt)))
                     {
                         MessageBox.Show("Welcome!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -118,7 +122,7 @@ namespace TCH_desktop.View
 
         private void addAccountPicture_Click(object? sender, EventArgs e)
         {
-            RegForm regForm = new RegForm(this);
+            RegForm regForm = new RegForm(this, account);
         }
 
         private void showHidePasswordPicture_MouseEnter(object? sender, EventArgs e)

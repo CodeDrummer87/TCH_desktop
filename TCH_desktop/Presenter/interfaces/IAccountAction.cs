@@ -1,0 +1,18 @@
+﻿using TCH_desktop.Models;
+
+namespace TCH_desktop.Presenter.interfaces
+{
+    public interface IAccountAction
+    {
+        public string CreateNewAccount(string email, string password, string confirmedPassword);
+
+        public byte[] GetSalt();
+
+        public string GetHashImage(string pswrd, byte[] salt);
+
+        public bool CheckInputedEmail(string email);
+
+        public LoginModel GetCurrentLoginData(string email);
+
+    }
+}

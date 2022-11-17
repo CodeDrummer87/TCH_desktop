@@ -3,21 +3,22 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using TCH_desktop.Models;
+using TCH_desktop.Presenter.interfaces;
 
 namespace TCH_desktop.Presenter
 {
-    internal class AccountAction
+    internal class AccountAction : IAccountAction
     {
-        public static string CreateNewAccount(string email, string password, string confirmedPassword)
+        public string CreateNewAccount(string email, string password, string confirmedPassword)
         {
             string message = String.Empty;
 
-            if (!AccountAction.CheckInputedEmail(email) && (password == confirmedPassword))
+            if (!CheckInputedEmail(email) && (password == confirmedPassword))
             {
                 string query = "INSERT INTO Logins VALUES (@login, @password, @salt)";
 
-                byte[] salt = AccountAction.GetSalt();
-                string pswdHashImage = AccountAction.GetHashImage(password, salt);
+                byte[] salt = GetSalt();
+                string pswdHashImage = GetHashImage(password, salt);
 
                 SqlCommand command = new(query, DataBase.GetConnection());
                 command.Parameters.Add("@login", SqlDbType.VarChar).Value = email;
@@ -39,7 +40,7 @@ namespace TCH_desktop.Presenter
             return message;
         }
 
-        public static byte[] GetSalt()
+        public byte[] GetSalt()
         {
             byte[] salt = new byte[128 / 8];
             using (var rng = RandomNumberGenerator.Create())
@@ -50,7 +51,7 @@ namespace TCH_desktop.Presenter
             return salt;
         }
 
-        public static string GetHashImage(string pswrd, byte[] salt)
+        public string GetHashImage(string pswrd, byte[] salt)
         {
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: pswrd,
@@ -62,7 +63,7 @@ namespace TCH_desktop.Presenter
             return hashed;
         }
 
-        public static bool CheckInputedEmail(string email)
+        public bool CheckInputedEmail(string email)
         {
             string query = "SELECT * FROM Logins WHERE Email = @uEmail";
             SqlCommand command = new(query, DataBase.GetConnection());
@@ -76,7 +77,7 @@ namespace TCH_desktop.Presenter
             return table.Rows.Count == 1 ? true : false;
         }
 
-        public static LoginModel GetCurrentLoginData(string email)
+        public LoginModel GetCurrentLoginData(string email)
         {
             LoginModel mLogin = new();
 

@@ -1,18 +1,22 @@
 ﻿using TCH_desktop.Presenter;
+using TCH_desktop.Presenter.interfaces;
 
 namespace TCH_desktop.View
 {
     public partial class RegForm : Form
     {
         AuthForm authForm;
+        IAccountAction account;
 
-        public RegForm(AuthForm authForm)
+        public RegForm(AuthForm authForm, IAccountAction account)
         {
             InitializeComponent();
 
             this.authForm = authForm;
             this.Show();
             this.authForm.Hide();
+
+            this.account = account;
 
             title.Text = "ТЧЭ-2\nЗСЖД";
             title.Font = Source.LoadFont(Source.dockerFont, 50, true);
@@ -105,7 +109,7 @@ namespace TCH_desktop.View
 
             if (email != String.Empty && email != null)
             {
-                message = AccountAction.CreateNewAccount(email, password, confirmedPassword);
+                message = account.CreateNewAccount(email, password, confirmedPassword);
             }
             else message = "Укажите свой email";
 
