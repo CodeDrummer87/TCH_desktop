@@ -63,7 +63,7 @@ namespace TCH_desktop.View
 
                     if (loginDb != null && (loginDb.Password == account.GetHashImage(uPswd, loginDb.Salt)))
                     {
-                        MessageBox.Show("Welcome!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        StartForm startForm = new StartForm(this);
                     }
                     else
                     {
