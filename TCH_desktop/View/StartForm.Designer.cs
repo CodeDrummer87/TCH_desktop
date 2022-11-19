@@ -34,6 +34,7 @@
             // exitButton
             // 
             this.exitButton.AutoSize = true;
+            this.exitButton.BackColor = System.Drawing.Color.Transparent;
             this.exitButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exitButton.Font = new System.Drawing.Font("Lucida Console", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.exitButton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -52,6 +53,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.BackgroundImage = global::TCH_desktop.Properties.Resources.start_form_background_image;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1200, 900);
             this.Controls.Add(this.exitButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

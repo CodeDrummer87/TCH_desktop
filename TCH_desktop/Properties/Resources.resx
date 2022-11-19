@@ -118,8 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="authorization_background_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\source\images\authorization_background_image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="closed_eye_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\source\images\closed_eye_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="account_add_avatar_person_plus_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\source\images\account_add_avatar_person_plus_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -130,10 +130,16 @@
   <data name="star_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\source\images\star_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="closed_eye_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\source\images\closed_eye_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="start_form_background_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\source\images\start_form_background_image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="open_eye_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\source\images\open_eye_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="authorization_background_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\source\images\authorization_background_image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_data_setting_background_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\source\images\user_data_setting_background_image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -32,13 +32,9 @@ namespace TCH_desktop.View
 
             if (user.FirstName == "не указано" || user.SurName == "не указано")
             {
-                UserDataSettingForm uDataSettingForm = new(this);
+                UserDataSettingForm uDataSettingForm = new(this, authForm);
             }
-            else //.:: Test
-            {
-                Show();
-                MessageBox.Show(".:: Данные заполнены");
-            }
+            else this.Show();
         }
 
         private void exitButton_Click(object? sender, EventArgs e)
