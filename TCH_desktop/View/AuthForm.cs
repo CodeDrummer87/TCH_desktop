@@ -63,7 +63,7 @@ namespace TCH_desktop.View
 
                     if (loginDb != null && (loginDb.Password == account.GetHashImage(uPswd, loginDb.Salt)))
                     {
-                        StartForm startForm = new StartForm(this);
+                        StartForm startForm = new StartForm(this, account, loginDb.LoginId);
                     }
                     else
                     {

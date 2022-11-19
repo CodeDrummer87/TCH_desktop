@@ -30,6 +30,7 @@ namespace TCH_desktop.Presenter
                 if (command.ExecuteNonQuery() == 1)
                 {
                     message = $"Аккаунт для {email} успешно зарегистрирован";
+                    AttachNewUserData(email);
                 }
                 else message = "Ошибка регистрации";
 
@@ -71,10 +72,22 @@ namespace TCH_desktop.Presenter
 
             DataTable table = new();
 
-            DataBase.adapter.SelectCommand = command;
-            DataBase.adapter.Fill(table);
+            try
+            {
+                DataBase.adapter.SelectCommand = command;
+                DataBase.adapter.Fill(table);
 
-            return table.Rows.Count == 1 ? true : false;
+                return table.Rows.Count == 1 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Получена ошибка со следующим содержанием:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для её устранения.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                return false;
+            }
+
         }
 
         public LoginModel GetCurrentLoginData(string email)
@@ -101,6 +114,59 @@ namespace TCH_desktop.Presenter
             reader.Close();
 
             return mLogin;
+        }
+
+        public User GetCurrentUserData(int loginId)
+        {
+            User user = new();
+
+            string query = "SELECT * FROM Users WHERE LoginId=@Id";
+
+            SqlCommand command = new(query, DataBase.GetConnection());
+            command.Parameters.Add("@Id", SqlDbType.Int).Value = loginId;
+            DataBase.OpenConnection();
+
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                user = new User
+                {
+                    Id = reader.GetInt32(0),
+                    SurName = reader.GetString(1),
+                    FirstName = reader.GetString(2),
+                    Patronymic = reader.GetString(3),
+                    BirthDate = reader.GetDateTime(4),
+                    LoginId = reader.GetInt32(5)
+                };
+            }
+            reader.Close();
+
+            return user;
+        }
+
+        private void AttachNewUserData(string email)
+        {
+            int loginId = GetCurrentLoginData(email).LoginId;
+
+            string dName = "не указано";
+            DateTime dateTime = DateTime.Now;
+            string query = $"INSERT INTO Users VALUES ('{dName}', '{dName}', '{dName}', @dt, @loginId)";
+
+            SqlCommand command = new(query, DataBase.GetConnection());
+            command.Parameters.Add("@dt", SqlDbType.DateTime).Value = dateTime;
+            command.Parameters.Add("loginId", SqlDbType.Int).Value = loginId;
+
+            try
+            {
+                DataBase.OpenConnection();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Получена ошибка со следующим содержанием:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для её устранения.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
         }
     }
 }

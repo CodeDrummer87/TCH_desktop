@@ -28,12 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.exitButton = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // exitButton
+            // 
+            this.exitButton.AutoSize = true;
+            this.exitButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.exitButton.Font = new System.Drawing.Font("Lucida Console", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.exitButton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.exitButton.Location = new System.Drawing.Point(1163, 9);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(24, 22);
+            this.exitButton.TabIndex = 0;
+            this.exitButton.Text = "-";
+            this.exitButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            this.exitButton.MouseEnter += new System.EventHandler(this.exitButton_MouseEnter);
+            this.exitButton.MouseLeave += new System.EventHandler(this.exitButton_MouseLeave);
+            // 
+            // StartForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.ClientSize = new System.Drawing.Size(1200, 900);
+            this.Controls.Add(this.exitButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "StartForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StartForm";
+            this.TopMost = true;
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private Label exitButton;
     }
 }
