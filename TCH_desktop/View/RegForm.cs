@@ -49,7 +49,6 @@ namespace TCH_desktop.View
 
         private void backToAuthForm_MouseEnter(object? sender, EventArgs e)
         {
-            backToAuthForm.Text = "<<";
             backToAuthForm.ForeColor = Color.LightGreen;
         }
 
@@ -61,7 +60,6 @@ namespace TCH_desktop.View
 
         private void backToAuthForm_MouseLeave(object? sender, EventArgs e)
         {
-            backToAuthForm.Text = "<";
             backToAuthForm.ForeColor = Color.White;
         }
 

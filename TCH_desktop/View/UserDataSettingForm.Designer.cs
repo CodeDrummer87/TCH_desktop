@@ -117,8 +117,10 @@
             // 
             this.birthDatePicker.Location = new System.Drawing.Point(18, 297);
             this.birthDatePicker.Name = "birthDatePicker";
+            this.birthDatePicker.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.birthDatePicker.Size = new System.Drawing.Size(447, 34);
             this.birthDatePicker.TabIndex = 7;
+            this.birthDatePicker.TabStop = false;
             // 
             // label4
             // 
@@ -305,6 +307,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UserDataSettingForm";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.UserDataSettingForm_Load);
             this.personDataGroupBox.ResumeLayout(false);
             this.personDataGroupBox.PerformLayout();
             this.employeeDataGroupBox.ResumeLayout(false);
