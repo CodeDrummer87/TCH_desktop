@@ -52,9 +52,11 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.railRoads = new System.Windows.Forms.ComboBox();
+            this.locomotiveDepotBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.userSettingFormToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.personDataGroupBox.SuspendLayout();
             this.employeeDataGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.locomotiveDepotBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // contactingTheUser
@@ -288,6 +290,11 @@
             this.railRoads.Name = "railRoads";
             this.railRoads.Size = new System.Drawing.Size(602, 36);
             this.railRoads.TabIndex = 0;
+            this.railRoads.SelectedIndexChanged += new System.EventHandler(this.railRoads_SelectedIndexChanged);
+            // 
+            // locomotiveDepotBindingSource
+            // 
+            this.locomotiveDepotBindingSource.DataSource = typeof(TCH_desktop.Models.LocomotiveDepot);
             // 
             // UserDataSettingForm
             // 
@@ -306,12 +313,12 @@
             this.Name = "UserDataSettingForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UserDataSettingForm";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.UserDataSettingForm_Load);
             this.personDataGroupBox.ResumeLayout(false);
             this.personDataGroupBox.PerformLayout();
             this.employeeDataGroupBox.ResumeLayout(false);
             this.employeeDataGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.locomotiveDepotBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -342,5 +349,6 @@
         private Label label5;
         private ComboBox railRoads;
         private ToolTip userSettingFormToolTip;
+        private BindingSource locomotiveDepotBindingSource;
     }
 }
