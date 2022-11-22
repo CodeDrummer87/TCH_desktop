@@ -12,6 +12,7 @@ namespace TCH_desktop.View
 
         private List<Railroad> railroads = new ();
         private List<LocomotiveDepot> locoDepots = new ();
+        private List<Position> positionsList = new ();
 
         public UserDataSettingForm(StartForm stForm, AuthForm authForm)
         {
@@ -53,10 +54,20 @@ namespace TCH_desktop.View
             if (locoDepots.Count > 0)
             {
                 for (int i = 0; i < locoDepots.Count; i++)
-                    depot.Items.Add(locoDepots[i].ShortTitle);
+                    depot.Items.Add(locoDepots[i]);
 
                 depot.DisplayMember = "ShortTitle";
                 depot.SelectedIndex = 0;
+            }
+
+            LoadAvailablePositions();
+            if (positionsList.Count() > 0)
+            {
+                for (int i = 0; i < positionsList.Count(); i++)
+                    positions.Items.Add(positionsList[i]);
+
+                positions.DisplayMember = "FullName";
+                positions.SelectedIndex = 0;
             }
         }
 
@@ -94,6 +105,7 @@ namespace TCH_desktop.View
         {
             locoDepots.Clear();
             depot.Items.Clear();
+            depot.ResetText();
 
             string query = "SELECT * FROM LocomotiveDepots WHERE Railroad=@Id";
             Railroad railroad = (Railroad)railRoads.SelectedItem;
@@ -139,6 +151,35 @@ namespace TCH_desktop.View
                 depot.SelectedIndex = 0;
             }
             else depot.Text = "список пуст";
+        }
+
+        private void LoadAvailablePositions()
+        {
+            string query = "SELECT * FROM Positions";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    positionsList.Add(new Position
+                    {
+                        Id = reader.GetInt32(0),
+                        FullName = reader.GetString(1),
+                        Abbreviate = reader.GetString(2)
+                    });
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось загрузить список доступных должностей:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для устранения ошибки.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
         }
     }
 }

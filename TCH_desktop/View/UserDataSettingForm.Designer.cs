@@ -68,7 +68,7 @@
             this.contactingTheUser.Name = "contactingTheUser";
             this.contactingTheUser.Size = new System.Drawing.Size(1152, 111);
             this.contactingTheUser.TabIndex = 0;
-            this.contactingTheUser.Text = "Пожалуйста, заполните поля ниже для дальнейшей работы программы";
+            this.contactingTheUser.Text = "Личные данные сотрудника";
             this.contactingTheUser.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // cancelButton
