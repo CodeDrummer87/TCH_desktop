@@ -264,6 +264,7 @@
             this.depot.Name = "depot";
             this.depot.Size = new System.Drawing.Size(602, 36);
             this.depot.TabIndex = 3;
+            this.depot.SelectedIndexChanged += new System.EventHandler(this.depot_SelectedIndexChanged);
             // 
             // label6
             // 

@@ -2,12 +2,13 @@
 
 namespace TCH_desktop.Models
 {
-    public class Railroad
+    public class Column
     {
         [Key]
         public int Id { get; set; }
-        public string FullTitle { get; set; }
+        public int ColumnNumber { get; set; }
         public string Abbreviation { get; set; }
-        public string Code { get; set; }
+        public int Specialization { get; set; }
+        public int Depot { get; set; }
     }
 }

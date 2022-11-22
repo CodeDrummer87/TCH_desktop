@@ -13,6 +13,7 @@ namespace TCH_desktop.View
         private List<Railroad> railroads = new ();
         private List<LocomotiveDepot> locoDepots = new ();
         private List<Position> positionsList = new ();
+        private List<Column> columnsList = new ();
 
         public UserDataSettingForm(StartForm stForm, AuthForm authForm)
         {
@@ -61,13 +62,23 @@ namespace TCH_desktop.View
             }
 
             LoadAvailablePositions();
-            if (positionsList.Count() > 0)
+            if (positionsList.Count > 0)
             {
-                for (int i = 0; i < positionsList.Count(); i++)
+                for (int i = 0; i < positionsList.Count; i++)
                     positions.Items.Add(positionsList[i]);
 
                 positions.DisplayMember = "FullName";
                 positions.SelectedIndex = 0;
+            }
+
+            LoadAvailableColumns();
+            if (columnsList.Count > 0)
+            {
+                for (int i = 0; i < columnsList.Count; i++)
+                    columns.Items.Add(columnsList[i]);
+
+                columns.DisplayMember = "ColumnNumber";
+                columns.SelectedIndex = 0;
             }
         }
 
@@ -110,32 +121,35 @@ namespace TCH_desktop.View
             string query = "SELECT * FROM LocomotiveDepots WHERE Railroad=@Id";
             Railroad railroad = (Railroad)railRoads.SelectedItem;
 
-            try
+            if (railroad != null)
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@Id", SqlDbType.Int).Value = railroad?.Id;
-                DataBase.OpenConnection();
-
-                SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                try
                 {
-                    locoDepots.Add(new LocomotiveDepot
+                    SqlCommand command = new(query, DataBase.GetConnection());
+                    command.Parameters.Add("@Id", SqlDbType.Int).Value = railroad?.Id;
+                    DataBase.OpenConnection();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
                     {
-                        Id = reader.GetInt32(0),
-                        Railroad = reader.GetInt32(1),
-                        ShortTitle = reader.GetString(2),
-                        FullTitle = reader.GetString(3),
-                        Address = reader.GetString(4),
-                        Code = reader.GetString(5)
-                    });
+                        locoDepots.Add(new LocomotiveDepot
+                        {
+                            Id = reader.GetInt32(0),
+                            Railroad = reader.GetInt32(1),
+                            ShortTitle = reader.GetString(2),
+                            FullTitle = reader.GetString(3),
+                            Address = reader.GetString(4),
+                            Code = reader.GetString(5)
+                        });
+                    }
+                    reader.Close();
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Не удалось загрузить список локомотивных депо:\n\"{ex.Message}\"\n" +
-                    $"Обратитесь к системному администратору для устранения ошибки.",
-                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Не удалось загрузить список локомотивных депо:\n\"{ex.Message}\"\n" +
+                        $"Обратитесь к системному администратору для устранения ошибки.",
+                        "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
             }
         }
 
@@ -145,12 +159,14 @@ namespace TCH_desktop.View
             if (locoDepots.Count > 0)
             {
                 for (int i = 0; i < locoDepots.Count; i++)
-                    depot.Items.Add(locoDepots[i].ShortTitle);
+                    depot.Items.Add(locoDepots[i]);
 
                 depot.DisplayMember = "ShortTitle";
                 depot.SelectedIndex = 0;
             }
             else depot.Text = "список пуст";
+
+            AddColumnsItems();
         }
 
         private void LoadAvailablePositions()
@@ -180,6 +196,65 @@ namespace TCH_desktop.View
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+        }
+
+        private void LoadAvailableColumns()
+        {
+            columnsList.Clear();
+            columns.Items.Clear();
+            columns.ResetText();
+
+            string query = "SELECT * FROM Columns WHERE Depot=@Id";
+            LocomotiveDepot currentDepot = (LocomotiveDepot)depot.SelectedItem;
+
+            if (currentDepot != null)
+            {
+                try
+                {
+                    SqlCommand command = new(query, DataBase.GetConnection());
+                    command.Parameters.Add("@Id", SqlDbType.Int).Value = currentDepot?.Id;
+                    DataBase.OpenConnection();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        columnsList.Add(new Column
+                        {
+                            Id = reader.GetInt32(0),
+                            ColumnNumber = reader.GetInt32(1),
+                            Abbreviation = reader.GetString(2),
+                            Specialization = reader.GetInt32(3),
+                            Depot = reader.GetInt32(4)
+                        });
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Не удалось загрузить список доступных колонн:\n\"{ex.Message}\"\n" +
+                        $"Обратитесь к системному администратору для устранения ошибки.",
+                        "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+            }
+        }
+
+        private void depot_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AddColumnsItems();
+        }
+
+        private void AddColumnsItems()
+        {
+            LoadAvailableColumns();
+            if (columnsList.Count > 0)
+            {
+                for (int i = 0; i < columnsList.Count; i++)
+                    columns.Items.Add(columnsList[i]);
+
+                columns.DisplayMember = "ColumnNumber";
+                columns.SelectedIndex = 0;
+            }
+            else columns.Text = "список пуст";
         }
     }
 }
