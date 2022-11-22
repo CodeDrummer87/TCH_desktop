@@ -17,24 +17,34 @@ namespace TCH_desktop.Presenter
             {
                 string query = "INSERT INTO Logins VALUES (@login, @password, @salt)";
 
-                byte[] salt = GetSalt();
-                string pswdHashImage = GetHashImage(password, salt);
-
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@login", SqlDbType.VarChar).Value = email;
-                command.Parameters.Add("@password", SqlDbType.NVarChar).Value = pswdHashImage;
-                command.Parameters.Add("@salt", SqlDbType.VarBinary).Value = salt;
-
-                DataBase.OpenConnection();
-
-                if (command.ExecuteNonQuery() == 1)
+                try
                 {
-                    message = $"Аккаунт для {email} успешно зарегистрирован";
-                    AttachNewUserData(email);
-                }
-                else message = "Ошибка регистрации";
+                    byte[] salt = GetSalt();
+                    string pswdHashImage = GetHashImage(password, salt);
 
-                DataBase.CloseConnection();
+                    SqlCommand command = new(query, DataBase.GetConnection());
+                    command.Parameters.Add("@login", SqlDbType.VarChar).Value = email;
+                    command.Parameters.Add("@password", SqlDbType.NVarChar).Value = pswdHashImage;
+                    command.Parameters.Add("@salt", SqlDbType.VarBinary).Value = salt;
+
+                    DataBase.OpenConnection();
+
+                    if (command.ExecuteNonQuery() == 1)
+                    {
+                        message = $"Аккаунт для {email} успешно зарегистрирован";
+                        AttachNewUserData(email);
+                    }
+                    else message = "Ошибка регистрации";
+
+                    DataBase.CloseConnection();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Получена ошибка со следующим содержанием:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для её устранения.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+                
             }
             else message = "Аккаунт с таким email уже существует";
 
@@ -67,13 +77,13 @@ namespace TCH_desktop.Presenter
         public bool CheckInputedEmail(string email)
         {
             string query = "SELECT * FROM Logins WHERE Email = @uEmail";
-            SqlCommand command = new(query, DataBase.GetConnection());
-            command.Parameters.Add("@uEmail", SqlDbType.VarChar).Value = email;
-
-            DataTable table = new();
 
             try
             {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uEmail", SqlDbType.VarChar).Value = email;
+
+                DataTable table = new();
                 DataBase.adapter.SelectCommand = command;
                 DataBase.adapter.Fill(table);
 
@@ -87,7 +97,6 @@ namespace TCH_desktop.Presenter
 
                 return false;
             }
-
         }
 
         public LoginModel GetCurrentLoginData(string email)
@@ -96,22 +105,31 @@ namespace TCH_desktop.Presenter
 
             string query = "SELECT * FROM Logins WHERE Email=@e";
 
-            SqlCommand command = new(query, DataBase.GetConnection());
-            command.Parameters.Add("@e", SqlDbType.VarChar).Value = email;
-            DataBase.OpenConnection();
-
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                mLogin = new LoginModel
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@e", SqlDbType.VarChar).Value = email;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
                 {
-                    LoginId = reader.GetInt32(0),
-                    Email = reader.GetString(1),
-                    Password = reader.GetString(2),
-                    Salt = (byte[])reader[3]
-                };
+                    mLogin = new LoginModel
+                    {
+                        LoginId = reader.GetInt32(0),
+                        Email = reader.GetString(1),
+                        Password = reader.GetString(2),
+                        Salt = (byte[])reader[3]
+                    };
+                }
+                reader.Close();
             }
-            reader.Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Получена ошибка со следующим содержанием:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для её устранения.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
 
             return mLogin;
         }

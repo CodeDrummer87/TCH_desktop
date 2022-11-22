@@ -61,7 +61,6 @@
             this.Name = "StartForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StartForm";
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

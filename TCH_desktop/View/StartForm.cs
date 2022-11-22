@@ -14,7 +14,7 @@ namespace TCH_desktop.View
 {
     public partial class StartForm : Form
     {
-        private int currentUserLoginId;
+        private User user;
 
         AuthForm authForm;
         IAccountAction account;
@@ -25,17 +25,19 @@ namespace TCH_desktop.View
 
             this.authForm = authForm;
             this.account = account;
-            this.currentUserLoginId = currentUserLoginId;
             this.authForm.Hide();
 
-            User user = account.GetCurrentUserData(currentUserLoginId);
+            user = account.GetCurrentUserData(currentUserLoginId);
 
-            if (user.FirstName == "не указано" || user.SurName == "не указано")
+            if (CheckUserData(user))
             {
                 UserDataSettingForm uDataSettingForm = new(this, authForm);
             }
             else this.Show();
         }
+
+        public int GetCurrentUserId() => user.Id;
+        public int GetCurrentUserLoginId() => user.LoginId;
 
         private void exitButton_Click(object? sender, EventArgs e)
         {
@@ -52,6 +54,13 @@ namespace TCH_desktop.View
         {
             exitButton.Text = "-";
             exitButton.ForeColor = SystemColors.ButtonHighlight;
+        }
+
+        private bool CheckUserData(User user)
+        {
+            return (user.FirstName != "не указано" || user.FirstName != String.Empty)
+                && (user.SurName != "не указано" || user.SurName != String.Empty)
+                && (user.Patronymic != "не указано" || user.Patronymic != String.Empty);
         }
     }
 }

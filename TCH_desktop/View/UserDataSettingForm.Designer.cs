@@ -82,6 +82,8 @@
             this.userSettingFormToolTip.SetToolTip(this.cancelButton, "Нажав эту кнопку, работа программы будет завершена");
             this.cancelButton.UseVisualStyleBackColor = false;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            this.cancelButton.MouseEnter += new System.EventHandler(this.cancelButton_MouseEnter);
+            this.cancelButton.MouseLeave += new System.EventHandler(this.cancelButton_MouseLeave);
             // 
             // saveUserDataButton
             // 
@@ -94,6 +96,10 @@
             this.saveUserDataButton.Text = "Готово";
             this.userSettingFormToolTip.SetToolTip(this.saveUserDataButton, "Сохранить данные");
             this.saveUserDataButton.UseVisualStyleBackColor = false;
+            this.saveUserDataButton.EnabledChanged += new System.EventHandler(this.saveUserDataButton_EnabledChanged);
+            this.saveUserDataButton.Click += new System.EventHandler(this.saveUserDataButton_Click);
+            this.saveUserDataButton.MouseEnter += new System.EventHandler(this.saveUserDataButton_MouseEnter);
+            this.saveUserDataButton.MouseLeave += new System.EventHandler(this.saveUserDataButton_MouseLeave);
             // 
             // personDataGroupBox
             // 
@@ -140,6 +146,7 @@
             this.patronymicInp.Name = "patronymicInp";
             this.patronymicInp.Size = new System.Drawing.Size(447, 34);
             this.patronymicInp.TabIndex = 5;
+            this.patronymicInp.TextChanged += new System.EventHandler(this.patronymicInp_TextChanged);
             // 
             // label3
             // 
@@ -153,10 +160,11 @@
             // firstNameInp
             // 
             this.firstNameInp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.firstNameInp.Location = new System.Drawing.Point(18, 159);
+            this.firstNameInp.Location = new System.Drawing.Point(19, 159);
             this.firstNameInp.Name = "firstNameInp";
             this.firstNameInp.Size = new System.Drawing.Size(447, 34);
             this.firstNameInp.TabIndex = 3;
+            this.firstNameInp.TextChanged += new System.EventHandler(this.firstNameInp_TextChanged);
             // 
             // label2
             // 
@@ -174,6 +182,7 @@
             this.surNameInp.Name = "surNameInp";
             this.surNameInp.Size = new System.Drawing.Size(447, 34);
             this.surNameInp.TabIndex = 1;
+            this.surNameInp.TextChanged += new System.EventHandler(this.surNameInp_TextChanged);
             // 
             // label1
             // 
@@ -247,6 +256,7 @@
             this.tabNumberInp.Size = new System.Drawing.Size(146, 34);
             this.tabNumberInp.TabIndex = 5;
             this.tabNumberInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tabNumberInp.TextChanged += new System.EventHandler(this.tabNumberInp_TextChanged);
             // 
             // label7
             // 
