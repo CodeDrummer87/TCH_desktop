@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.exitButton = new System.Windows.Forms.Label();
+            this.infoAboutCurrentUser = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // exitButton
@@ -48,19 +49,34 @@
             this.exitButton.MouseEnter += new System.EventHandler(this.exitButton_MouseEnter);
             this.exitButton.MouseLeave += new System.EventHandler(this.exitButton_MouseLeave);
             // 
+            // infoAboutCurrentUser
+            // 
+            this.infoAboutCurrentUser.BackColor = System.Drawing.Color.Transparent;
+            this.infoAboutCurrentUser.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.infoAboutCurrentUser.Location = new System.Drawing.Point(22, 18);
+            this.infoAboutCurrentUser.Name = "infoAboutCurrentUser";
+            this.infoAboutCurrentUser.Size = new System.Drawing.Size(1081, 25);
+            this.infoAboutCurrentUser.TabIndex = 1;
+            this.infoAboutCurrentUser.Text = "информация о текущем пользователе";
+            this.infoAboutCurrentUser.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.DarkSlateGray;
             this.BackgroundImage = global::TCH_desktop.Properties.Resources.start_form_background_image;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1200, 900);
+            this.Controls.Add(this.infoAboutCurrentUser);
             this.Controls.Add(this.exitButton);
+            this.ForeColor = System.Drawing.SystemColors.Control;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "StartForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StartForm";
+            this.Load += new System.EventHandler(this.StartForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -69,5 +85,6 @@
         #endregion
 
         private Label exitButton;
+        private Label infoAboutCurrentUser;
     }
 }

@@ -323,18 +323,25 @@ namespace TCH_desktop.View
             string query = "UPDATE Users SET SurName=@sN, FirstName=@fN, Patronymic=@p, BirthDate=@bD" +
                 " WHERE LoginId=@loginId";
 
+            string surname = surNameInp.Text;
+            string firstname = firstNameInp.Text;
+            string patronymic = patronymicInp.Text;
+            DateTime bDate = birthDatePicker.Value;
+
             try
             {
                 SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@sN", SqlDbType.NVarChar).Value = surNameInp.Text;
-                command.Parameters.Add("@fN", SqlDbType.NVarChar).Value = firstNameInp.Text;
-                command.Parameters.Add("@p", SqlDbType.NVarChar).Value = patronymicInp.Text;
-                command.Parameters.Add("@bD", SqlDbType.DateTime).Value = birthDatePicker.Value;
+                command.Parameters.Add("@sN", SqlDbType.NVarChar).Value = surname;
+                command.Parameters.Add("@fN", SqlDbType.NVarChar).Value = firstname;
+                command.Parameters.Add("@p", SqlDbType.NVarChar).Value = patronymic;
+                command.Parameters.Add("@bD", SqlDbType.DateTime).Value = bDate;
                 command.Parameters.Add("@loginId", SqlDbType.Int).Value = startForm.GetCurrentUserLoginId();
                 DataBase.OpenConnection();
 
                 command.ExecuteNonQuery();
                 DataBase.CloseConnection();
+
+                startForm.SetUserData(surname, firstname, patronymic, bDate);
             }
             catch (Exception ex)
             {
@@ -356,8 +363,8 @@ namespace TCH_desktop.View
                 SqlCommand command = new(query, DataBase.GetConnection());
                 command.Parameters.Add("@tN", SqlDbType.Int).Value = tabNumberInp.Text;
                 command.Parameters.Add("@uId", SqlDbType.Int).Value = startForm.GetCurrentUserId();
-                command.Parameters.Add("@pId", SqlDbType.Int).Value = ((Position)positions.SelectedItem)?.Id;
-                command.Parameters.Add("@cId", SqlDbType.Int).Value = ((Column)columns.SelectedItem)?.Id;
+                command.Parameters.Add("@pId", SqlDbType.Int).Value = ((Position)positions.SelectedItem).Id;
+                command.Parameters.Add("@cId", SqlDbType.Int).Value = ((Column)columns.SelectedItem).Id;
                 DataBase.OpenConnection();
 
                 command.ExecuteNonQuery();
