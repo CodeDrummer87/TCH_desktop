@@ -112,5 +112,45 @@ namespace TCH_desktop.View
 
             return result;
         }
+
+        private void tripsMenu_MouseEnter(object sender, EventArgs e)
+        {
+            tripsMenu.ForeColor = Color.GreenYellow;
+        }
+
+        private void tripsMenu_MouseLeave(object sender, EventArgs e)
+        {
+            tripsMenu.ForeColor = SystemColors.Control;
+        }
+
+        private void infoMenu_MouseEnter(object sender, EventArgs e)
+        {
+            infoMenu.ForeColor = Color.GreenYellow;
+        }
+
+        private void infoMenu_MouseLeave(object sender, EventArgs e)
+        {
+            infoMenu.ForeColor= SystemColors.Control;
+        }
+
+        private void studyMenu_MouseEnter(object sender, EventArgs e)
+        {
+            studyMenu.ForeColor = Color.GreenYellow;
+        }
+
+        private void studyMenu_MouseLeave(object sender, EventArgs e)
+        {
+            studyMenu.ForeColor = SystemColors.Control;
+        }
+
+        private void personDataMenu_MouseEnter(object sender, EventArgs e)
+        {
+            personDataMenu.ForeColor = Color.GreenYellow;
+        }
+
+        private void personDataMenu_MouseLeave(object sender, EventArgs e)
+        {
+            personDataMenu.ForeColor = SystemColors.Control;
+        }
     }
 }
