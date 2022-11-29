@@ -7,6 +7,7 @@ namespace TCH_desktop.View
 {
     public partial class UserDataSettingForm : Form
     {
+        private bool isEdit = true;
         StartForm startForm;
         AuthForm authForm;
 
@@ -15,14 +16,16 @@ namespace TCH_desktop.View
         private List<Position> positionsList = new ();
         private List<Column> columnsList = new ();
 
-        public UserDataSettingForm(StartForm stForm, AuthForm authForm)
+        public UserDataSettingForm(StartForm stForm, AuthForm authForm, bool isEdit_)
         {
             InitializeComponent();
+
+            isEdit = isEdit_;
             startForm = stForm;
             this.authForm = authForm;
 
-            contactingTheUser.Text = "Добро пожаловать в ТЧ!\n" +
-                "Пожалуйста, заполните поля ниже для завершения регистрации";
+            contactingTheUser.Text = isEdit ? "Редактирование личных и профессиональных\nданных пользователя"
+                : "Добро пожаловать в ТЧ!\nПожалуйста, заполните поля ниже для завершения регистрации";
             contactingTheUser.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 16, true);
 
             saveUserDataButton.Font = cancelButton.Font =
@@ -31,12 +34,21 @@ namespace TCH_desktop.View
             personDataGroupBox.Font = employeeDataGroupBox.Font =
                 Source.LoadFont(@".\source\fonts\zekton.ttf", 12, true);
 
+            cancelButton.Text = isEdit ? "Оставить всё как есть" : "Займусь этим в другой раз";
+
+            if (isEdit) DisplayCurrentPersonData();
+
             this.Show();
         }
 
         private void cancelButton_Click(object? sender, EventArgs e)
         {
-            authForm.Close();
+            if (isEdit)
+            {
+                this.Hide();
+                startForm.Show();
+            }
+            else authForm.Close();
         }
 
         private void UserDataSettingForm_Load(object sender, EventArgs e)
@@ -402,6 +414,20 @@ namespace TCH_desktop.View
 
                 return false;
             }
+        }
+
+        private void DisplayCurrentPersonData()
+        {
+            User user = startForm.GetUserData();
+            Employee employee = startForm.GetEmployeeData();
+
+            surNameInp.Text = user.SurName;
+            firstNameInp.Text = user.FirstName;
+            patronymicInp.Text = user.Patronymic;
+            birthDatePicker.Value = user.BirthDate;
+
+            //tabNumberInp.Text = (employee.TabNumber).ToString();
+            //.:: тут отобразить выбранные элементы выпадающего списка
         }
     }
 }

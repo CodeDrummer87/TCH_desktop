@@ -117,6 +117,7 @@
             this.personDataMenu.TabIndex = 5;
             this.personDataMenu.Text = "ЛИЧНЫЕ ДАННЫЕ";
             this.personDataMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.personDataMenu.Click += new System.EventHandler(this.personDataMenu_Click);
             this.personDataMenu.MouseEnter += new System.EventHandler(this.personDataMenu_MouseEnter);
             this.personDataMenu.MouseLeave += new System.EventHandler(this.personDataMenu_MouseLeave);
             // 

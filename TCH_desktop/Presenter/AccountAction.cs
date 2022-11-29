@@ -186,5 +186,42 @@ namespace TCH_desktop.Presenter
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
+
+        public Employee GetCurrentEmployeeData(int userId)
+        {
+            Employee employee = new();
+
+            string query = "SELECT * FROM Employees WHERE UserId=@uId";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    employee = new Employee
+                    {
+                        Id = reader.GetInt32(0),
+                        TabNumber = reader.GetInt32(1),
+                        UserId = userId,
+                        PositionId = reader.GetInt32(3),
+                        ColumnId = reader.GetInt32(4)
+                    };
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось выполнить запрос к Базе Данных на получение данных" +
+                    $" о сотруднике:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для устранения ошибки.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            return employee;
+        }
     }
 }

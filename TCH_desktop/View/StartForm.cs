@@ -27,13 +27,16 @@ namespace TCH_desktop.View
 
             if (!CheckUserData(ref user))
             {
-                UserDataSettingForm uDataSettingForm = new(this, authForm);
+                UserDataSettingForm uDataSettingForm = new(this, authForm, false);
             }
             else this.Show();
         }
 
         public int GetCurrentUserId() => user.Id;
         public int GetCurrentUserLoginId() => user.LoginId;
+
+        public User GetUserData() => account.GetCurrentUserData(user.LoginId);
+        public Employee GetEmployeeData() => account.GetCurrentEmployeeData(user.Id);
 
         private void exitButton_Click(object? sender, EventArgs e)
         {
@@ -151,6 +154,12 @@ namespace TCH_desktop.View
         private void personDataMenu_MouseLeave(object sender, EventArgs e)
         {
             personDataMenu.ForeColor = SystemColors.Control;
+        }
+
+        private void personDataMenu_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            UserDataSettingForm uDataSettingForm = new(this, authForm, true);
         }
     }
 }

@@ -15,5 +15,7 @@ namespace TCH_desktop.Presenter.interfaces
         public LoginModel GetCurrentLoginData(string email);
 
         public User GetCurrentUserData(int loginId);
+
+        public Employee GetCurrentEmployeeData(int userId);
     }
 }
