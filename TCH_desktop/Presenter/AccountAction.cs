@@ -9,6 +9,9 @@ namespace TCH_desktop.Presenter
 {
     internal class AccountAction : IAccountAction
     {
+        private SqlCommand command;
+        private SqlDataReader reader;
+
         public string CreateNewAccount(string email, string password, string confirmedPassword)
         {
             string message = String.Empty;
@@ -22,7 +25,7 @@ namespace TCH_desktop.Presenter
                     byte[] salt = GetSalt();
                     string pswdHashImage = GetHashImage(password, salt);
 
-                    SqlCommand command = new(query, DataBase.GetConnection());
+                    command = new(query, DataBase.GetConnection());
                     command.Parameters.Add("@login", SqlDbType.VarChar).Value = email;
                     command.Parameters.Add("@password", SqlDbType.NVarChar).Value = pswdHashImage;
                     command.Parameters.Add("@salt", SqlDbType.VarBinary).Value = salt;
@@ -80,7 +83,7 @@ namespace TCH_desktop.Presenter
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
+                command = new(query, DataBase.GetConnection());
                 command.Parameters.Add("@uEmail", SqlDbType.VarChar).Value = email;
 
                 DataTable table = new();
@@ -107,11 +110,11 @@ namespace TCH_desktop.Presenter
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
+                command = new(query, DataBase.GetConnection());
                 command.Parameters.Add("@e", SqlDbType.VarChar).Value = email;
                 DataBase.OpenConnection();
 
-                SqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     mLogin = new LoginModel
@@ -140,11 +143,11 @@ namespace TCH_desktop.Presenter
 
             string query = "SELECT * FROM Users WHERE LoginId=@Id";
 
-            SqlCommand command = new(query, DataBase.GetConnection());
+            command = new(query, DataBase.GetConnection());
             command.Parameters.Add("@Id", SqlDbType.Int).Value = loginId;
             DataBase.OpenConnection();
 
-            SqlDataReader reader = command.ExecuteReader();
+            reader = command.ExecuteReader();
             while (reader.Read())
             {
                 user = new User
@@ -170,7 +173,7 @@ namespace TCH_desktop.Presenter
             DateTime dateTime = DateTime.Now;
             string query = $"INSERT INTO Users VALUES ('{dName}', '{dName}', '{dName}', @dt, @loginId)";
 
-            SqlCommand command = new(query, DataBase.GetConnection());
+            command = new(query, DataBase.GetConnection());
             command.Parameters.Add("@dt", SqlDbType.DateTime).Value = dateTime;
             command.Parameters.Add("loginId", SqlDbType.Int).Value = loginId;
 
@@ -222,6 +225,41 @@ namespace TCH_desktop.Presenter
             }
 
             return employee;
+        }
+
+        public int GetCurrentRailroadId(int userId)
+        {
+            int railroadId = 0;
+            string query = "SELECT r.Id FROM Employees e "
+                            + "INNER JOIN columns c "
+                            + "ON c.id = e.columnid "
+                            + "INNER JOIN LocomotiveDepots d "
+                            + "ON d.id = c.Depot "
+                            + "INNER JOIN Railroads r "
+                            + "ON r.id = d.Railroad "
+                            + "WHERE e.UserId = @uId";
+
+            try
+            {
+                command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                DataBase.OpenConnection();
+
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    railroadId = reader.GetInt32(0);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Получена ошибка при попытке получить ID железной дороги:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для её устранения.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            return railroadId;
         }
     }
 }

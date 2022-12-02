@@ -324,7 +324,7 @@
             this.Name = "UserDataSettingForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UserDataSettingForm";
-            this.Load += new System.EventHandler(this.UserDataSettingForm_Load);
+            this.Activated += new System.EventHandler(this.UserDataSettingForm_Activated);
             this.personDataGroupBox.ResumeLayout(false);
             this.personDataGroupBox.PerformLayout();
             this.employeeDataGroupBox.ResumeLayout(false);

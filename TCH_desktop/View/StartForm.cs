@@ -37,34 +37,15 @@ namespace TCH_desktop.View
 
         public User GetUserData() => account.GetCurrentUserData(user.LoginId);
         public Employee GetEmployeeData() => account.GetCurrentEmployeeData(user.Id);
+        public int GetSelectedRailroadId() => account.GetCurrentRailroadId(user.Id);
 
-        private void exitButton_Click(object? sender, EventArgs e)
-        {
-            authForm.Close();
-        }
 
-        private void exitButton_MouseEnter(object? sender, EventArgs e)
-        {
-            exitButton.Text = "x";
-            exitButton.ForeColor = Color.Red;
-        }
-
-        private void exitButton_MouseLeave(object? sender, EventArgs e)
-        {
-            exitButton.Text = "-";
-            exitButton.ForeColor = SystemColors.ButtonHighlight;
-        }
 
         private bool CheckUserData(ref User user)
         {
             return (user.FirstName != "не указано" && user.FirstName != String.Empty)
                 && (user.SurName != "не указано" && user.SurName != String.Empty)
                 && (user.Patronymic != "не указано" && user.Patronymic != String.Empty);
-        }
-
-        private void StartForm_Load(object sender, EventArgs e)
-        {
-            infoAboutCurrentUser.Text = GetInfoAboutEmployee();
         }
 
         public void SetUserData(string sName, string fName, string patronymic, DateTime bDate)
@@ -116,6 +97,36 @@ namespace TCH_desktop.View
             return result;
         }
 
+        #region Interactive
+
+        private void personDataMenu_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            UserDataSettingForm uDataSettingForm = new(this, authForm, true);
+        }
+
+        private void StartForm_Activated(object sender, EventArgs e)
+        {
+            infoAboutCurrentUser.Text = GetInfoAboutEmployee();
+        }
+
+        private void exitButton_Click(object? sender, EventArgs e)
+        {
+            authForm.Close();
+        }
+
+        private void exitButton_MouseEnter(object? sender, EventArgs e)
+        {
+            exitButton.Text = "x";
+            exitButton.ForeColor = Color.Red;
+        }
+
+        private void exitButton_MouseLeave(object? sender, EventArgs e)
+        {
+            exitButton.Text = "-";
+            exitButton.ForeColor = SystemColors.ButtonHighlight;
+        }
+
         private void tripsMenu_MouseEnter(object sender, EventArgs e)
         {
             tripsMenu.ForeColor = Color.GreenYellow;
@@ -133,7 +144,7 @@ namespace TCH_desktop.View
 
         private void infoMenu_MouseLeave(object sender, EventArgs e)
         {
-            infoMenu.ForeColor= SystemColors.Control;
+            infoMenu.ForeColor = SystemColors.Control;
         }
 
         private void studyMenu_MouseEnter(object sender, EventArgs e)
@@ -156,10 +167,6 @@ namespace TCH_desktop.View
             personDataMenu.ForeColor = SystemColors.Control;
         }
 
-        private void personDataMenu_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            UserDataSettingForm uDataSettingForm = new(this, authForm, true);
-        }
+        #endregion
     }
 }

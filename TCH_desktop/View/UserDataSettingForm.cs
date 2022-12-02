@@ -41,17 +41,7 @@ namespace TCH_desktop.View
             this.Show();
         }
 
-        private void cancelButton_Click(object? sender, EventArgs e)
-        {
-            if (isEdit)
-            {
-                this.Hide();
-                startForm.Show();
-            }
-            else authForm.Close();
-        }
-
-        private void UserDataSettingForm_Load(object sender, EventArgs e)
+        private void UserDataSettingForm_Activated(object sender, EventArgs e)
         {
             LoadAvailableRailroads();
             if (railroads.Count > 0)
@@ -60,7 +50,8 @@ namespace TCH_desktop.View
                     railRoads.Items.Add(railroads[i]);
 
                 railRoads.DisplayMember = "FullTitle";
-                railRoads.SelectedIndex = 4;
+                railRoads.SelectedIndex = isEdit ? startForm.GetEmployeeData().ColumnId : 4;
+                //.:: int x = startForm.GetSelectedRailroadId();
             }
 
             LoadAvailableLocomotiveDepots();
@@ -96,6 +87,10 @@ namespace TCH_desktop.View
 
         private void LoadAvailableRailroads()
         {
+            railroads.Clear();
+            railRoads.Items.Clear();
+            railRoads.ResetText();
+
             string query = "SELECT * FROM Railroads";
 
             try
@@ -269,26 +264,6 @@ namespace TCH_desktop.View
             else columns.Text = "список пуст";
         }
 
-        private void tabNumberInp_TextChanged(object sender, EventArgs e)
-        {
-            saveUserDataButton.Enabled = ValidateUserData();
-        }
-
-        private void surNameInp_TextChanged(object sender, EventArgs e)
-        {
-            saveUserDataButton.Enabled = ValidateUserData();
-        }
-
-        private void firstNameInp_TextChanged(object sender, EventArgs e)
-        {
-            saveUserDataButton.Enabled = ValidateUserData();
-        }
-
-        private void patronymicInp_TextChanged(object sender, EventArgs e)
-        {
-            saveUserDataButton.Enabled = ValidateUserData();
-        }
-
         private bool ValidateUserData()
         {
             return surNameInp.Text != String.Empty && firstNameInp.Text != String.Empty
@@ -299,26 +274,6 @@ namespace TCH_desktop.View
         {
             saveUserDataButton.BackColor =
                 saveUserDataButton.BackColor == Color.YellowGreen ? Color.LightGray : Color.YellowGreen;
-        }
-
-        private void saveUserDataButton_MouseEnter(object sender, EventArgs e)
-        {
-            saveUserDataButton.BackColor = Color.Khaki;
-        }
-
-        private void saveUserDataButton_MouseLeave(object sender, EventArgs e)
-        {
-            saveUserDataButton.BackColor = Color.YellowGreen;
-        }
-
-        private void cancelButton_MouseEnter(object sender, EventArgs e)
-        {
-            cancelButton.BackColor = Color.PaleTurquoise;
-        }
-
-        private void cancelButton_MouseLeave(object sender, EventArgs e)
-        {
-            cancelButton.BackColor = Color.LightBlue;
         }
 
         private void saveUserDataButton_Click(object sender, EventArgs e)
@@ -426,8 +381,64 @@ namespace TCH_desktop.View
             patronymicInp.Text = user.Patronymic;
             birthDatePicker.Value = user.BirthDate;
 
-            //tabNumberInp.Text = (employee.TabNumber).ToString();
-            //.:: тут отобразить выбранные элементы выпадающего списка
+            tabNumberInp.Text = (employee.TabNumber).ToString();
         }
+
+
+
+
+        #region Interactive
+
+        private void cancelButton_Click(object? sender, EventArgs e)
+        {
+            if (isEdit)
+            {
+                this.Hide();
+                startForm.Show();
+            }
+            else authForm.Close();
+        }
+
+        private void saveUserDataButton_MouseEnter(object sender, EventArgs e)
+        {
+            saveUserDataButton.BackColor = Color.Khaki;
+        }
+
+        private void saveUserDataButton_MouseLeave(object sender, EventArgs e)
+        {
+            saveUserDataButton.BackColor = Color.YellowGreen;
+        }
+
+        private void cancelButton_MouseEnter(object sender, EventArgs e)
+        {
+            cancelButton.BackColor = Color.PaleTurquoise;
+        }
+
+        private void cancelButton_MouseLeave(object sender, EventArgs e)
+        {
+            cancelButton.BackColor = Color.LightBlue;
+        }
+
+        private void tabNumberInp_TextChanged(object sender, EventArgs e)
+        {
+            saveUserDataButton.Enabled = ValidateUserData();
+        }
+
+        private void surNameInp_TextChanged(object sender, EventArgs e)
+        {
+            saveUserDataButton.Enabled = ValidateUserData();
+        }
+
+        private void firstNameInp_TextChanged(object sender, EventArgs e)
+        {
+            saveUserDataButton.Enabled = ValidateUserData();
+        }
+
+        private void patronymicInp_TextChanged(object sender, EventArgs e)
+        {
+            saveUserDataButton.Enabled = ValidateUserData();
+        }
+
+        #endregion
     }
 }

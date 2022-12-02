@@ -17,5 +17,7 @@ namespace TCH_desktop.Presenter.interfaces
         public User GetCurrentUserData(int loginId);
 
         public Employee GetCurrentEmployeeData(int userId);
+
+        public int GetCurrentRailroadId(int userId);
     }
 }
