@@ -323,5 +323,33 @@ namespace TCH_desktop.Presenter
 
             return positionId;
         }
+
+        public int GetCurrentColumnId(int userId)
+        {
+            int columnId = 0;
+            string query = "SELECT ColumnId FROM Employees e WHERE e.UserId = @uId";
+
+            try
+            {
+                command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                DataBase.OpenConnection();
+
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    columnId = reader.GetInt32(0);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Получена ошибка при попытке получить ID колонны сотрудника:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для её устранения.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            return columnId;
+        }
     }
 }

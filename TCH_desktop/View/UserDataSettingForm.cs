@@ -81,7 +81,7 @@ namespace TCH_desktop.View
                     columns.Items.Add(columnsList[i]);
 
                 columns.DisplayMember = "ColumnNumber";
-                columns.SelectedIndex = 0;
+                columns.SelectedIndex = isEdit ? startForm.GetSelectedColumnId() - 1 : 0;
             }
         }
 

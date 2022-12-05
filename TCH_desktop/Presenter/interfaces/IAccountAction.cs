@@ -23,5 +23,7 @@ namespace TCH_desktop.Presenter.interfaces
         public int GetCurrentDepotId(int userId);
 
         public int GetCurrentPositionId(int userId);
+
+        public int GetCurrentColumnId(int userId);
     }
 }
