@@ -39,6 +39,7 @@ namespace TCH_desktop.View
         public Employee GetEmployeeData() => account.GetCurrentEmployeeData(user.Id);
         public int GetSelectedRailroadId() => account.GetCurrentRailroadId(user.Id);
         public int GetSelectedDepotId() => account.GetCurrentDepotId(user.Id);
+        public int GetSelectedPositionId() => account.GetCurrentPositionId(user.Id);
 
 
 

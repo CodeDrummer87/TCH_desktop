@@ -71,7 +71,7 @@ namespace TCH_desktop.View
                     positions.Items.Add(positionsList[i]);
 
                 positions.DisplayMember = "FullName";
-                positions.SelectedIndex = 0;
+                positions.SelectedIndex = isEdit ? startForm.GetSelectedPositionId() - 1 : 0;
             }
 
             LoadAvailableColumns();

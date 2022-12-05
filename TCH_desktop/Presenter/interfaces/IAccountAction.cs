@@ -21,5 +21,7 @@ namespace TCH_desktop.Presenter.interfaces
         public int GetCurrentRailroadId(int userId);
 
         public int GetCurrentDepotId(int userId);
+
+        public int GetCurrentPositionId(int userId);
     }
 }

@@ -295,5 +295,33 @@ namespace TCH_desktop.Presenter
 
             return depotId;
         }
+
+        public int GetCurrentPositionId(int userId)
+        {
+            int positionId = 0;
+            string query = "SELECT PositionId FROM Employees e WHERE e.UserId = @uId";
+
+            try
+            {
+                command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                DataBase.OpenConnection();
+
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    positionId = reader.GetInt32(0);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Получена ошибка при попытке получить ID должности сотрудника:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для её устранения.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            return positionId;
+        }
     }
 }
