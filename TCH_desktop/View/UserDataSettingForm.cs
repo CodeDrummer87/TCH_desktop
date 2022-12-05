@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using TCH_desktop.Models;
 using TCH_desktop.Presenter;
+using System.Linq;
 
 namespace TCH_desktop.View
 {
@@ -50,8 +51,7 @@ namespace TCH_desktop.View
                     railRoads.Items.Add(railroads[i]);
 
                 railRoads.DisplayMember = "FullTitle";
-                railRoads.SelectedIndex = isEdit ? startForm.GetEmployeeData().ColumnId : 4;
-                //.:: int x = startForm.GetSelectedRailroadId();
+                railRoads.SelectedIndex = isEdit ? startForm.GetSelectedRailroadId() - 1 : 4;
             }
 
             LoadAvailableLocomotiveDepots();
@@ -61,7 +61,7 @@ namespace TCH_desktop.View
                     depot.Items.Add(locoDepots[i]);
 
                 depot.DisplayMember = "ShortTitle";
-                depot.SelectedIndex = 0;
+                depot.SelectedIndex = isEdit ? startForm.GetSelectedDepotId() - 1 : 0;
             }
 
             LoadAvailablePositions();

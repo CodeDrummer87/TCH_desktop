@@ -261,5 +261,39 @@ namespace TCH_desktop.Presenter
 
             return railroadId;
         }
+
+        public int GetCurrentDepotId(int userId)
+        {
+            int depotId = 0;
+            string query =  "SELECT d.id "
+                            + "FROM Employees e "
+                            + "INNER JOIN Columns c "
+                            + "ON c.Id = e.ColumnId "
+                            + "INNER JOIN LocomotiveDepots d "
+                            + "ON d.id = c.Depot "
+                            + "WHERE e.UserId = @uId";
+
+            try
+            {
+                command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                DataBase.OpenConnection();
+
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    depotId = reader.GetInt32(0);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Получена ошибка при попытке получить ID депо:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для её устранения.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            return depotId;
+        }
     }
 }
