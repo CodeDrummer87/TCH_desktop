@@ -119,6 +119,15 @@ namespace TCH_desktop.View
             authForm.Close();
         }
 
+        private void newTripMenu_Click(object sender, EventArgs e)
+        {
+            NewTripForm newTripForm = new(this);
+            this.TopMost = true;
+            this.Enabled = false;
+            this.Opacity = 60;
+            newTripForm.Show();
+        }
+
         private void exitButton_MouseEnter(object? sender, EventArgs e)
         {
             exitButton.Text = "x";
@@ -172,13 +181,5 @@ namespace TCH_desktop.View
         }
 
         #endregion
-
-        private void newTripMenu_Click(object sender, EventArgs e)
-        {
-            NewTripForm newTripForm = new(this);
-            this.Enabled = false;
-            this.Opacity = 60;
-            newTripForm.Show();
-        }
     }
 }

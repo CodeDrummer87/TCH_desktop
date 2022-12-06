@@ -28,10 +28,13 @@ namespace TCH_desktop.View
 
         private void backToStartForm_Click(object sender, EventArgs e)
         {
+            startForm.TopMost = false;
             startForm.Opacity = 100;
             startForm.Enabled = true;
             this.Close();
         }
+
+        #region Interactive
 
         private void backToStartForm_MouseEnter(object sender, EventArgs e)
         {
@@ -52,5 +55,7 @@ namespace TCH_desktop.View
         {
             saveDataTrip.ForeColor = Color.DarkSeaGreen;
         }
+
+        #endregion
     }
 }

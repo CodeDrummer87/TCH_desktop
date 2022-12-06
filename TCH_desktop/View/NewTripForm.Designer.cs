@@ -71,6 +71,7 @@
             this.Opacity = 0.75D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "NewTripForm";
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 
