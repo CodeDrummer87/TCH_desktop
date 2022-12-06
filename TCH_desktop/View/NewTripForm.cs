@@ -39,23 +39,75 @@ namespace TCH_desktop.View
         private void backToStartForm_MouseEnter(object sender, EventArgs e)
         {
             backToStartForm.ForeColor = Color.Yellow;
+            backToStartForm.BackColor = Color.DimGray;
         }
 
         private void backToStartForm_MouseLeave(object sender, EventArgs e)
         {
-            backToStartForm.ForeColor = Color.DarkSeaGreen;
+            backToStartForm.ForeColor = Color.YellowGreen;
+            backToStartForm.BackColor = SystemColors.InfoText;
         }
 
         private void saveDataTrip_MouseEnter(object sender, EventArgs e)
         {
             saveDataTrip.ForeColor = Color.Yellow;
+            saveDataTrip.BackColor = Color.DimGray;
         }
 
         private void saveDataTrip_MouseLeave(object sender, EventArgs e)
         {
-            saveDataTrip.ForeColor = Color.DarkSeaGreen;
+            saveDataTrip.ForeColor = Color.YellowGreen;
+            saveDataTrip.BackColor = SystemColors.InfoText;
         }
 
         #endregion
+
+        private void addLocomotive_MouseEnter(object sender, EventArgs e)
+        {
+            addLocomotive.ForeColor = Color.Yellow;
+            addLocomotive.BackColor = Color.DimGray;
+        }
+
+        private void addLocomotive_MouseLeave(object sender, EventArgs e)
+        {
+            addLocomotive.ForeColor = Color.YellowGreen;
+            addLocomotive.BackColor = SystemColors.InfoText;
+        }
+
+        private void addPassedStations_MouseEnter(object sender, EventArgs e)
+        {
+            addPassedStations.ForeColor = Color.Yellow;
+            addPassedStations.BackColor = Color.DimGray;
+        }
+
+        private void addPassedStations_MouseLeave(object sender, EventArgs e)
+        {
+            addPassedStations.ForeColor = Color.YellowGreen;
+            addPassedStations.BackColor = SystemColors.InfoText;
+        }
+
+        private void addSpeedLimits_MouseEnter(object sender, EventArgs e)
+        {
+            addSpeedLimits.ForeColor = Color.Yellow;
+            addSpeedLimits.BackColor = Color.DimGray;
+        }
+
+        private void addSpeedLimits_MouseLeave(object sender, EventArgs e)
+        {
+            addSpeedLimits.ForeColor = Color.YellowGreen;
+            addSpeedLimits.BackColor = SystemColors.InfoText;
+        }
+
+        private void addNotes_MouseEnter(object sender, EventArgs e)
+        {
+            addNotes.ForeColor = Color.Yellow;
+            addNotes.BackColor = Color.DimGray;
+        }
+
+        private void addNotes_MouseLeave(object sender, EventArgs e)
+        {
+            addNotes.ForeColor = Color.YellowGreen;
+            addNotes.BackColor = SystemColors.InfoText;
+        }
     }
 }

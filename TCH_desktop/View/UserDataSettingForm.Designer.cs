@@ -123,9 +123,12 @@
             // 
             // birthDatePicker
             // 
+            this.birthDatePicker.CustomFormat = "                       dd MMMM yyyy";
+            this.birthDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.birthDatePicker.Location = new System.Drawing.Point(18, 297);
             this.birthDatePicker.Name = "birthDatePicker";
             this.birthDatePicker.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.birthDatePicker.ShowUpDown = true;
             this.birthDatePicker.Size = new System.Drawing.Size(447, 34);
             this.birthDatePicker.TabIndex = 7;
             this.birthDatePicker.TabStop = false;

@@ -96,11 +96,13 @@ namespace TCH_desktop.View
 
         private void loginInp_Enter(object? sender, EventArgs e)
         {
+            loginInp.Text = String.Empty;
             ClearAuthFormErrorMessage();
         }
 
         private void pswdInp_Enter(object? sender, EventArgs e)
         {
+            pswdInp.Text = String.Empty;
             ClearAuthFormErrorMessage();
         }
 
