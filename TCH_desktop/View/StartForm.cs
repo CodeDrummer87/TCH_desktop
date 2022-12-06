@@ -22,6 +22,7 @@ namespace TCH_desktop.View
             this.authForm.Hide();
 
             infoAboutCurrentUser.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 11, true);
+            developerEmail.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 11, true);
 
             user = account.GetCurrentUserData(currentUserLoginId);
 
@@ -130,14 +131,14 @@ namespace TCH_desktop.View
             exitButton.ForeColor = SystemColors.ButtonHighlight;
         }
 
-        private void tripsMenu_MouseEnter(object sender, EventArgs e)
+        private void newTripMenu_MouseEnter(object sender, EventArgs e)
         {
-            tripsMenu.ForeColor = Color.GreenYellow;
+            newTripMenu.ForeColor = Color.GreenYellow;
         }
 
-        private void tripsMenu_MouseLeave(object sender, EventArgs e)
+        private void newTripMenu_MouseLeave(object sender, EventArgs e)
         {
-            tripsMenu.ForeColor = SystemColors.Control;
+            newTripMenu.ForeColor = SystemColors.Control;
         }
 
         private void infoMenu_MouseEnter(object sender, EventArgs e)
@@ -171,5 +172,13 @@ namespace TCH_desktop.View
         }
 
         #endregion
+
+        private void newTripMenu_Click(object sender, EventArgs e)
+        {
+            NewTripForm newTripForm = new(this);
+            this.Enabled = false;
+            this.Opacity = 60;
+            newTripForm.Show();
+        }
     }
 }

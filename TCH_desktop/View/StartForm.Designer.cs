@@ -30,10 +30,11 @@
         {
             this.exitButton = new System.Windows.Forms.Label();
             this.infoAboutCurrentUser = new System.Windows.Forms.Label();
-            this.tripsMenu = new System.Windows.Forms.Label();
+            this.newTripMenu = new System.Windows.Forms.Label();
             this.infoMenu = new System.Windows.Forms.Label();
             this.studyMenu = new System.Windows.Forms.Label();
             this.personDataMenu = new System.Windows.Forms.Label();
+            this.developerEmail = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // exitButton
@@ -64,19 +65,20 @@
             this.infoAboutCurrentUser.Text = "информация о текущем пользователе";
             this.infoAboutCurrentUser.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // tripsMenu
+            // newTripMenu
             // 
-            this.tripsMenu.BackColor = System.Drawing.Color.Transparent;
-            this.tripsMenu.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tripsMenu.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.tripsMenu.Location = new System.Drawing.Point(49, 280);
-            this.tripsMenu.Name = "tripsMenu";
-            this.tripsMenu.Size = new System.Drawing.Size(200, 30);
-            this.tripsMenu.TabIndex = 2;
-            this.tripsMenu.Text = "ПОЕЗДКИ";
-            this.tripsMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.tripsMenu.MouseEnter += new System.EventHandler(this.tripsMenu_MouseEnter);
-            this.tripsMenu.MouseLeave += new System.EventHandler(this.tripsMenu_MouseLeave);
+            this.newTripMenu.BackColor = System.Drawing.Color.Transparent;
+            this.newTripMenu.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.newTripMenu.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.newTripMenu.Location = new System.Drawing.Point(49, 280);
+            this.newTripMenu.Name = "newTripMenu";
+            this.newTripMenu.Size = new System.Drawing.Size(200, 30);
+            this.newTripMenu.TabIndex = 2;
+            this.newTripMenu.Text = "НОВАЯ ПОЕЗДКА";
+            this.newTripMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.newTripMenu.Click += new System.EventHandler(this.newTripMenu_Click);
+            this.newTripMenu.MouseEnter += new System.EventHandler(this.newTripMenu_MouseEnter);
+            this.newTripMenu.MouseLeave += new System.EventHandler(this.newTripMenu_MouseLeave);
             // 
             // infoMenu
             // 
@@ -121,6 +123,17 @@
             this.personDataMenu.MouseEnter += new System.EventHandler(this.personDataMenu_MouseEnter);
             this.personDataMenu.MouseLeave += new System.EventHandler(this.personDataMenu_MouseLeave);
             // 
+            // developerEmail
+            // 
+            this.developerEmail.AutoSize = true;
+            this.developerEmail.BackColor = System.Drawing.Color.Transparent;
+            this.developerEmail.ForeColor = System.Drawing.Color.BurlyWood;
+            this.developerEmail.Location = new System.Drawing.Point(883, 862);
+            this.developerEmail.Name = "developerEmail";
+            this.developerEmail.Size = new System.Drawing.Size(206, 20);
+            this.developerEmail.TabIndex = 6;
+            this.developerEmail.Text = "code.drummer87@gmail.com";
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -130,10 +143,11 @@
             this.BackgroundImage = global::TCH_desktop.Properties.Resources.start_form_background_image;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1200, 900);
+            this.Controls.Add(this.developerEmail);
             this.Controls.Add(this.personDataMenu);
             this.Controls.Add(this.studyMenu);
             this.Controls.Add(this.infoMenu);
-            this.Controls.Add(this.tripsMenu);
+            this.Controls.Add(this.newTripMenu);
             this.Controls.Add(this.infoAboutCurrentUser);
             this.Controls.Add(this.exitButton);
             this.ForeColor = System.Drawing.SystemColors.Control;
@@ -151,9 +165,10 @@
 
         private Label exitButton;
         private Label infoAboutCurrentUser;
-        private Label tripsMenu;
+        private Label newTripMenu;
         private Label infoMenu;
         private Label studyMenu;
         private Label personDataMenu;
+        private Label developerEmail;
     }
 }
