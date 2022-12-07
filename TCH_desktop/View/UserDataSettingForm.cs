@@ -43,7 +43,7 @@ namespace TCH_desktop.View
         }
 
         private void UserDataSettingForm_Activated(object sender, EventArgs e)
-        {
+        { 
             LoadAvailableRailroads();
             if (railroads.Count > 0)
             {
@@ -110,6 +110,7 @@ namespace TCH_desktop.View
                     });
                 }
                 reader.Close();
+                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -150,6 +151,7 @@ namespace TCH_desktop.View
                         });
                     }
                     reader.Close();
+                    DataBase.CloseConnection();
                 }
                 catch (Exception ex)
                 {
@@ -196,6 +198,7 @@ namespace TCH_desktop.View
                     });
                 }
                 reader.Close();
+                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -235,6 +238,7 @@ namespace TCH_desktop.View
                         });
                     }
                     reader.Close();
+                    DataBase.CloseConnection();
                 }
                 catch (Exception ex)
                 {
@@ -353,12 +357,13 @@ namespace TCH_desktop.View
             {
                 SqlCommand command = new(query, DataBase.GetConnection());
                 command.Parameters.Add("@uId", SqlDbType.VarChar).Value = userId;
+                DataBase.OpenConnection();
 
                 DataTable table = new();
 
                 DataBase.adapter.SelectCommand = command;
                 DataBase.adapter.Fill(table);
-
+                DataBase.CloseConnection();
                 return table.Rows.Count == 1 ? true : false;
             }
             catch (Exception ex)

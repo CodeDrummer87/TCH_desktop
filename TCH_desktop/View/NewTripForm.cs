@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TCH_desktop.Models;
 using TCH_desktop.Presenter;
 
 namespace TCH_desktop.View
@@ -14,6 +16,8 @@ namespace TCH_desktop.View
     public partial class NewTripForm : Form
     {
         StartForm startForm;
+
+        private List<Station> stationsList = new();
 
         public NewTripForm(StartForm startForm)
         {
@@ -26,15 +30,69 @@ namespace TCH_desktop.View
             saveDataTrip.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 11, true);
         }
 
-        private void backToStartForm_Click(object sender, EventArgs e)
+        private void LoadAvailableStations()
         {
-            startForm.TopMost = false;
-            startForm.Opacity = 100;
-            startForm.Enabled = true;
-            this.Close();
+            stationsList.Clear();
+            departureStation.Items.Clear();
+            arrivalStation.Items.Clear();
+            departureStation.ResetText();
+            arrivalStation.ResetText();
+
+            string query = "SELECT * FROM Stations";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    stationsList.Add(new Station
+                    {
+                        Id = reader.GetInt32(0),
+                        Title = reader.GetString(1),
+                        Railroad = reader.GetInt32(2),
+                        Code = reader.GetString(3)
+                    });
+                }
+                reader.Close();
+                DataBase.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось загрузить список доступных станций:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для устранения ошибки.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
         }
 
         #region Interactive
+        
+        private void NewTripForm_Activated(object sender, EventArgs e)
+        {
+            LoadAvailableStations();
+            if (stationsList.Count > 0)
+            {
+                for (int i = 0; i < stationsList.Count; i++)
+                {
+                    departureStation.Items.Add(stationsList[i]);
+                    arrivalStation.Items.Add(stationsList[i]);
+                }
+
+                departureStation.DisplayMember = arrivalStation.DisplayMember = "Title";
+                departureStation.SelectedIndex = arrivalStation.SelectedIndex = 0;
+            }
+        }
+
+        private void backToStartForm_Click(object sender, EventArgs e)
+        {
+            startForm.Enabled = true;
+            startForm.TopMost = false;
+            startForm.Opacity = 100;
+           
+            this.Close();
+        }
 
         private void backToStartForm_MouseEnter(object sender, EventArgs e)
         {
@@ -59,8 +117,6 @@ namespace TCH_desktop.View
             saveDataTrip.ForeColor = Color.YellowGreen;
             saveDataTrip.BackColor = SystemColors.InfoText;
         }
-
-        #endregion
 
         private void addLocomotive_MouseEnter(object sender, EventArgs e)
         {
@@ -109,5 +165,7 @@ namespace TCH_desktop.View
             addNotes.ForeColor = Color.YellowGreen;
             addNotes.BackColor = SystemColors.InfoText;
         }
+
+        #endregion
     }
 }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserDataSettingForm));
             this.contactingTheUser = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveUserDataButton = new System.Windows.Forms.Button();
@@ -79,7 +80,7 @@
             this.cancelButton.Size = new System.Drawing.Size(378, 29);
             this.cancelButton.TabIndex = 1;
             this.cancelButton.Text = "Займусь этим в другой раз";
-            this.userSettingFormToolTip.SetToolTip(this.cancelButton, "Нажав эту кнопку, работа программы будет завершена");
+            this.userSettingFormToolTip.SetToolTip(this.cancelButton, "Отмена");
             this.cancelButton.UseVisualStyleBackColor = false;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             this.cancelButton.MouseEnter += new System.EventHandler(this.cancelButton_MouseEnter);
@@ -324,9 +325,10 @@
             this.Controls.Add(this.contactingTheUser);
             this.Cursor = System.Windows.Forms.Cursors.Hand;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "UserDataSettingForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "UserDataSettingForm";
+            this.Text = "ТЧ: Личные Данные";
             this.Activated += new System.EventHandler(this.UserDataSettingForm_Activated);
             this.personDataGroupBox.ResumeLayout(false);
             this.personDataGroupBox.PerformLayout();

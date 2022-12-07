@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewTripForm));
             this.backToStartForm = new System.Windows.Forms.Label();
             this.saveDataTrip = new System.Windows.Forms.Label();
             this.NewTripFormToolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -96,7 +97,7 @@
             // 
             // arrivalTimePicker
             // 
-            this.arrivalTimePicker.CustomFormat = "            HH:MM";
+            this.arrivalTimePicker.CustomFormat = "   HH:MM";
             this.arrivalTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.arrivalTimePicker.Location = new System.Drawing.Point(675, 266);
             this.arrivalTimePicker.Name = "arrivalTimePicker";
@@ -108,7 +109,7 @@
             // departureTimePicker
             // 
             this.departureTimePicker.CalendarFont = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.departureTimePicker.CustomFormat = "            HH:MM";
+            this.departureTimePicker.CustomFormat = "   HH:MM";
             this.departureTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.departureTimePicker.Location = new System.Drawing.Point(56, 266);
             this.departureTimePicker.Name = "departureTimePicker";
@@ -510,11 +511,13 @@
             this.Controls.Add(this.backToStartForm);
             this.ForeColor = System.Drawing.Color.GreenYellow;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewTripForm";
             this.Opacity = 0.8D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "NewTripForm";
+            this.Text = "ТЧ: Новая поездка";
             this.TopMost = true;
+            this.Activated += new System.EventHandler(this.NewTripForm_Activated);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

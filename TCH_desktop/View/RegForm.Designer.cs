@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegForm));
             this.exitButton = new System.Windows.Forms.Label();
             this.regFormToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.backToAuthForm = new System.Windows.Forms.Label();
@@ -248,9 +249,10 @@
             this.Controls.Add(this.backToAuthForm);
             this.Controls.Add(this.exitButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RegForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "RegForm";
+            this.Text = "ТЧ: Регистрация";
             ((System.ComponentModel.ISupportInitialize)(this.starPicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

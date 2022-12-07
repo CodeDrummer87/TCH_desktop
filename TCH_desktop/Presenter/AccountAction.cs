@@ -89,6 +89,7 @@ namespace TCH_desktop.Presenter
                 DataTable table = new();
                 DataBase.adapter.SelectCommand = command;
                 DataBase.adapter.Fill(table);
+                DataBase.CloseConnection();
 
                 return table.Rows.Count == 1 ? true : false;
             }
@@ -126,6 +127,7 @@ namespace TCH_desktop.Presenter
                     };
                 }
                 reader.Close();
+                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -161,6 +163,7 @@ namespace TCH_desktop.Presenter
                 };
             }
             reader.Close();
+            DataBase.CloseConnection();
 
             return user;
         }
@@ -181,6 +184,7 @@ namespace TCH_desktop.Presenter
             {
                 DataBase.OpenConnection();
                 command.ExecuteNonQuery();
+                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -215,6 +219,7 @@ namespace TCH_desktop.Presenter
                     };
                 }
                 reader.Close();
+                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -251,6 +256,7 @@ namespace TCH_desktop.Presenter
                     railroadId = reader.GetInt32(0);
                 }
                 reader.Close();
+                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -285,6 +291,7 @@ namespace TCH_desktop.Presenter
                     depotId = reader.GetInt32(0);
                 }
                 reader.Close();
+                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -313,6 +320,7 @@ namespace TCH_desktop.Presenter
                     positionId = reader.GetInt32(0);
                 }
                 reader.Close();
+                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -341,6 +349,7 @@ namespace TCH_desktop.Presenter
                     columnId = reader.GetInt32(0);
                 }
                 reader.Close();
+                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartForm));
             this.exitButton = new System.Windows.Forms.Label();
             this.infoAboutCurrentUser = new System.Windows.Forms.Label();
             this.newTripMenu = new System.Windows.Forms.Label();
@@ -152,9 +153,10 @@
             this.Controls.Add(this.exitButton);
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StartForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "StartForm";
+            this.Text = "ТЧ: Главное Меню";
             this.Activated += new System.EventHandler(this.StartForm_Activated);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -89,6 +89,7 @@ namespace TCH_desktop.View
                     result = reader.GetString(0);
                 }
                 reader.Close();
+                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -122,8 +123,8 @@ namespace TCH_desktop.View
         private void newTripMenu_Click(object sender, EventArgs e)
         {
             NewTripForm newTripForm = new(this);
-            this.TopMost = true;
-            this.Enabled = false;
+            TopMost = true;
+            Enabled = false;
             this.Opacity = 60;
             newTripForm.Show();
         }

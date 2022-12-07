@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AuthForm));
             this.exitButton = new System.Windows.Forms.Label();
             this.title = new System.Windows.Forms.Label();
             this.developerEmail = new System.Windows.Forms.Label();
@@ -181,9 +182,10 @@
             this.Controls.Add(this.title);
             this.Controls.Add(this.exitButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AuthForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AuthForm";
+            this.Text = "ТЧ: Вход в программу";
             ((System.ComponentModel.ISupportInitialize)(this.addAccountPicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.showHidePasswordPicture)).EndInit();
             this.ResumeLayout(false);

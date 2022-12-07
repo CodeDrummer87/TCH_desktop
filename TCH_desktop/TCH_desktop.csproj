@@ -6,18 +6,19 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>start_icon.ico</ApplicationIcon>
+    <ApplicationIcon>source\images\favicon.ico</ApplicationIcon>
     <IsPublishable>False</IsPublishable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="start_icon.ico" />
+    <Content Include="source\images\favicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Properties\DataSources\" />
     <Folder Include="Resources\" />
-    <Folder Include="source\images\" />
   </ItemGroup>
 
   <ItemGroup>
