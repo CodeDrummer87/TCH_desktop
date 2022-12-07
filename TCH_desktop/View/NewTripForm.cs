@@ -38,7 +38,7 @@ namespace TCH_desktop.View
             departureStation.ResetText();
             arrivalStation.ResetText();
 
-            string query = "SELECT * FROM Stations";
+            string query = "SELECT * FROM Stations ORDER BY Title";
 
             try
             {
