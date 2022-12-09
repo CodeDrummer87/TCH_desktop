@@ -18,6 +18,7 @@ namespace TCH_desktop.View
         StartForm startForm;
 
         private List<Station> stationsList = new();
+        private List<TrafficLight> trafficLightsList = new();
 
         public NewTripForm(StartForm startForm)
         {
@@ -67,6 +68,48 @@ namespace TCH_desktop.View
             }
         }
 
+        private void LoadAvailableTrafficLights(bool isEvenDirection)
+        {
+            trafficLightsList.Clear();
+            departureTrafficLight.Items.Clear();
+            departureTrafficLight.ResetText();
+
+            string query =  "SELECT * FROM TrainModeTrafficLights t "
+                            + "INNER JOIN Stations s "
+                            + "ON s.id = t.Station "
+                            + "WHERE s.id = @stationId AND IsEvenDirection = @isEvenDir";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@stationId", SqlDbType.Int).Value = 1;  //.:: temporary
+                command.Parameters.Add("@isEvenDir", SqlDbType.Bit).Value = 1;  //.:: temporary
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    trafficLightsList.Add(new TrafficLight
+                    {
+                        Id = reader.GetInt32(0),
+                        IsEvenDirection = reader.GetByte(1),
+                        Title = reader.GetString(2),
+                        Station = reader.GetInt32(3),
+                    });
+                }
+                reader.Close();
+                DataBase.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                string trafficLightDir = isEvenDirection ? "чётных" : "нечётных";
+
+                MessageBox.Show($"Не удалось загрузить список {trafficLightDir} светофоров:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для устранения ошибки.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
+
         #region Interactive
         
         private void NewTripForm_Activated(object sender, EventArgs e)
@@ -82,6 +125,16 @@ namespace TCH_desktop.View
 
                 departureStation.DisplayMember = arrivalStation.DisplayMember = "Title";
                 departureStation.SelectedIndex = arrivalStation.SelectedIndex = 0;
+            }
+
+            LoadAvailableTrafficLights(true);
+            if (trafficLightsList.Count > 0)
+            {
+                for (int i = 0; i < trafficLightsList.Count; i++)
+                    departureTrafficLight.Items.Add(trafficLightsList[i]);
+
+                departureTrafficLight.DisplayMember = "Title";
+                departureTrafficLight.SelectedIndex = 0;
             }
         }
 

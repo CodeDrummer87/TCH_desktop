@@ -123,7 +123,7 @@ namespace TCH_desktop.View
         private void newTripMenu_Click(object sender, EventArgs e)
         {
             NewTripForm newTripForm = new(this);
-            TopMost = true;
+            //TopMost = true;
             Enabled = false;
             this.Opacity = 60;
             newTripForm.Show();
