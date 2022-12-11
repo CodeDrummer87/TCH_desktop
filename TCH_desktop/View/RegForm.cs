@@ -1,14 +1,13 @@
 ﻿using TCH_desktop.Presenter;
-using TCH_desktop.Presenter.interfaces;
 
 namespace TCH_desktop.View
 {
     public partial class RegForm : Form
     {
         AuthForm authForm;
-        IAccountAction account;
+        AccountAction account;
 
-        public RegForm(AuthForm authForm, IAccountAction account)
+        public RegForm(AuthForm authForm, AccountAction account)
         {
             InitializeComponent();
 

@@ -2,7 +2,6 @@
 using System.Data.SqlClient;
 using TCH_desktop.Models;
 using TCH_desktop.Presenter;
-using TCH_desktop.Presenter.interfaces;
 
 namespace TCH_desktop.View
 {
@@ -11,9 +10,9 @@ namespace TCH_desktop.View
         private User user;
 
         AuthForm authForm;
-        IAccountAction account;
+        AccountAction account;
 
-        public StartForm(AuthForm authForm, IAccountAction account, int currentUserLoginId)
+        public StartForm(AuthForm authForm, AccountAction account, int currentUserLoginId)
         {
             InitializeComponent();
 
@@ -69,7 +68,7 @@ namespace TCH_desktop.View
                 "FROM Employees e " +
                 "INNER JOIN Users u " +
                 "ON u.Id = e.UserId " +
-                "INNER JOIN Positions p " + 
+                "INNER JOIN Positions p " +
                 "ON p.Id = e.PositionId " +
                 "INNER JOIN Columns c " +
                 "ON c.Id = e.ColumnId " +
@@ -123,9 +122,6 @@ namespace TCH_desktop.View
         private void newTripMenu_Click(object sender, EventArgs e)
         {
             NewTripForm newTripForm = new(this);
-            //TopMost = true;
-            Enabled = false;
-            this.Opacity = 60;
             newTripForm.Show();
         }
 

@@ -98,6 +98,7 @@
             // arrivalTimePicker
             // 
             this.arrivalTimePicker.CustomFormat = "   HH:MM";
+            this.arrivalTimePicker.Enabled = false;
             this.arrivalTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.arrivalTimePicker.Location = new System.Drawing.Point(675, 266);
             this.arrivalTimePicker.Name = "arrivalTimePicker";
@@ -110,6 +111,7 @@
             // 
             this.departureTimePicker.CalendarFont = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.departureTimePicker.CustomFormat = "   HH:MM";
+            this.departureTimePicker.Enabled = false;
             this.departureTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.departureTimePicker.Location = new System.Drawing.Point(56, 266);
             this.departureTimePicker.Name = "departureTimePicker";
@@ -373,6 +375,7 @@
             this.trainNumber.Size = new System.Drawing.Size(205, 25);
             this.trainNumber.TabIndex = 44;
             this.trainNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.trainNumber.Leave += new System.EventHandler(this.trainNumber_Leave);
             // 
             // label7
             // 
@@ -387,14 +390,21 @@
             // 
             // arrivalTrafficLight
             // 
+            this.arrivalTrafficLight.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.arrivalTrafficLight.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.arrivalTrafficLight.Enabled = false;
             this.arrivalTrafficLight.FormattingEnabled = true;
             this.arrivalTrafficLight.Location = new System.Drawing.Point(675, 299);
             this.arrivalTrafficLight.Name = "arrivalTrafficLight";
+            this.arrivalTrafficLight.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.arrivalTrafficLight.Size = new System.Drawing.Size(142, 26);
             this.arrivalTrafficLight.TabIndex = 42;
             // 
             // departureTrafficLight
             // 
+            this.departureTrafficLight.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.departureTrafficLight.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.departureTrafficLight.Enabled = false;
             this.departureTrafficLight.FormattingEnabled = true;
             this.departureTrafficLight.Location = new System.Drawing.Point(56, 299);
             this.departureTrafficLight.Name = "departureTrafficLight";
@@ -425,12 +435,14 @@
             // 
             // arrivalStation
             // 
+            this.arrivalStation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.arrivalStation.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.arrivalStation.FormattingEnabled = true;
             this.arrivalStation.Location = new System.Drawing.Point(498, 126);
             this.arrivalStation.Name = "arrivalStation";
             this.arrivalStation.Size = new System.Drawing.Size(250, 31);
             this.arrivalStation.TabIndex = 36;
+            this.arrivalStation.SelectedIndexChanged += new System.EventHandler(this.arrivalStation_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -446,12 +458,14 @@
             // 
             // departureStation
             // 
+            this.departureStation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.departureStation.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.departureStation.FormattingEnabled = true;
             this.departureStation.Location = new System.Drawing.Point(194, 126);
             this.departureStation.Name = "departureStation";
             this.departureStation.Size = new System.Drawing.Size(250, 31);
             this.departureStation.TabIndex = 34;
+            this.departureStation.SelectedIndexChanged += new System.EventHandler(this.departureStation_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -480,6 +494,7 @@
             // 
             this.attendanceTimePicker.CalendarMonthBackground = System.Drawing.SystemColors.InactiveCaption;
             this.attendanceTimePicker.CalendarTitleForeColor = System.Drawing.Color.GreenYellow;
+            this.attendanceTimePicker.Cursor = System.Windows.Forms.Cursors.Hand;
             this.attendanceTimePicker.CustomFormat = "дата: dd-MM-yyyy, время: HH:MM";
             this.attendanceTimePicker.Font = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.attendanceTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;

@@ -1,19 +1,19 @@
 ﻿using TCH_desktop.Models;
 using TCH_desktop.Presenter;
-using TCH_desktop.Presenter.interfaces;
 
 namespace TCH_desktop.View
 {
     public partial class AuthForm : Form
     {
-        private bool isHiddenPassword = true;
-        IAccountAction account;
+        private  AccountAction account;
+        private bool isHiddenPassword;
 
-        public AuthForm(IAccountAction account)
+        public AuthForm()
         {
             InitializeComponent();
 
-            this.account = account;
+            account = new AccountAction();
+            isHiddenPassword = true;
 
             title.Text = "ТЧЭ-2\nЗСЖД";
             title.Font = Source.LoadFont(@".\source\fonts\docker.ttf", 50, true);
@@ -155,7 +155,7 @@ namespace TCH_desktop.View
 
         private void pswdInp_KeyUp(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
                 authButton_Click(sender, e);
         }
     }

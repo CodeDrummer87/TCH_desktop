@@ -2,7 +2,6 @@
 using System.Data.SqlClient;
 using TCH_desktop.Models;
 using TCH_desktop.Presenter;
-using System.Linq;
 
 namespace TCH_desktop.View
 {
@@ -12,10 +11,10 @@ namespace TCH_desktop.View
         StartForm startForm;
         AuthForm authForm;
 
-        private List<Railroad> railroads = new ();
-        private List<LocomotiveDepot> locoDepots = new ();
-        private List<Position> positionsList = new ();
-        private List<Column> columnsList = new ();
+        private List<Railroad> railroads = new();
+        private List<LocomotiveDepot> locoDepots = new();
+        private List<Position> positionsList = new();
+        private List<Column> columnsList = new();
 
         public UserDataSettingForm(StartForm stForm, AuthForm authForm, bool isEdit_)
         {
@@ -43,7 +42,7 @@ namespace TCH_desktop.View
         }
 
         private void UserDataSettingForm_Activated(object sender, EventArgs e)
-        { 
+        {
             LoadAvailableRailroads();
             if (railroads.Count > 0)
             {

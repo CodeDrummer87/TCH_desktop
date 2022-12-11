@@ -3,11 +3,10 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using TCH_desktop.Models;
-using TCH_desktop.Presenter.interfaces;
 
 namespace TCH_desktop.Presenter
 {
-    internal class AccountAction : IAccountAction
+    public class AccountAction
     {
         private SqlCommand command;
         private SqlDataReader reader;
@@ -47,7 +46,7 @@ namespace TCH_desktop.Presenter
                     $"Обратитесь к системному администратору для её устранения.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
-                
+
             }
             else message = "Аккаунт с таким email уже существует";
 
@@ -271,7 +270,7 @@ namespace TCH_desktop.Presenter
         public int GetCurrentDepotId(int userId)
         {
             int depotId = 0;
-            string query =  "SELECT d.id "
+            string query = "SELECT d.id "
                             + "FROM Employees e "
                             + "INNER JOIN Columns c "
                             + "ON c.Id = e.ColumnId "
