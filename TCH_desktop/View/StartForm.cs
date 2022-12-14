@@ -112,6 +112,9 @@ namespace TCH_desktop.View
         private void StartForm_Activated(object sender, EventArgs e)
         {
             infoAboutCurrentUser.Text = GetInfoAboutEmployee();
+            TopMost = false;
+            Opacity = 100;
+            Enabled = true;
         }
 
         private void exitButton_Click(object? sender, EventArgs e)
@@ -122,6 +125,9 @@ namespace TCH_desktop.View
         private void newTripMenu_Click(object sender, EventArgs e)
         {
             NewTripForm newTripForm = new(this);
+            TopMost = true;
+            Opacity = 60;
+            Enabled = false;
             newTripForm.Show();
         }
 

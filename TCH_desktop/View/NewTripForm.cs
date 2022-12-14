@@ -7,8 +7,7 @@ namespace TCH_desktop.View
 {
     public partial class NewTripForm : Form
     {
-        StartForm startForm;
-
+        private StartForm startForm;
         private List<Station> stationsList = new();
         private List<TrafficLight> trafficLightsList = new();
 
@@ -17,9 +16,6 @@ namespace TCH_desktop.View
             InitializeComponent();
 
             this.startForm = startForm;
-            this.startForm.Enabled = false;
-            this.startForm.TopMost = true;
-            this.startForm.Opacity = 60;
             Location = new Point(630, 120);
 
             backToStartForm.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 11, true);
@@ -186,10 +182,7 @@ namespace TCH_desktop.View
 
         private void backToStartForm_Click(object sender, EventArgs e)
         {
-            startForm.Opacity = 100;
-            startForm.TopMost = false;
             startForm.Enabled = true;
-
             this.Close();
         }
 

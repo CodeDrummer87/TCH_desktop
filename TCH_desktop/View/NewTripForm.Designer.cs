@@ -436,6 +436,7 @@
             // arrivalStation
             // 
             this.arrivalStation.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.arrivalStation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.arrivalStation.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.arrivalStation.FormattingEnabled = true;
             this.arrivalStation.Location = new System.Drawing.Point(498, 126);
@@ -459,6 +460,7 @@
             // departureStation
             // 
             this.departureStation.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.departureStation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.departureStation.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.departureStation.FormattingEnabled = true;
             this.departureStation.Location = new System.Drawing.Point(194, 126);
