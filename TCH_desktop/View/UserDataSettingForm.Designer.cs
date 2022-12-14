@@ -63,7 +63,7 @@
             // contactingTheUser
             // 
             this.contactingTheUser.BackColor = System.Drawing.Color.Transparent;
-            this.contactingTheUser.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.contactingTheUser.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.contactingTheUser.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.contactingTheUser.Location = new System.Drawing.Point(41, 31);
             this.contactingTheUser.Name = "contactingTheUser";
@@ -75,6 +75,7 @@
             // cancelButton
             // 
             this.cancelButton.BackColor = System.Drawing.Color.LightBlue;
+            this.cancelButton.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cancelButton.Location = new System.Drawing.Point(78, 626);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(378, 29);
@@ -90,6 +91,7 @@
             // 
             this.saveUserDataButton.BackColor = System.Drawing.Color.LightGray;
             this.saveUserDataButton.Enabled = false;
+            this.saveUserDataButton.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.saveUserDataButton.Location = new System.Drawing.Point(740, 626);
             this.saveUserDataButton.Name = "saveUserDataButton";
             this.saveUserDataButton.Size = new System.Drawing.Size(289, 29);
@@ -221,6 +223,7 @@
             // 
             // columns
             // 
+            this.columns.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.columns.FormattingEnabled = true;
             this.columns.Location = new System.Drawing.Point(375, 293);
             this.columns.Name = "columns";
@@ -238,6 +241,7 @@
             // 
             // positions
             // 
+            this.positions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.positions.FormattingEnabled = true;
             this.positions.Location = new System.Drawing.Point(17, 293);
             this.positions.Name = "positions";
@@ -273,6 +277,7 @@
             // 
             // depot
             // 
+            this.depot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.depot.FormattingEnabled = true;
             this.depot.Location = new System.Drawing.Point(17, 160);
             this.depot.Name = "depot";
@@ -300,6 +305,7 @@
             // 
             // railRoads
             // 
+            this.railRoads.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.railRoads.FormattingEnabled = true;
             this.railRoads.Location = new System.Drawing.Point(17, 91);
             this.railRoads.Name = "railRoads";

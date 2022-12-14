@@ -26,13 +26,6 @@ namespace TCH_desktop.View
 
             contactingTheUser.Text = isEdit ? "Редактирование личных и профессиональных\nданных пользователя"
                 : "Добро пожаловать в ТЧ!\nПожалуйста, заполните поля ниже для завершения регистрации";
-            contactingTheUser.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 16, true);
-
-            saveUserDataButton.Font = cancelButton.Font =
-                Source.LoadFont(@".\source\fonts\zekton.ttf", 10, true);
-
-            personDataGroupBox.Font = employeeDataGroupBox.Font =
-                Source.LoadFont(@".\source\fonts\zekton.ttf", 12, true);
 
             cancelButton.Text = isEdit ? "Оставить всё как есть" : "Займусь этим в другой раз";
 

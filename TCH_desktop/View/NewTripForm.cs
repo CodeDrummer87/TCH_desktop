@@ -17,9 +17,6 @@ namespace TCH_desktop.View
 
             this.startForm = startForm;
             Location = new Point(630, 120);
-
-            backToStartForm.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 11, true);
-            saveDataTrip.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 11, true);
         }
 
         private void LoadAvailableStations()

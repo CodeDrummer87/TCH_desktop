@@ -74,9 +74,10 @@
             // 
             this.backToStartForm.AutoSize = true;
             this.backToStartForm.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.backToStartForm.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.backToStartForm.Location = new System.Drawing.Point(23, 760);
             this.backToStartForm.Name = "backToStartForm";
-            this.backToStartForm.Size = new System.Drawing.Size(62, 20);
+            this.backToStartForm.Size = new System.Drawing.Size(79, 22);
             this.backToStartForm.TabIndex = 0;
             this.backToStartForm.Text = "Отмена";
             this.backToStartForm.Click += new System.EventHandler(this.backToStartForm_Click);
@@ -87,9 +88,10 @@
             // 
             this.saveDataTrip.AutoSize = true;
             this.saveDataTrip.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.saveDataTrip.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.saveDataTrip.Location = new System.Drawing.Point(657, 760);
             this.saveDataTrip.Name = "saveDataTrip";
-            this.saveDataTrip.Size = new System.Drawing.Size(142, 20);
+            this.saveDataTrip.Size = new System.Drawing.Size(186, 22);
             this.saveDataTrip.TabIndex = 1;
             this.saveDataTrip.Text = "Сохранить Данные";
             this.saveDataTrip.MouseEnter += new System.EventHandler(this.saveDataTrip_MouseEnter);

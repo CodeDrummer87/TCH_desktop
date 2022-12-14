@@ -20,9 +20,6 @@ namespace TCH_desktop.View
             this.account = account;
             this.authForm.Hide();
 
-            infoAboutCurrentUser.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 11, true);
-            developerEmail.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 11, true);
-
             user = account.GetCurrentUserData(currentUserLoginId);
 
             if (!CheckUserData(ref user))
@@ -184,5 +181,6 @@ namespace TCH_desktop.View
         }
 
         #endregion
+
     }
 }

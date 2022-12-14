@@ -128,10 +128,11 @@
             // 
             this.developerEmail.AutoSize = true;
             this.developerEmail.BackColor = System.Drawing.Color.Transparent;
+            this.developerEmail.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.developerEmail.ForeColor = System.Drawing.Color.BurlyWood;
             this.developerEmail.Location = new System.Drawing.Point(883, 862);
             this.developerEmail.Name = "developerEmail";
-            this.developerEmail.Size = new System.Drawing.Size(206, 20);
+            this.developerEmail.Size = new System.Drawing.Size(279, 22);
             this.developerEmail.TabIndex = 6;
             this.developerEmail.Text = "code.drummer87@gmail.com";
             // 
