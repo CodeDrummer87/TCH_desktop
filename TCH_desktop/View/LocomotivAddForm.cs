@@ -44,6 +44,11 @@
             addNewLocoButton.BackColor = SystemColors.InfoText;
         }
 
+        private void brakeHoldersTrackBar_Scroll(object sender, EventArgs e)
+        {
+            brakeHoldersValue.Text = brakeHoldersTrackBar.Value.ToString();
+        }
+
         #endregion
 
     }
