@@ -268,8 +268,8 @@ namespace TCH_desktop.View
 
         private void saveUserDataButton_EnabledChanged(object sender, EventArgs e)
         {
-            saveUserDataButton.BackColor =
-                saveUserDataButton.BackColor == Color.YellowGreen ? Color.LightGray : Color.YellowGreen;
+            saveUserDataButton.BackColor = saveUserDataButton.BackColor 
+                == Color.YellowGreen ? Color.LightGray : Color.YellowGreen;
         }
 
         private void saveUserDataButton_Click(object sender, EventArgs e)

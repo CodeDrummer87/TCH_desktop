@@ -255,6 +255,16 @@ namespace TCH_desktop.View
             addNotes.BackColor = SystemColors.InfoText;
         }
 
+        private void addLocomotive_Click(object sender, EventArgs e)
+        {
+            LocomotivAddForm locoAddForm = new(this);
+            TopMost = true;
+            Opacity = 60;
+            Enabled = false;
+            locoAddForm.Show();
+        } 
+
         #endregion
+
     }
 }
