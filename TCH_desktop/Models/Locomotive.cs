@@ -7,7 +7,7 @@ namespace TCH_desktop.Models
         [Key]
         public int Id { get; set; }
         public int LocoType { get; set; }
-        public string Series { get; set; }
+        public int Series { get; set; }
         public int Number { get; set; }
         public int Allocation { get; set; }
         public int NumberOfBrakeHolders { get; set; }
