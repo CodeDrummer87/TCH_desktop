@@ -130,6 +130,9 @@
   <data name="star_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\source\images\star_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="user_data_setting_background_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\source\images\user_data_setting_background_image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="start_form_background_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\source\images\start_form_background_image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -139,7 +142,7 @@
   <data name="authorization_background_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\source\images\authorization_background_image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="user_data_setting_background_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\source\images\user_data_setting_background_image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="addLocoImg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\source\images\addLocoImg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

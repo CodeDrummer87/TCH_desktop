@@ -221,18 +221,21 @@
             // locoImageBox
             // 
             this.locoImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.locoImageBox.Location = new System.Drawing.Point(406, 40);
+            this.locoImageBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.locoImageBox.Image = global::TCH_desktop.Properties.Resources.addLocoImg;
+            this.locoImageBox.Location = new System.Drawing.Point(423, 40);
             this.locoImageBox.Name = "locoImageBox";
-            this.locoImageBox.Size = new System.Drawing.Size(385, 275);
-            this.locoImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.locoImageBox.Size = new System.Drawing.Size(368, 275);
+            this.locoImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.locoImageBox.TabIndex = 0;
             this.locoImageBox.TabStop = false;
+            this.locoImageBox.Click += new System.EventHandler(this.locoImageBox_Click);
             // 
             // LocomotivAddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.InfoText;
+            this.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.ClientSize = new System.Drawing.Size(850, 400);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.addNewLocoButton);
@@ -240,10 +243,10 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LocomotivAddForm";
-            this.Opacity = 0.87D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ТЧ: Добавить Локомотив";
             this.TopMost = true;
+            this.Activated += new System.EventHandler(this.LocomotivAddForm_Activated);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.brakeHoldersTrackBar)).EndInit();

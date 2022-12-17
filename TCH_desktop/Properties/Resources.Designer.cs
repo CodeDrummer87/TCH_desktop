@@ -73,6 +73,16 @@ namespace TCH_desktop.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap addLocoImg {
+            get {
+                object obj = ResourceManager.GetObject("addLocoImg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap authorization_background_image {
             get {
                 object obj = ResourceManager.GetObject("authorization_background_image", resourceCulture);
