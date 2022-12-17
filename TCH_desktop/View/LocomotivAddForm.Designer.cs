@@ -40,7 +40,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.locoNumberInp = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.locoSerialSelect = new System.Windows.Forms.ComboBox();
+            this.locoSeriesSelect = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.locoTypeSelect = new System.Windows.Forms.ComboBox();
             this.locoImageBox = new System.Windows.Forms.PictureBox();
@@ -88,7 +88,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.locoNumberInp);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.locoSerialSelect);
+            this.groupBox1.Controls.Add(this.locoSeriesSelect);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.locoTypeSelect);
             this.groupBox1.Controls.Add(this.locoImageBox);
@@ -188,14 +188,14 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Серия:";
             // 
-            // locoSerialSelect
+            // locoSeriesSelect
             // 
-            this.locoSerialSelect.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.locoSerialSelect.FormattingEnabled = true;
-            this.locoSerialSelect.Location = new System.Drawing.Point(30, 141);
-            this.locoSerialSelect.Name = "locoSerialSelect";
-            this.locoSerialSelect.Size = new System.Drawing.Size(168, 25);
-            this.locoSerialSelect.TabIndex = 3;
+            this.locoSeriesSelect.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.locoSeriesSelect.FormattingEnabled = true;
+            this.locoSeriesSelect.Location = new System.Drawing.Point(30, 141);
+            this.locoSeriesSelect.Name = "locoSeriesSelect";
+            this.locoSeriesSelect.Size = new System.Drawing.Size(168, 25);
+            this.locoSeriesSelect.TabIndex = 3;
             // 
             // label1
             // 
@@ -217,6 +217,7 @@
             this.locoTypeSelect.Name = "locoTypeSelect";
             this.locoTypeSelect.Size = new System.Drawing.Size(347, 25);
             this.locoTypeSelect.TabIndex = 1;
+            this.locoTypeSelect.SelectedIndexChanged += new System.EventHandler(this.locoTypeSelect_SelectedIndexChanged);
             // 
             // locoImageBox
             // 
@@ -267,7 +268,7 @@
         private Label label3;
         private TextBox locoNumberInp;
         private Label label2;
-        private ComboBox locoSerialSelect;
+        private ComboBox locoSeriesSelect;
         private Label label4;
         private ComboBox allocationSelect;
         private TrackBar brakeHoldersTrackBar;

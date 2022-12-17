@@ -1,7 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using TCH_desktop.Models;
-using TCH_desktop.Presenter;
 
 namespace TCH_desktop.View
 {
@@ -268,7 +267,7 @@ namespace TCH_desktop.View
 
         private void saveUserDataButton_EnabledChanged(object sender, EventArgs e)
         {
-            saveUserDataButton.BackColor = saveUserDataButton.BackColor 
+            saveUserDataButton.BackColor = saveUserDataButton.BackColor
                 == Color.YellowGreen ? Color.LightGray : Color.YellowGreen;
         }
 
