@@ -94,6 +94,41 @@ namespace TCH_desktop.View
             }
         }
 
+        private void LoadAllocationData()
+        {
+            allocationSelect.Items.Clear();
+            allocationSelect.ResetText();
+
+            string query =  "SELECT	CONCAT(d.ShortTitle, ' (', r.Abbreviation, ')') 'allocation'"  
+                            + "FROM LocomotiveDepots d "
+                            + "INNER JOIN Railroads r "
+                            + "ON r.Id = d.Railroad";
+
+            try
+            {
+                isReadyReader = false;
+                SqlCommand command = new(query, DataBase.GetConnection());
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    allocationSelect.Items.Add(reader.GetString(0));
+                }
+                allocationSelect.DisplayMember = "allocation";
+                allocationSelect.SelectedIndex = 0;
+
+                reader.Close();
+                DataBase.CloseConnection();
+                isReadyReader = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось загрузить серии локомотивов:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
 
         #region Interactive
 
@@ -101,6 +136,7 @@ namespace TCH_desktop.View
         {
             LoadLocoTypeData();
             LoadLocoSeriesData();
+            LoadAllocationData();
         }
 
         private void locoTypeSelect_SelectedIndexChanged(object sender, EventArgs e)
