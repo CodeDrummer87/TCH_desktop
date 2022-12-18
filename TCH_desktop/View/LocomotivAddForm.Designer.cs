@@ -176,6 +176,7 @@
             this.locoNumberInp.Name = "locoNumberInp";
             this.locoNumberInp.Size = new System.Drawing.Size(157, 24);
             this.locoNumberInp.TabIndex = 5;
+            this.locoNumberInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label2
             // 
@@ -191,6 +192,7 @@
             // locoSeriesSelect
             // 
             this.locoSeriesSelect.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.locoSeriesSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.locoSeriesSelect.FormattingEnabled = true;
             this.locoSeriesSelect.Location = new System.Drawing.Point(30, 141);
             this.locoSeriesSelect.Name = "locoSeriesSelect";
@@ -247,7 +249,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ТЧ: Добавить Локомотив";
             this.TopMost = true;
-            this.Activated += new System.EventHandler(this.LocomotivAddForm_Activated);
+            this.Load += new System.EventHandler(this.LocomotivAddForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.brakeHoldersTrackBar)).EndInit();

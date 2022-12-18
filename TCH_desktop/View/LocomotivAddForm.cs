@@ -6,6 +6,7 @@ namespace TCH_desktop.View
 {
     public partial class LocomotivAddForm : Form
     {
+        private bool isReadyReader;
         private NewTripForm tripForm;
 
         public LocomotivAddForm(NewTripForm tripForm)
@@ -13,6 +14,7 @@ namespace TCH_desktop.View
             InitializeComponent();
 
             this.tripForm = tripForm;
+            isReadyReader = false;
         }
 
         private void LoadLocoTypeData()
@@ -24,6 +26,7 @@ namespace TCH_desktop.View
 
             try
             {
+                isReadyReader = false;
                 SqlCommand command = new(query, DataBase.GetConnection());
                 DataBase.OpenConnection();
 
@@ -41,12 +44,13 @@ namespace TCH_desktop.View
 
                 reader.Close();
                 DataBase.CloseConnection();
+                isReadyReader = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Не удалось загрузить типы локомотивов:\n\"{ex.Message}\"\n" +
                     $"Обратитесь к системному администратору для устранения ошибки.",
-                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 
@@ -55,13 +59,14 @@ namespace TCH_desktop.View
             locoSeriesSelect.Items.Clear();
             locoSeriesSelect.ResetText();
 
-            string query = "SELECT * FROM LocoSeries WHERE LocoType=@locType ORDER BY SeriesFirst";
+            string query = "SELECT * FROM LocoSeries WHERE LocoType=@locType ORDER BY Series";
 
             try
             {
+                isReadyReader = false;
                 SqlCommand command = new(query, DataBase.GetConnection());
                 LocomotiveType locType = (LocomotiveType)locoTypeSelect.SelectedItem;
-                command.Parameters.Add("@locType", SqlDbType.Int).Value = locType?.Id;
+                command.Parameters.Add("@locType", SqlDbType.Int).Value = locType.Id;
                 DataBase.OpenConnection();
 
                 SqlDataReader reader = command.ExecuteReader();
@@ -70,31 +75,29 @@ namespace TCH_desktop.View
                     locoSeriesSelect.Items.Add(new LocomotiveSeries
                     {
                         Id = reader.GetInt32(0),
-                        SeriesFirst = reader.GetString(1),
-                        lIndex = reader.GetString(2),
-                        isUpperIndex = reader.GetByte(3),
-                        SeriesSecond = reader.GetString(4),
-                        LocoType = reader.GetInt32(5)
+                        Series = reader.GetString(1),
+                        LocoType = reader.GetInt32(2)
                     });
                 }
-                locoSeriesSelect.DisplayMember = "SeriesFirst";
+                locoSeriesSelect.DisplayMember = "Series";
                 locoSeriesSelect.SelectedIndex = 0;
 
                 reader.Close();
                 DataBase.CloseConnection();
+                isReadyReader = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Не удалось загрузить серии локомотивов:\n\"{ex.Message}\"\n" +
                     $"Обратитесь к системному администратору для устранения ошибки.",
-                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 
 
         #region Interactive
 
-        private void LocomotivAddForm_Activated(object sender, EventArgs e)
+        private void LocomotivAddForm_Load(object sender, EventArgs e)
         {
             LoadLocoTypeData();
             LoadLocoSeriesData();
@@ -102,7 +105,7 @@ namespace TCH_desktop.View
 
         private void locoTypeSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //LoadLocoSeriesData();
+            if (isReadyReader) LoadLocoSeriesData();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
