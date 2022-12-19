@@ -124,6 +124,8 @@ namespace TCH_desktop.View
 
         private void NewTripForm_Activated(object sender, EventArgs e)
         {
+            Opacity = 80;
+
             LoadAvailableStations();
             if (stationsList.Count > 0)
             {

@@ -9,7 +9,7 @@ namespace TCH_desktop.Models
         public int LocoType { get; set; }
         public int Series { get; set; }
         public int Number { get; set; }
-        public int Allocation { get; set; }
+        public string Allocation { get; set; }
         public int NumberOfBrakeHolders { get; set; }
         public string ImagePath { get; set; }
     }

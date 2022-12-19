@@ -201,6 +201,46 @@ namespace TCH_desktop.View
             }
         }
 
+        private void addNewLocoButton_Click(object sender, EventArgs e)
+        {
+            Locomotive locomotive = new Locomotive {
+                LocoType = ((LocomotiveType)locoTypeSelect.SelectedItem).Id,
+                Series = ((LocomotiveSeries)locoSeriesSelect.SelectedItem).Id,
+                Number = Convert.ToInt32(locoNumberInp.Text.Trim()),
+                Allocation = allocationSelect.Text,
+                NumberOfBrakeHolders = brakeHoldersTrackBar.Value,
+                ImagePath = String.Empty //.:: temporary code
+            };
+
+            string query = "INSERT Locomotives VALUES(@locType, @series, @numb, @alloc, @brakeHolders, @iPath)";
+
+            try
+            {
+                isReadyReader = false;
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@locType", SqlDbType.Int).Value = locomotive.LocoType;
+                command.Parameters.Add("@series", SqlDbType.Int).Value = locomotive.Series;
+                command.Parameters.Add("@numb", SqlDbType.Int).Value = locomotive.Number;
+                command.Parameters.Add("@alloc", SqlDbType.NVarChar).Value = locomotive.Allocation ;
+                command.Parameters.Add("@brakeHolders", SqlDbType.Int).Value = locomotive.NumberOfBrakeHolders;
+                command.Parameters.Add("@iPath", SqlDbType.NVarChar).Value = locomotive.ImagePath;
+                DataBase.OpenConnection();
+
+                command.ExecuteNonQuery();
+                DataBase.CloseConnection();
+                isReadyReader = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось сохранить данные по локомотиву:\n\"{ex.Message}\"\n" +
+                        $"Обратитесь к системному администратору для устранения ошибки.",
+                        "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            tripForm.Enabled = true;
+            this.Close();
+        }
+
         #endregion
     }
 }

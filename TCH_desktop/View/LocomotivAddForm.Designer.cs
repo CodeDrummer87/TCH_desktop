@@ -75,6 +75,7 @@
             this.addNewLocoButton.Size = new System.Drawing.Size(109, 22);
             this.addNewLocoButton.TabIndex = 1;
             this.addNewLocoButton.Text = "Добавить";
+            this.addNewLocoButton.Click += new System.EventHandler(this.addNewLocoButton_Click);
             this.addNewLocoButton.MouseEnter += new System.EventHandler(this.addNewLocoButton_MouseEnter);
             this.addNewLocoButton.MouseLeave += new System.EventHandler(this.addNewLocoButton_MouseLeave);
             // 
