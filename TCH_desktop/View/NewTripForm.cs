@@ -264,9 +264,17 @@ namespace TCH_desktop.View
             Opacity = 60;
             Enabled = false;
             locoAddForm.Show();
-        } 
+        }
+
+        private void addPassedStations_Click(object sender, EventArgs e)
+        {
+            StationMarksForm stationMarksForm = new(this);
+            TopMost = true;
+            Opacity = 60;
+            Enabled = false;
+            stationMarksForm.Show();
+        }
 
         #endregion
-
     }
 }

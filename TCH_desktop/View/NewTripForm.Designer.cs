@@ -152,6 +152,7 @@
             this.addPassedStations.Text = "+";
             this.addPassedStations.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.NewTripFormToolTip.SetToolTip(this.addPassedStations, "Добавьте ключевые станции и время их проследования");
+            this.addPassedStations.Click += new System.EventHandler(this.addPassedStations_Click);
             this.addPassedStations.MouseEnter += new System.EventHandler(this.addPassedStations_MouseEnter);
             this.addPassedStations.MouseLeave += new System.EventHandler(this.addPassedStations_MouseLeave);
             // 
