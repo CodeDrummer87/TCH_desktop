@@ -169,6 +169,7 @@
             this.addSpeedLimits.Text = "+";
             this.addSpeedLimits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.NewTripFormToolTip.SetToolTip(this.addSpeedLimits, "Добавьте ограничения скорости");
+            this.addSpeedLimits.Click += new System.EventHandler(this.addSpeedLimits_Click);
             this.addSpeedLimits.MouseEnter += new System.EventHandler(this.addSpeedLimits_MouseEnter);
             this.addSpeedLimits.MouseLeave += new System.EventHandler(this.addSpeedLimits_MouseLeave);
             // 

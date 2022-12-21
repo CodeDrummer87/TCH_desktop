@@ -1,7 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using TCH_desktop.Models;
-using TCH_desktop.Presenter;
 
 namespace TCH_desktop.View
 {
@@ -164,7 +163,7 @@ namespace TCH_desktop.View
             if (departureTrafficLight.Enabled)
             {
                 int trainNumb = Convert.ToInt32(trainNumber.Text.Trim());
-                LoadAvailableTrafficLights(trainNumb % 2 == 0, ((Station)(departureStation.SelectedItem)).Id); 
+                LoadAvailableTrafficLights(trainNumb % 2 == 0, ((Station)(departureStation.SelectedItem)).Id);
                 SetTrafficLightsComboBox(departureTrafficLight);
             }
         }
@@ -273,6 +272,15 @@ namespace TCH_desktop.View
             Opacity = 60;
             Enabled = false;
             stationMarksForm.Show();
+        }
+
+        private void addSpeedLimits_Click(object sender, EventArgs e)
+        {
+            SpeedLimitsForm speedLimitsForm = new(this);
+            TopMost = true;
+            Opacity = 60;
+            Enabled = false;
+            speedLimitsForm.Show();
         }
 
         #endregion
