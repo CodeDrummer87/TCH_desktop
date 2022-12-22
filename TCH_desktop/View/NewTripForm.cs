@@ -283,6 +283,16 @@ namespace TCH_desktop.View
             speedLimitsForm.Show();
         }
 
+        private void addNotes_Click(object sender, EventArgs e)
+        {
+            NotesForm notesForm = new(this);
+            TopMost = true;
+            Opacity = 60;
+            Enabled = false;
+            notesForm.Show();
+        }
+
         #endregion
+
     }
 }

@@ -186,6 +186,7 @@
             this.addNotes.Text = "+";
             this.addNotes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.NewTripFormToolTip.SetToolTip(this.addNotes, "Добавьте станции, где останавливался поезд");
+            this.addNotes.Click += new System.EventHandler(this.addNotes_Click);
             this.addNotes.MouseEnter += new System.EventHandler(this.addNotes_MouseEnter);
             this.addNotes.MouseLeave += new System.EventHandler(this.addNotes_MouseLeave);
             // 
