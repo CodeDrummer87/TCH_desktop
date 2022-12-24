@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using TCH_desktop.Models;
+using System.IO;
 
 namespace TCH_desktop.View
 {
@@ -8,6 +9,7 @@ namespace TCH_desktop.View
     {
         private bool isReadyReader;
         private NewTripForm tripForm;
+        private string tempImageFullName;
 
         public LocomotivAddForm(NewTripForm tripForm)
         {
@@ -15,6 +17,7 @@ namespace TCH_desktop.View
 
             this.tripForm = tripForm;
             isReadyReader = false;
+            tempImageFullName = String.Empty;
         }
 
         private void LoadLocoTypeData()
@@ -139,7 +142,7 @@ namespace TCH_desktop.View
                 Number = Convert.ToInt32(locoNumberInp.Text.Trim()),
                 Allocation = allocationSelect.Text,
                 NumberOfBrakeHolders = brakeHoldersTrackBar.Value,
-                ImagePath = String.Empty //.:: temporary code
+                ImagePath = SaveLocomotivePhoto()
             };
         }
 
@@ -169,6 +172,44 @@ namespace TCH_desktop.View
                         $"Обратитесь к системному администратору для устранения ошибки.",
                         "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+        }
+
+        private string SaveLocomotivePhoto()
+        {
+            string currentDir = Environment.CurrentDirectory;
+            string photoFullName = String.Empty;
+
+            DirectoryInfo dir = new(currentDir);
+            if (!Directory.Exists(currentDir + @"\Фотографии"))
+                dir.CreateSubdirectory("Фотографии");
+
+            dir = new(currentDir + @"\Фотографии");
+
+            string locoType = ((LocomotiveType)(locoTypeSelect.SelectedItem)).LocoType;
+            if (!Directory.Exists(dir + @"\" + locoType + 'ы'))
+                dir.CreateSubdirectory(locoType + 'ы');
+
+            dir = new(dir + @"\" + locoType + 'ы');
+
+            string locoSeries = ((LocomotiveSeries)(locoSeriesSelect.SelectedItem)).Series;
+            if (!Directory.Exists(dir + @"\" + locoSeries))
+                dir.CreateSubdirectory(locoSeries);
+
+            dir = new(dir + @"\" + locoSeries);
+
+            if (tempImageFullName != String.Empty)
+            {
+                FileInfo locoPhoto = new(tempImageFullName);
+
+                dir = new(dir + $"\\{locoSeries}-{locoNumberInp.Text}{locoPhoto.Extension}");
+                locoPhoto.CopyTo(dir.FullName, true);
+
+                locoPhoto = new(dir.FullName);
+                locoImageBox.Image = new Bitmap(locoPhoto.FullName);
+                photoFullName = dir.FullName;
+            }
+
+            return photoFullName;
         }
 
 
@@ -234,6 +275,7 @@ namespace TCH_desktop.View
                 try
                 {
                     locoImageBox.Image = new Bitmap(fDialog.FileName);
+                    tempImageFullName = fDialog.FileName;
                 }
                 catch (Exception ex)
                 {
