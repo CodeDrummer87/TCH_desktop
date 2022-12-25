@@ -10,12 +10,15 @@ namespace TCH_desktop.View
         private List<Station> stationsList = new();
         private List<TrafficLight> trafficLightsList = new();
 
+        public string locoNumbStr;
+
         public NewTripForm(StartForm startForm)
         {
             InitializeComponent();
 
             this.startForm = startForm;
             Location = new Point(630, 120);
+            locoNumbStr = String.Empty;
         }
 
         private void LoadAvailableStations()
@@ -119,6 +122,30 @@ namespace TCH_desktop.View
             }
         }
 
+        private void DisplayLocoNumber(bool isDisplay)
+        {
+            if (isDisplay)
+            {
+                addLocomotive.Visible = false;
+                locoNumber.Text = locoNumbStr;
+                locoNumber.Visible = true;
+                locoNumber.Location = new Point(700, 57);
+
+                removeLocomotive.Visible = true;
+                removeLocomotive.Location = 
+                    new Point(locoNumber.Location.X + locoNumber.Width, 59);
+            }
+            else
+            {
+                locoNumber.Text = String.Empty;
+                locoNumber.Visible = false;
+                addLocomotive.Visible = true;
+
+                removeLocomotive.Visible = false;
+            }
+        }
+
+
         #region Interactive
 
         private void NewTripForm_Activated(object sender, EventArgs e)
@@ -137,6 +164,9 @@ namespace TCH_desktop.View
                 departureStation.DisplayMember = arrivalStation.DisplayMember = "Title";
                 departureStation.SelectedIndex = arrivalStation.SelectedIndex = 0;
             }
+
+            bool isDisplayLocoNumb = locoNumbStr == String.Empty ? false : true;
+            DisplayLocoNumber(isDisplayLocoNumb);
         }
 
         private void trainNumber_Leave(object sender, EventArgs e)
@@ -292,7 +322,24 @@ namespace TCH_desktop.View
             notesForm.Show();
         }
 
-        #endregion
+        private void removeLocomotive_Click(object sender, EventArgs e)
+        {
+            locoNumbStr = String.Empty;
+            DisplayLocoNumber(false);
+        }
 
+        private void removeLocomotive_MouseEnter(object sender, EventArgs e)
+        {
+            removeLocomotive.ForeColor = Color.LightCoral;
+            removeLocomotive.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void removeLocomotive_MouseLeave(object sender, EventArgs e)
+        {
+            removeLocomotive.ForeColor = Color.Red;
+            removeLocomotive.BorderStyle = BorderStyle.None;
+        }
+
+        #endregion
     }
 }

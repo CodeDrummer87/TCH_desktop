@@ -39,7 +39,9 @@
             this.addPassedStations = new System.Windows.Forms.Label();
             this.addSpeedLimits = new System.Windows.Forms.Label();
             this.addNotes = new System.Windows.Forms.Label();
+            this.removeLocomotive = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.locoNumber = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -91,9 +93,9 @@
             this.saveDataTrip.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.saveDataTrip.Location = new System.Drawing.Point(657, 760);
             this.saveDataTrip.Name = "saveDataTrip";
-            this.saveDataTrip.Size = new System.Drawing.Size(208, 22);
+            this.saveDataTrip.Size = new System.Drawing.Size(212, 22);
             this.saveDataTrip.TabIndex = 1;
-            this.saveDataTrip.Text = "Сохранить Данные";
+            this.saveDataTrip.Text = "Сохранить Поездку";
             this.saveDataTrip.MouseEnter += new System.EventHandler(this.saveDataTrip_MouseEnter);
             this.saveDataTrip.MouseLeave += new System.EventHandler(this.saveDataTrip_MouseLeave);
             // 
@@ -190,9 +192,29 @@
             this.addNotes.MouseEnter += new System.EventHandler(this.addNotes_MouseEnter);
             this.addNotes.MouseLeave += new System.EventHandler(this.addNotes_MouseLeave);
             // 
+            // removeLocomotive
+            // 
+            this.removeLocomotive.AutoSize = true;
+            this.removeLocomotive.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.removeLocomotive.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.removeLocomotive.ForeColor = System.Drawing.Color.Red;
+            this.removeLocomotive.Location = new System.Drawing.Point(830, 58);
+            this.removeLocomotive.Name = "removeLocomotive";
+            this.removeLocomotive.Size = new System.Drawing.Size(19, 17);
+            this.removeLocomotive.TabIndex = 63;
+            this.removeLocomotive.Text = "X";
+            this.removeLocomotive.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.NewTripFormToolTip.SetToolTip(this.removeLocomotive, "Отвязать локомотив от текущей поездки");
+            this.removeLocomotive.Visible = false;
+            this.removeLocomotive.Click += new System.EventHandler(this.removeLocomotive_Click);
+            this.removeLocomotive.MouseEnter += new System.EventHandler(this.removeLocomotive_MouseEnter);
+            this.removeLocomotive.MouseLeave += new System.EventHandler(this.removeLocomotive_MouseLeave);
+            // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.removeLocomotive);
+            this.groupBox1.Controls.Add(this.locoNumber);
             this.groupBox1.Controls.Add(this.addNotes);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.addSpeedLimits);
@@ -234,6 +256,19 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Новая поездка";
+            // 
+            // locoNumber
+            // 
+            this.locoNumber.AutoSize = true;
+            this.locoNumber.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.locoNumber.ForeColor = System.Drawing.Color.Yellow;
+            this.locoNumber.Location = new System.Drawing.Point(734, 58);
+            this.locoNumber.Name = "locoNumber";
+            this.locoNumber.Size = new System.Drawing.Size(90, 18);
+            this.locoNumber.TabIndex = 62;
+            this.locoNumber.Text = "ВЛ10-824";
+            this.locoNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.locoNumber.Visible = false;
             // 
             // label16
             // 
@@ -587,5 +622,7 @@
         private Label label15;
         private Label label16;
         private Label addNotes;
+        private Label locoNumber;
+        private Label removeLocomotive;
     }
 }

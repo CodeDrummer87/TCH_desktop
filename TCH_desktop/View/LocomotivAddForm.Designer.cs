@@ -227,7 +227,6 @@
             // 
             // locoImageBox
             // 
-            this.locoImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.locoImageBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.locoImageBox.Enabled = false;
             this.locoImageBox.Image = global::TCH_desktop.Properties.Resources.addLocoImg;

@@ -212,6 +212,14 @@ namespace TCH_desktop.View
             return photoFullName;
         }
 
+        private string TransformLocoNumber(string numb)
+        {
+            int n = Convert.ToInt32(numb);
+            string number = n < 10 ? "00" + n : (n >= 10 && n < 100) ? "0" + n : n.ToString();
+
+            return number;
+        }
+
 
         #region Interactive
 
@@ -290,6 +298,8 @@ namespace TCH_desktop.View
             Locomotive locomotive = GetDataFromFields();
             SaveLocomotiveData(locomotive);
 
+            string number = TransformLocoNumber(locoNumberInp.Text);
+            tripForm.locoNumbStr = ((LocomotiveSeries)locoSeriesSelect.SelectedItem).Series + '-' + number;
             tripForm.Enabled = true;
             this.Close();
         }
@@ -309,11 +319,13 @@ namespace TCH_desktop.View
             if (locoNumber > 0)
             {
                 locoImageBox.Enabled = true;
+                locoImageBox.BorderStyle = BorderStyle.FixedSingle;
                 addNewLocoButton.Enabled = true;
             }
             else
             {
                 locoImageBox.Enabled = false;
+                locoImageBox.BorderStyle = BorderStyle.None;
                 addNewLocoButton.Enabled = false;
             }
         }
