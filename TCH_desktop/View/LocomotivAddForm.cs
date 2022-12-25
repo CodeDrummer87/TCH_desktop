@@ -294,6 +294,30 @@ namespace TCH_desktop.View
             this.Close();
         }
 
+        private void locoNumberInp_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+
+            if (!Char.IsDigit(number) && number != 8)
+                e.Handled = true;
+        }
+
+        private void locoNumberInp_TextChanged(object sender, EventArgs e)
+        {
+            int locoNumber = locoNumberInp.Text == String.Empty ? 0 : Convert.ToInt32(locoNumberInp.Text);
+
+            if (locoNumber > 0)
+            {
+                locoImageBox.Enabled = true;
+                addNewLocoButton.Enabled = true;
+            }
+            else
+            {
+                locoImageBox.Enabled = false;
+                addNewLocoButton.Enabled = false;
+            }
+        }
+
         #endregion
     }
 }

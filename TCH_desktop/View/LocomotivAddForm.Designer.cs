@@ -68,6 +68,7 @@
             // 
             this.addNewLocoButton.AutoSize = true;
             this.addNewLocoButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addNewLocoButton.Enabled = false;
             this.addNewLocoButton.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.addNewLocoButton.ForeColor = System.Drawing.Color.GreenYellow;
             this.addNewLocoButton.Location = new System.Drawing.Point(714, 362);
@@ -178,6 +179,8 @@
             this.locoNumberInp.Size = new System.Drawing.Size(157, 24);
             this.locoNumberInp.TabIndex = 5;
             this.locoNumberInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.locoNumberInp.TextChanged += new System.EventHandler(this.locoNumberInp_TextChanged);
+            this.locoNumberInp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.locoNumberInp_KeyPress);
             // 
             // label2
             // 
@@ -226,6 +229,7 @@
             // 
             this.locoImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.locoImageBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.locoImageBox.Enabled = false;
             this.locoImageBox.Image = global::TCH_desktop.Properties.Resources.addLocoImg;
             this.locoImageBox.Location = new System.Drawing.Point(423, 40);
             this.locoImageBox.Name = "locoImageBox";
