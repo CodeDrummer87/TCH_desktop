@@ -340,6 +340,7 @@
             this.trainTailCar.Size = new System.Drawing.Size(207, 25);
             this.trainTailCar.TabIndex = 52;
             this.trainTailCar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.trainTailCar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainTailCar_KeyPress);
             // 
             // label11
             // 
@@ -359,6 +360,7 @@
             this.trainSpecificLength.Size = new System.Drawing.Size(207, 25);
             this.trainSpecificLength.TabIndex = 50;
             this.trainSpecificLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.trainSpecificLength.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainSpecificLength_KeyPress);
             // 
             // label10
             // 
@@ -378,6 +380,7 @@
             this.trainAxles.Size = new System.Drawing.Size(207, 25);
             this.trainAxles.TabIndex = 48;
             this.trainAxles.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.trainAxles.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainAxles_KeyPress);
             // 
             // label9
             // 
@@ -397,6 +400,7 @@
             this.trainMass.Size = new System.Drawing.Size(205, 25);
             this.trainMass.TabIndex = 46;
             this.trainMass.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.trainMass.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainMass_KeyPress);
             // 
             // label8
             // 
@@ -416,6 +420,7 @@
             this.trainNumber.Size = new System.Drawing.Size(205, 25);
             this.trainNumber.TabIndex = 44;
             this.trainNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.trainNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainNumber_KeyPress);
             this.trainNumber.Leave += new System.EventHandler(this.trainNumber_Leave);
             // 
             // label7

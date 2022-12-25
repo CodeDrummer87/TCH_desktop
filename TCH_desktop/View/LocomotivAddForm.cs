@@ -10,6 +10,7 @@ namespace TCH_desktop.View
         private bool isReadyReader;
         private NewTripForm tripForm;
         private string tempImageFullName;
+        private bool isExistLoco;
 
         public LocomotivAddForm(NewTripForm tripForm)
         {
@@ -18,6 +19,7 @@ namespace TCH_desktop.View
             this.tripForm = tripForm;
             isReadyReader = false;
             tempImageFullName = String.Empty;
+            isExistLoco = false;
         }
 
         private void LoadLocoTypeData()
@@ -220,6 +222,77 @@ namespace TCH_desktop.View
             return number;
         }
 
+        private bool CheckLocoForExist()
+        {
+            int typeId = ((LocomotiveType)locoTypeSelect.SelectedItem).Id;
+            int seriesId = ((LocomotiveSeries)locoSeriesSelect.SelectedItem).Id;
+            int number = Convert.ToInt32(locoNumberInp.Text);
+
+            string query = "SELECT * FROM Locomotives WHERE LocoType =@lT AND Series = @lS AND Number = @lN";
+
+            try
+            {
+                isReadyReader = false;
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@lT", SqlDbType.Int).Value = typeId;
+                command.Parameters.Add("@lS", SqlDbType.Int).Value = seriesId;
+                command.Parameters.Add("@lN", SqlDbType.Int).Value = number;
+
+                DataTable table = new();
+                DataBase.adapter.SelectCommand = command;
+                DataBase.adapter.Fill(table);
+                DataBase.CloseConnection();
+
+                isReadyReader = true;
+                return table.Rows.Count == 1 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка при попытке проверить наличие локомотива в Базе Данных:" +
+                    $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для её устранения.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                return false;
+            }
+        }
+
+        private void ApplyLocoPhoto()
+        {
+            string type = ((LocomotiveType)locoTypeSelect.SelectedItem).LocoType;
+            string series = ((LocomotiveSeries)locoSeriesSelect.SelectedItem).Series;
+            int number = Convert.ToInt32(locoNumberInp.Text);
+
+            string path = Environment.CurrentDirectory + @$"\Фотографии\{type}ы\{series}";
+            FileInfo image = new(path + $@"\{series}-{number}.jpg");
+
+            if (image.Exists)
+            {
+                locoImageBox.Image = new Bitmap(path + $@"\{series}-{number}.jpg");
+            }
+            else
+            {
+                path = Environment.CurrentDirectory + @"\source\images\addLocoImg.png";
+                locoImageBox.Image = new Bitmap(path);
+            }
+        }
+
+        private void SetDefaultControl(bool flag)
+        {
+            if (flag)
+            {
+                addNewLocoButton.Text = "Выбрать";
+                allocationSelect.Enabled = false;
+                brakeHoldersTrackBar.Enabled = false;
+            }
+            else
+            {
+                addNewLocoButton.Text = "Добавить";
+                allocationSelect.Enabled = true;
+                brakeHoldersTrackBar.Enabled = true;
+            }
+        }
+
+
 
         #region Interactive
 
@@ -296,7 +369,7 @@ namespace TCH_desktop.View
         private void addNewLocoButton_Click(object sender, EventArgs e)
         {
             Locomotive locomotive = GetDataFromFields();
-            SaveLocomotiveData(locomotive);
+            if (!isExistLoco) SaveLocomotiveData(locomotive);
 
             string number = TransformLocoNumber(locoNumberInp.Text);
             tripForm.locoNumbStr = ((LocomotiveSeries)locoSeriesSelect.SelectedItem).Series + '-' + number;
@@ -321,12 +394,19 @@ namespace TCH_desktop.View
                 locoImageBox.Enabled = true;
                 locoImageBox.BorderStyle = BorderStyle.FixedSingle;
                 addNewLocoButton.Enabled = true;
+
+                isExistLoco = CheckLocoForExist();
+                SetDefaultControl(isExistLoco);
+                
+                ApplyLocoPhoto();
             }
             else
             {
                 locoImageBox.Enabled = false;
                 locoImageBox.BorderStyle = BorderStyle.None;
                 addNewLocoButton.Enabled = false;
+
+                SetDefaultControl(false);
             }
         }
 

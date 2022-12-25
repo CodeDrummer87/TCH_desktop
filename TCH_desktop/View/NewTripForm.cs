@@ -340,6 +340,46 @@ namespace TCH_desktop.View
             removeLocomotive.BorderStyle = BorderStyle.None;
         }
 
+        private void trainNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+
+            if (!Char.IsDigit(number) && number != 8)
+                e.Handled = true;
+        }
+
+        private void trainMass_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+
+            if (!Char.IsDigit(number) && number != 8)
+                e.Handled = true;
+        }
+
+        private void trainAxles_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+
+            if (!Char.IsDigit(number) && number != 8)
+                e.Handled = true;
+        }
+
+        private void trainSpecificLength_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+
+            if (!Char.IsDigit(number) && number != 8)
+                e.Handled = true;
+        }
+
+        private void trainTailCar_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+
+            if (!Char.IsDigit(number) && number != 8)
+                e.Handled = true;
+        }
+
         #endregion
     }
 }
