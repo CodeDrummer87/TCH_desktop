@@ -41,6 +41,7 @@
             this.addNotes = new System.Windows.Forms.Label();
             this.removeLocomotive = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.brakeTestsSelect = new System.Windows.Forms.ComboBox();
             this.locoNumber = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -68,7 +69,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.attendanceTimePicker = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.brakeTestSelect = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -213,7 +213,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox1.Controls.Add(this.brakeTestSelect);
+            this.groupBox1.Controls.Add(this.brakeTestsSelect);
             this.groupBox1.Controls.Add(this.removeLocomotive);
             this.groupBox1.Controls.Add(this.locoNumber);
             this.groupBox1.Controls.Add(this.addNotes);
@@ -256,6 +256,16 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Новая поездка";
+            // 
+            // brakeTestsSelect
+            // 
+            this.brakeTestsSelect.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.brakeTestsSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.brakeTestsSelect.FormattingEnabled = true;
+            this.brakeTestsSelect.Location = new System.Drawing.Point(145, 501);
+            this.brakeTestsSelect.Name = "brakeTestsSelect";
+            this.brakeTestsSelect.Size = new System.Drawing.Size(583, 26);
+            this.brakeTestsSelect.TabIndex = 64;
             // 
             // locoNumber
             // 
@@ -410,6 +420,7 @@
             this.trainNumber.Size = new System.Drawing.Size(205, 25);
             this.trainNumber.TabIndex = 44;
             this.trainNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.trainNumber.TextChanged += new System.EventHandler(this.trainNumber_TextChanged);
             this.trainNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainNumber_KeyPress);
             this.trainNumber.Leave += new System.EventHandler(this.trainNumber_Leave);
             // 
@@ -553,16 +564,6 @@
             this.label1.Text = "Явка:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // brakeTestSelect
-            // 
-            this.brakeTestSelect.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.brakeTestSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.brakeTestSelect.FormattingEnabled = true;
-            this.brakeTestSelect.Location = new System.Drawing.Point(145, 501);
-            this.brakeTestSelect.Name = "brakeTestSelect";
-            this.brakeTestSelect.Size = new System.Drawing.Size(583, 26);
-            this.brakeTestSelect.TabIndex = 64;
-            // 
             // NewTripForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -628,6 +629,6 @@
         private Label addNotes;
         private Label locoNumber;
         private Label removeLocomotive;
-        private ComboBox brakeTestSelect;
+        private ComboBox brakeTestsSelect;
     }
 }

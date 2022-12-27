@@ -7,7 +7,7 @@ namespace TCH_desktop.Models
         [Key]
         public int Id { get; set; }
         public int Depot { get; set; }
-        public bool IsEvenNumberedDirection { get; set; }
+        public byte IsEvenNumberedDirection { get; set; }
         public string RailwayLine { get; set; }
         public string RequiredSpeed { get; set; }
         public string Point { get; set; }

@@ -145,6 +145,49 @@ namespace TCH_desktop.View
             }
         }
 
+        private void LoadSuitableBrakeTests()
+        {
+            int isEven = (Convert.ToInt32(trainNumber.Text) % 2) == 0 ? 1 : 0;
+            string query = "SELECT * FROM BrakeTests WHERE IsEvenNumberedDirection = @isEven AND RequiredSpeed != '-'";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@isEven", SqlDbType.Int).Value = isEven;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    brakeTestsSelect.Items.Add(new BrakeTest
+                    {
+                        Id = reader.GetInt32(0),
+                        Depot = reader.GetInt32(1),
+                        IsEvenNumberedDirection = reader.GetByte(2),
+                        RailwayLine = reader.GetString(3),
+                        RequiredSpeed = reader.GetString(4),
+                        Point = reader.GetString(5),
+                        RequiredSpeedForDoubleTrain = reader.GetString(6),
+                        PointForDoubleTrain = reader.GetString(7)
+                    });
+                }
+                reader.Close();
+                DataBase.CloseConnection();
+
+                brakeTestsSelect.DisplayMember = "RailwayLine";
+                brakeTestsSelect.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                string trafficLightDir = isEven == 1 ? "чётных" : "нечётных";
+
+                MessageBox.Show($"Не удалось загрузить список мест проб тормозов {trafficLightDir}" +
+                    $" поездов:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для устранения ошибки.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
+
 
         #region Interactive
 
@@ -378,6 +421,12 @@ namespace TCH_desktop.View
 
             if (!Char.IsDigit(number) && number != 8)
                 e.Handled = true;
+        }
+
+        private void trainNumber_TextChanged(object sender, EventArgs e)
+        {
+            if (trainNumber.Text.Trim() != String.Empty)
+                LoadSuitableBrakeTests();
         }
 
         #endregion
