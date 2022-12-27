@@ -147,6 +147,9 @@ namespace TCH_desktop.View
 
         private void LoadSuitableBrakeTests()
         {
+            brakeTestsSelect.Items.Clear();
+            brakeTestsSelect.ResetText();
+
             int isEven = (Convert.ToInt32(trainNumber.Text) % 2) == 0 ? 1 : 0;
             string query = "SELECT * FROM BrakeTests WHERE IsEvenNumberedDirection = @isEven AND RequiredSpeed != '-'";
 
@@ -196,6 +199,11 @@ namespace TCH_desktop.View
             Opacity = 80;
 
             LoadAvailableStations();
+            departureStation.Items.Clear();
+            departureStation.ResetText();
+            arrivalStation.Items.Clear();
+            arrivalStation.ResetText();
+
             if (stationsList.Count > 0)
             {
                 for (int i = 0; i < stationsList.Count; i++)
