@@ -232,10 +232,15 @@ namespace TCH_desktop.View
 
                 LoadAvailableTrafficLights(trainNumb % 2 == 0, ((Station)(arrivalStation.SelectedItem)).Id);
                 SetTrafficLightsComboBox(arrivalTrafficLight);
+
+                if (!addBrakeTest.Enabled)
+                    addBrakeTest.Enabled = true;
+                LoadSuitableBrakeTests();
             }
             else
             {
                 EnableFields(false);
+                addBrakeTest.Enabled = false;
             }
         }
 
@@ -431,10 +436,49 @@ namespace TCH_desktop.View
                 e.Handled = true;
         }
 
-        private void trainNumber_TextChanged(object sender, EventArgs e)
+        private void addBrakeTest_MouseEnter(object sender, EventArgs e)
         {
-            if (trainNumber.Text.Trim() != String.Empty)
-                LoadSuitableBrakeTests();
+            addBrakeTest.ForeColor = Color.Yellow;
+            addBrakeTest.BackColor = Color.DimGray;
+        }
+
+        private void addBrakeTest_MouseLeave(object sender, EventArgs e)
+        {
+            addBrakeTest.ForeColor = Color.YellowGreen;
+            addBrakeTest.BackColor = SystemColors.InfoText;
+        }
+
+        private void addBrakeTest_Click(object sender, EventArgs e)
+        {
+            if (trainNumber.Text != String.Empty)
+            {
+                brakeTestsSelect.Location = new Point(195, 500);
+                brakeTestsSelect.Visible = true;
+                addBrakeTestLabel.Visible = false;
+                addBrakeTest.Visible = false;
+            }
+        }
+
+        private void brakeTestsSelect_SelectedValueChanged(object sender, EventArgs e)
+        {
+            BrakeTest test = (BrakeTest)brakeTestsSelect.SelectedItem;
+
+            if (brakeTestsSelect.Visible)
+            {
+                brakeTest.Text = $"ПТ(с {test.RequiredSpeed.Trim()} км/ч) " +
+                    $"{test.RailwayLine} <{test.Point.Trim()} км.>";
+                brakeTest.Location = new Point(165, 500);
+                brakeTestsSelect.Visible = false;
+                brakeTest.Visible = true;
+                //addBrakeTest.Location = new Point(brakeTest.Location.X + brakeTest.Width + 1,500);
+                //addBrakeTest.Visible = true;
+            }
+        }
+
+        private void brakeTest_Click(object sender, EventArgs e)
+        {
+            brakeTest.Visible = false;
+            brakeTestsSelect.Visible = true;
         }
 
         #endregion
