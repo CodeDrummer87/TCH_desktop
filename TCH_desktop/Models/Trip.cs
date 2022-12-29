@@ -12,7 +12,6 @@ namespace TCH_desktop.Models
         public float ElectricityFactor { get; set; }
         public string Departure { get; set; }
         public string Arrival { get; set; }
-        public int BrakeTest { get; set; }
         public string PassedStations { get; set; }
         public string SpeedLimits { get; set; }
         public int ElectricityAmountRequired { get; set; }
