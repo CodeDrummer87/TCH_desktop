@@ -467,7 +467,7 @@ namespace TCH_desktop.View
             {
                 brakeTest.Text = $"ПТ(с {test.RequiredSpeed.Trim()} км/ч) " +
                     $"{test.RailwayLine} <{test.Point.Trim()} км.>";
-                brakeTest.Location = new Point(165, 500);
+                brakeTest.Location = new Point(150, 500);
                 brakeTestsSelect.Visible = false;
                 brakeTest.Visible = true;
                 //addBrakeTest.Location = new Point(brakeTest.Location.X + brakeTest.Width + 1,500);
