@@ -26,8 +26,18 @@ namespace TCH_desktop.View
             brakeTestSelect.ResetText();
 
             int isEven = (trainNumber % 2) == 0 ? 1 : 0;
-            string query = "SELECT * FROM BrakeTests WHERE IsEvenNumberedDirection = @isEven AND RequiredSpeed != '-'" +
-                "ORDER BY RailwayLine";
+
+            string query = String.Empty;
+            if (tripForm.doubleTrain.Checked)
+            {
+                query = "SELECT * FROM BrakeTests WHERE IsEvenNumberedDirection = @isEven" +
+                    " AND RequiredSpeedForDoubleTrain != '-' ORDER BY RailwayLine";
+            }
+            else
+            {
+                query = "SELECT * FROM BrakeTests WHERE IsEvenNumberedDirection = @isEven " +
+                    "AND RequiredSpeed != '-' ORDER BY RailwayLine";
+            }
 
             try
             {
@@ -158,8 +168,17 @@ namespace TCH_desktop.View
         {
             BrakeTest test = (BrakeTest)brakeTestSelect.SelectedItem;
 
-            string text = $"ПТ (с {test.RequiredSpeed.Trim()} км/ч) " +
+            string text = String.Empty;
+            if (tripForm.doubleTrain.Checked)
+            {
+                text = $"ПТ (с {test.RequiredSpeedForDoubleTrain.Trim()} км/ч) " +
+                $"{test.RailwayLine.Trim()} < {test.PointForDoubleTrain.Trim()} км/пк>";
+            }
+            else
+            {
+                text = $"ПТ (с {test.RequiredSpeed.Trim()} км/ч) " +
                 $"{test.RailwayLine.Trim()} < {test.Point.Trim()} км/пк>";
+            }
 
             if (isMainTestBrakeAdded)
             {
