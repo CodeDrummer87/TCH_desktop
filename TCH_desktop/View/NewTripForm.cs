@@ -11,6 +11,7 @@ namespace TCH_desktop.View
         private List<TrafficLight> trafficLightsList = new();
 
         public string locoNumbStr;
+        public List<string> brakeTests = new();
 
         public NewTripForm(StartForm startForm)
         {
@@ -145,50 +146,44 @@ namespace TCH_desktop.View
             }
         }
 
-        private void LoadSuitableBrakeTests()
+        private void DisplayBrakeTest()
         {
-            brakeTestsSelect.Items.Clear();
-            brakeTestsSelect.ResetText();
-
-            int isEven = (Convert.ToInt32(trainNumber.Text) % 2) == 0 ? 1 : 0;
-            string query = "SELECT * FROM BrakeTests WHERE IsEvenNumberedDirection = @isEven AND RequiredSpeed != '-'";
-
-            try
+            if (brakeTests.Count == 0)
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@isEven", SqlDbType.Int).Value = isEven;
-                DataBase.OpenConnection();
-
-                SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                ResetBrakeTestInfo();
+            }
+            else
+            {
+                addBrakeTestLabel.Text = "Проба тормозов: ";
+                addBrakeTestLabel.Location = new(261, addBrakeTestLabel.Location.Y);
+                brakeTestInfo.Text = "Основная проба";
+                if (brakeTests.Count > 1)
                 {
-                    brakeTestsSelect.Items.Add(new BrakeTest
-                    {
-                        Id = reader.GetInt32(0),
-                        Depot = reader.GetInt32(1),
-                        IsEvenNumberedDirection = reader.GetByte(2),
-                        RailwayLine = reader.GetString(3),
-                        RequiredSpeed = reader.GetString(4),
-                        Point = reader.GetString(5),
-                        RequiredSpeedForDoubleTrain = reader.GetString(6),
-                        PointForDoubleTrain = reader.GetString(7)
-                    });
+                    int testsNumber = brakeTests.Count - 1;
+                    brakeTestInfo.Text += $" + {testsNumber} доп. {AdaptTheWord(testsNumber)}";
                 }
-                reader.Close();
-                DataBase.CloseConnection();
-
-                brakeTestsSelect.DisplayMember = "RailwayLine";
-                brakeTestsSelect.SelectedIndex = 0;
+                brakeTestInfo.Location = new(428, brakeTestInfo.Location.Y);
+                brakeTestInfo.Visible = true;
+                addBrakeTest.Visible = false;
+                int x = brakeTestInfo.Location.X + brakeTestInfo.Width + 2;
+                removeBrakeTest.Location = new(x, brakeTestInfo.Location.Y + 3);
+                removeBrakeTest.Visible = true;              
             }
-            catch (Exception ex)
-            {
-                string trafficLightDir = isEven == 1 ? "чётных" : "нечётных";
+        }
 
-                MessageBox.Show($"Не удалось загрузить список мест проб тормозов {trafficLightDir}" +
-                    $" поездов:\n\"{ex.Message}\"\n" +
-                    $"Обратитесь к системному администратору для устранения ошибки.",
-                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
+        private string AdaptTheWord(int number)
+        {
+            return number == 1 ? "проба" :
+                (number > 1 && number < 5) ? "пробы" : "проб";
+        }
+
+        private void ResetBrakeTestInfo()
+        {
+            addBrakeTestLabel.Text = "Добавить пробу тормозов: ";
+            addBrakeTestLabel.Location = new(171, addBrakeTestLabel.Location.Y);
+            brakeTestInfo.Visible = false;
+            addBrakeTest.Visible = true;
+            removeBrakeTest.Visible = false;
         }
 
 
@@ -196,14 +191,21 @@ namespace TCH_desktop.View
 
         private void NewTripForm_Activated(object sender, EventArgs e)
         {
-            Opacity = 80;
+            bool isDisplayLocoNumb = locoNumbStr == String.Empty ? false : true;
+            DisplayLocoNumber(isDisplayLocoNumb);
 
-            LoadAvailableStations();
+            DisplayBrakeTest();
+        }
+
+        private void NewTripForm_Load(object sender, EventArgs e)
+        {
+            Opacity = 80;
             departureStation.Items.Clear();
             departureStation.ResetText();
             arrivalStation.Items.Clear();
             arrivalStation.ResetText();
 
+            LoadAvailableStations();
             if (stationsList.Count > 0)
             {
                 for (int i = 0; i < stationsList.Count; i++)
@@ -216,8 +218,8 @@ namespace TCH_desktop.View
                 departureStation.SelectedIndex = arrivalStation.SelectedIndex = 0;
             }
 
-            bool isDisplayLocoNumb = locoNumbStr == String.Empty ? false : true;
-            DisplayLocoNumber(isDisplayLocoNumb);
+            trainNumber.Focus();
+
         }
 
         private void trainNumber_Leave(object sender, EventArgs e)
@@ -235,7 +237,6 @@ namespace TCH_desktop.View
 
                 if (!addBrakeTest.Enabled)
                     addBrakeTest.Enabled = true;
-                LoadSuitableBrakeTests();
             }
             else
             {
@@ -450,35 +451,28 @@ namespace TCH_desktop.View
 
         private void addBrakeTest_Click(object sender, EventArgs e)
         {
-            if (trainNumber.Text != String.Empty)
-            {
-                brakeTestsSelect.Location = new Point(195, 500);
-                brakeTestsSelect.Visible = true;
-                addBrakeTestLabel.Visible = false;
-                addBrakeTest.Visible = false;
-            }
+            BrakeTestForm brakeTestForm = new(this, Convert.ToInt32(trainNumber.Text));
+            TopMost = true;
+            Opacity = 60;
+            Enabled = false;
+            brakeTestForm.Show();
         }
 
-        private void brakeTestsSelect_SelectedValueChanged(object sender, EventArgs e)
+        private void removeBrakeTest_MouseEnter(object sender, EventArgs e)
         {
-            BrakeTest test = (BrakeTest)brakeTestsSelect.SelectedItem;
-
-            if (brakeTestsSelect.Visible)
-            {
-                brakeTest.Text = $"ПТ(с {test.RequiredSpeed.Trim()} км/ч) " +
-                    $"{test.RailwayLine} <{test.Point.Trim()} км.>";
-                brakeTest.Location = new Point(150, 500);
-                brakeTestsSelect.Visible = false;
-                brakeTest.Visible = true;
-                //addBrakeTest.Location = new Point(brakeTest.Location.X + brakeTest.Width + 1,500);
-                //addBrakeTest.Visible = true;
-            }
+            removeBrakeTest.ForeColor = Color.LightCoral;
+            removeBrakeTest.BorderStyle = BorderStyle.FixedSingle;
         }
 
-        private void brakeTest_Click(object sender, EventArgs e)
+        private void removeBrakeTest_MouseLeave(object sender, EventArgs e)
         {
-            brakeTest.Visible = false;
-            brakeTestsSelect.Visible = true;
+            removeBrakeTest.ForeColor = Color.Red;
+            removeBrakeTest.BorderStyle = BorderStyle.None;
+        }
+
+        private void removeBrakeTest_Click(object sender, EventArgs e)
+        {
+            ResetBrakeTestInfo();
         }
 
         #endregion

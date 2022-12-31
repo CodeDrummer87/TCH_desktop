@@ -41,10 +41,10 @@
             this.addNotes = new System.Windows.Forms.Label();
             this.removeLocomotive = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.brakeTest = new System.Windows.Forms.Label();
+            this.brakeTestInfo = new System.Windows.Forms.Label();
+            this.removeBrakeTest = new System.Windows.Forms.Label();
             this.addBrakeTest = new System.Windows.Forms.Label();
             this.addBrakeTestLabel = new System.Windows.Forms.Label();
-            this.brakeTestsSelect = new System.Windows.Forms.ComboBox();
             this.locoNumber = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -216,10 +216,10 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox1.Controls.Add(this.brakeTest);
+            this.groupBox1.Controls.Add(this.brakeTestInfo);
+            this.groupBox1.Controls.Add(this.removeBrakeTest);
             this.groupBox1.Controls.Add(this.addBrakeTest);
             this.groupBox1.Controls.Add(this.addBrakeTestLabel);
-            this.groupBox1.Controls.Add(this.brakeTestsSelect);
             this.groupBox1.Controls.Add(this.removeLocomotive);
             this.groupBox1.Controls.Add(this.locoNumber);
             this.groupBox1.Controls.Add(this.addNotes);
@@ -263,17 +263,32 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Новая поездка";
             // 
-            // brakeTest
+            // brakeTestInfo
             // 
-            this.brakeTest.AutoSize = true;
-            this.brakeTest.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.brakeTest.Location = new System.Drawing.Point(218, 489);
-            this.brakeTest.Name = "brakeTest";
-            this.brakeTest.Size = new System.Drawing.Size(392, 18);
-            this.brakeTest.TabIndex = 67;
-            this.brakeTest.Text = "проба тормозов в пути следования";
-            this.brakeTest.Visible = false;
-            this.brakeTest.Click += new System.EventHandler(this.brakeTest_Click);
+            this.brakeTestInfo.AutoSize = true;
+            this.brakeTestInfo.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.brakeTestInfo.ForeColor = System.Drawing.Color.Yellow;
+            this.brakeTestInfo.Location = new System.Drawing.Point(459, 509);
+            this.brakeTestInfo.Name = "brakeTestInfo";
+            this.brakeTestInfo.Size = new System.Drawing.Size(89, 18);
+            this.brakeTestInfo.TabIndex = 68;
+            this.brakeTestInfo.Text = "Описание";
+            // 
+            // removeBrakeTest
+            // 
+            this.removeBrakeTest.AutoSize = true;
+            this.removeBrakeTest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.removeBrakeTest.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.removeBrakeTest.ForeColor = System.Drawing.Color.Red;
+            this.removeBrakeTest.Location = new System.Drawing.Point(554, 512);
+            this.removeBrakeTest.Name = "removeBrakeTest";
+            this.removeBrakeTest.Size = new System.Drawing.Size(19, 17);
+            this.removeBrakeTest.TabIndex = 67;
+            this.removeBrakeTest.Text = "X";
+            this.removeBrakeTest.Visible = false;
+            this.removeBrakeTest.Click += new System.EventHandler(this.removeBrakeTest_Click);
+            this.removeBrakeTest.MouseEnter += new System.EventHandler(this.removeBrakeTest_MouseEnter);
+            this.removeBrakeTest.MouseLeave += new System.EventHandler(this.removeBrakeTest_MouseLeave);
             // 
             // addBrakeTest
             // 
@@ -301,18 +316,6 @@
             this.addBrakeTestLabel.Size = new System.Drawing.Size(250, 22);
             this.addBrakeTestLabel.TabIndex = 65;
             this.addBrakeTestLabel.Text = "Добавить пробу тормозов:";
-            // 
-            // brakeTestsSelect
-            // 
-            this.brakeTestsSelect.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.brakeTestsSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.brakeTestsSelect.FormattingEnabled = true;
-            this.brakeTestsSelect.Location = new System.Drawing.Point(185, 684);
-            this.brakeTestsSelect.Name = "brakeTestsSelect";
-            this.brakeTestsSelect.Size = new System.Drawing.Size(480, 26);
-            this.brakeTestsSelect.TabIndex = 64;
-            this.brakeTestsSelect.Visible = false;
-            this.brakeTestsSelect.SelectedValueChanged += new System.EventHandler(this.brakeTestsSelect_SelectedValueChanged);
             // 
             // locoNumber
             // 
@@ -383,6 +386,7 @@
             // trainTailCar
             // 
             this.trainTailCar.Location = new System.Drawing.Point(365, 441);
+            this.trainTailCar.MaxLength = 8;
             this.trainTailCar.Name = "trainTailCar";
             this.trainTailCar.Size = new System.Drawing.Size(207, 25);
             this.trainTailCar.TabIndex = 52;
@@ -403,6 +407,7 @@
             // trainSpecificLength
             // 
             this.trainSpecificLength.Location = new System.Drawing.Point(365, 398);
+            this.trainSpecificLength.MaxLength = 3;
             this.trainSpecificLength.Name = "trainSpecificLength";
             this.trainSpecificLength.Size = new System.Drawing.Size(207, 25);
             this.trainSpecificLength.TabIndex = 50;
@@ -423,6 +428,7 @@
             // trainAxles
             // 
             this.trainAxles.Location = new System.Drawing.Point(365, 355);
+            this.trainAxles.MaxLength = 3;
             this.trainAxles.Name = "trainAxles";
             this.trainAxles.Size = new System.Drawing.Size(207, 25);
             this.trainAxles.TabIndex = 48;
@@ -443,6 +449,7 @@
             // trainMass
             // 
             this.trainMass.Location = new System.Drawing.Point(365, 311);
+            this.trainMass.MaxLength = 5;
             this.trainMass.Name = "trainMass";
             this.trainMass.Size = new System.Drawing.Size(205, 25);
             this.trainMass.TabIndex = 46;
@@ -463,6 +470,7 @@
             // trainNumber
             // 
             this.trainNumber.Location = new System.Drawing.Point(365, 266);
+            this.trainNumber.MaxLength = 5;
             this.trainNumber.Name = "trainNumber";
             this.trainNumber.Size = new System.Drawing.Size(205, 25);
             this.trainNumber.TabIndex = 44;
@@ -628,6 +636,7 @@
             this.Text = "ТЧ: Новая поездка";
             this.TopMost = true;
             this.Activated += new System.EventHandler(this.NewTripForm_Activated);
+            this.Load += new System.EventHandler(this.NewTripForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -675,9 +684,9 @@
         private Label addNotes;
         private Label locoNumber;
         private Label removeLocomotive;
-        private ComboBox brakeTestsSelect;
         private Label addBrakeTestLabel;
         private Label addBrakeTest;
-        private Label brakeTest;
+        private Label removeBrakeTest;
+        private Label brakeTestInfo;
     }
 }

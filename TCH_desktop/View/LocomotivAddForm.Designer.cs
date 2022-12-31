@@ -101,7 +101,7 @@
             this.groupBox1.Size = new System.Drawing.Size(826, 347);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Добавить Локомотив к текущей поездке";
+            this.groupBox1.Text = " Добавить Локомотив к текущей поездке ";
             // 
             // brakeHoldersValue
             // 
