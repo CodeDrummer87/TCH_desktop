@@ -29,21 +29,74 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StationMarksForm));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox = new System.Windows.Forms.GroupBox();
+            this.sample = new System.Windows.Forms.Panel();
+            this.stationSelect = new System.Windows.Forms.ComboBox();
+            this.timePicker = new System.Windows.Forms.DateTimePicker();
+            this.addNewStation = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Label();
             this.addPastStationButton = new System.Windows.Forms.Label();
+            this.groupBox.SuspendLayout();
+            this.sample.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // groupBox
             // 
-            this.groupBox1.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.groupBox1.ForeColor = System.Drawing.Color.SandyBrown;
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(826, 347);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = " Отметки о проследовании станций ";
+            this.groupBox.Controls.Add(this.sample);
+            this.groupBox.Controls.Add(this.addNewStation);
+            this.groupBox.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBox.ForeColor = System.Drawing.Color.SandyBrown;
+            this.groupBox.Location = new System.Drawing.Point(12, 12);
+            this.groupBox.Name = "groupBox";
+            this.groupBox.Size = new System.Drawing.Size(826, 347);
+            this.groupBox.TabIndex = 0;
+            this.groupBox.TabStop = false;
+            this.groupBox.Text = " Отметки о проследовании станций ";
+            // 
+            // sample
+            // 
+            this.sample.Controls.Add(this.stationSelect);
+            this.sample.Controls.Add(this.timePicker);
+            this.sample.Location = new System.Drawing.Point(72, 37);
+            this.sample.Name = "sample";
+            this.sample.Size = new System.Drawing.Size(372, 56);
+            this.sample.TabIndex = 4;
+            this.sample.Visible = false;
+            // 
+            // stationSelect
+            // 
+            this.stationSelect.FormattingEnabled = true;
+            this.stationSelect.Location = new System.Drawing.Point(13, 17);
+            this.stationSelect.Name = "stationSelect";
+            this.stationSelect.Size = new System.Drawing.Size(195, 25);
+            this.stationSelect.TabIndex = 1;
+            this.stationSelect.Visible = false;
+            // 
+            // timePicker
+            // 
+            this.timePicker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.timePicker.CustomFormat = "   HH:MM";
+            this.timePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.timePicker.Location = new System.Drawing.Point(214, 18);
+            this.timePicker.Name = "timePicker";
+            this.timePicker.Size = new System.Drawing.Size(144, 24);
+            this.timePicker.TabIndex = 2;
+            this.timePicker.Visible = false;
+            // 
+            // addNewStation
+            // 
+            this.addNewStation.AutoSize = true;
+            this.addNewStation.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addNewStation.Font = new System.Drawing.Font("Verdana", 10.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.addNewStation.ForeColor = System.Drawing.Color.Yellow;
+            this.addNewStation.Location = new System.Drawing.Point(19, 52);
+            this.addNewStation.Name = "addNewStation";
+            this.addNewStation.Size = new System.Drawing.Size(26, 22);
+            this.addNewStation.TabIndex = 0;
+            this.addNewStation.Text = "+";
+            this.addNewStation.Click += new System.EventHandler(this.addNewStation_Click);
+            this.addNewStation.MouseEnter += new System.EventHandler(this.addNewStation_MouseEnter);
+            this.addNewStation.MouseLeave += new System.EventHandler(this.addNewStation_MouseLeave);
             // 
             // cancelButton
             // 
@@ -82,13 +135,17 @@
             this.ClientSize = new System.Drawing.Size(850, 400);
             this.Controls.Add(this.addPastStationButton);
             this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StationMarksForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ТЧ: Отметки о станциях";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.StationMarksForm_Load);
+            this.groupBox.ResumeLayout(false);
+            this.groupBox.PerformLayout();
+            this.sample.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -96,8 +153,12 @@
 
         #endregion
 
-        private GroupBox groupBox1;
+        private GroupBox groupBox;
         private Label cancelButton;
         private Label addPastStationButton;
+        private Label addNewStation;
+        private DateTimePicker timePicker;
+        private ComboBox stationSelect;
+        private Panel sample;
     }
 }

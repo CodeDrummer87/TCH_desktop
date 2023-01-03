@@ -41,6 +41,7 @@
             this.addNotes = new System.Windows.Forms.Label();
             this.removeLocomotive = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.doubleTrain = new System.Windows.Forms.CheckBox();
             this.brakeTestInfo = new System.Windows.Forms.Label();
             this.removeBrakeTest = new System.Windows.Forms.Label();
             this.addBrakeTest = new System.Windows.Forms.Label();
@@ -72,7 +73,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.attendanceTimePicker = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.doubleTrain = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -264,6 +264,18 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Новая поездка";
+            // 
+            // doubleTrain
+            // 
+            this.doubleTrain.AutoSize = true;
+            this.doubleTrain.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.doubleTrain.ForeColor = System.Drawing.Color.GreenYellow;
+            this.doubleTrain.Location = new System.Drawing.Point(365, 201);
+            this.doubleTrain.Name = "doubleTrain";
+            this.doubleTrain.Size = new System.Drawing.Size(205, 24);
+            this.doubleTrain.TabIndex = 69;
+            this.doubleTrain.Text = "Сдвоенный поезд";
+            this.doubleTrain.UseVisualStyleBackColor = true;
             // 
             // brakeTestInfo
             // 
@@ -619,18 +631,6 @@
             this.label1.TabIndex = 29;
             this.label1.Text = "Явка:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // doubleTrain
-            // 
-            this.doubleTrain.AutoSize = true;
-            this.doubleTrain.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.doubleTrain.ForeColor = System.Drawing.Color.GreenYellow;
-            this.doubleTrain.Location = new System.Drawing.Point(365, 201);
-            this.doubleTrain.Name = "doubleTrain";
-            this.doubleTrain.Size = new System.Drawing.Size(205, 24);
-            this.doubleTrain.TabIndex = 69;
-            this.doubleTrain.Text = "Сдвоенный поезд";
-            this.doubleTrain.UseVisualStyleBackColor = true;
             // 
             // NewTripForm
             // 
