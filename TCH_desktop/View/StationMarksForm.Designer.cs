@@ -30,19 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StationMarksForm));
             this.groupBox = new System.Windows.Forms.GroupBox();
-            this.sample = new System.Windows.Forms.Panel();
-            this.stationSelect = new System.Windows.Forms.ComboBox();
-            this.timePicker = new System.Windows.Forms.DateTimePicker();
             this.addNewStation = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Label();
             this.addPastStationButton = new System.Windows.Forms.Label();
             this.groupBox.SuspendLayout();
-            this.sample.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox
             // 
-            this.groupBox.Controls.Add(this.sample);
             this.groupBox.Controls.Add(this.addNewStation);
             this.groupBox.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBox.ForeColor = System.Drawing.Color.SandyBrown;
@@ -52,36 +47,6 @@
             this.groupBox.TabIndex = 0;
             this.groupBox.TabStop = false;
             this.groupBox.Text = " Отметки о проследовании станций ";
-            // 
-            // sample
-            // 
-            this.sample.Controls.Add(this.stationSelect);
-            this.sample.Controls.Add(this.timePicker);
-            this.sample.Location = new System.Drawing.Point(72, 37);
-            this.sample.Name = "sample";
-            this.sample.Size = new System.Drawing.Size(372, 56);
-            this.sample.TabIndex = 4;
-            this.sample.Visible = false;
-            // 
-            // stationSelect
-            // 
-            this.stationSelect.FormattingEnabled = true;
-            this.stationSelect.Location = new System.Drawing.Point(13, 17);
-            this.stationSelect.Name = "stationSelect";
-            this.stationSelect.Size = new System.Drawing.Size(195, 25);
-            this.stationSelect.TabIndex = 1;
-            this.stationSelect.Visible = false;
-            // 
-            // timePicker
-            // 
-            this.timePicker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.timePicker.CustomFormat = "   HH:MM";
-            this.timePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.timePicker.Location = new System.Drawing.Point(214, 18);
-            this.timePicker.Name = "timePicker";
-            this.timePicker.Size = new System.Drawing.Size(144, 24);
-            this.timePicker.TabIndex = 2;
-            this.timePicker.Visible = false;
             // 
             // addNewStation
             // 
@@ -145,7 +110,6 @@
             this.Load += new System.EventHandler(this.StationMarksForm_Load);
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
-            this.sample.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -157,8 +121,5 @@
         private Label cancelButton;
         private Label addPastStationButton;
         private Label addNewStation;
-        private DateTimePicker timePicker;
-        private ComboBox stationSelect;
-        private Panel sample;
     }
 }

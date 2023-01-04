@@ -5,6 +5,7 @@ namespace TCH_desktop.View
 {
     public partial class StationMarksForm : Form
     {
+        private int panelCount;
         NewTripForm tripForm;
         private List<Station> stationsList = new();
 
@@ -13,6 +14,7 @@ namespace TCH_desktop.View
             InitializeComponent();
 
             this.tripForm = tripForm_;
+            panelCount = 1;
         }
 
         private Panel CreateNewPanel()
@@ -34,6 +36,7 @@ namespace TCH_desktop.View
             stationSelect.SelectedIndex = 0;
 
             DateTimePicker timePicker = new();
+            timePicker.Name = "picker";
             timePicker.Size = new(100, 27);
             timePicker.Location = new(230, 15);
             timePicker.Format = DateTimePickerFormat.Custom;
@@ -131,16 +134,26 @@ namespace TCH_desktop.View
 
         private void addNewStation_Click(object sender, EventArgs e)
         {
-            Panel panel = CreateNewPanel();
+            if (panelCount < 11)
+            {
+                Panel panel = CreateNewPanel();
 
-            int x = addNewStation.Location.X + 5;
-            int y = addNewStation.Location.Y - 17;
-            panel.Location = new(x, y);
+                int x = addNewStation.Location.X + 5;
+                int y = addNewStation.Location.Y - 17;
+                panel.Location = new(x, y);
 
-            groupBox.Controls.Add(panel);
-            addNewStation.Location = new(x - 5, y + 75);
+                groupBox.Controls.Add(panel);
+                if (panelCount == 5)
+                {
+                    x = 427;
+                    y = -23;
+                }
+                addNewStation.Location = new(x - 5, y + 75);
 
-            (panel.Controls["select"] as ComboBox).DroppedDown = true;
+                (panel.Controls["select"] as ComboBox).DroppedDown = true;
+                panelCount++;
+                if (panelCount > 10) addNewStation.Visible = false;
+            }
         }
 
         #endregion
