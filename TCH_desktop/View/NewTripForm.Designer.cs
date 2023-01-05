@@ -105,7 +105,7 @@
             // 
             // arrivalTimePicker
             // 
-            this.arrivalTimePicker.CustomFormat = "   HH:MM";
+            this.arrivalTimePicker.CustomFormat = "   HH:mm";
             this.arrivalTimePicker.Enabled = false;
             this.arrivalTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.arrivalTimePicker.Location = new System.Drawing.Point(675, 266);
@@ -118,7 +118,7 @@
             // departureTimePicker
             // 
             this.departureTimePicker.CalendarFont = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.departureTimePicker.CustomFormat = "   HH:MM";
+            this.departureTimePicker.CustomFormat = "   HH:mm";
             this.departureTimePicker.Enabled = false;
             this.departureTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.departureTimePicker.Location = new System.Drawing.Point(56, 266);

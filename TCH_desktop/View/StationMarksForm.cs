@@ -8,6 +8,8 @@ namespace TCH_desktop.View
         private int panelCount;
         NewTripForm tripForm;
         private List<Station> stationsList = new();
+        private bool isEdit;
+        private string editNumb;
 
         public StationMarksForm(NewTripForm tripForm_)
         {
@@ -15,11 +17,14 @@ namespace TCH_desktop.View
 
             this.tripForm = tripForm_;
             panelCount = 1;
+            isEdit = false;
+            editNumb = String.Empty;
         }
 
         private Panel CreateNewPanel()
         {
             Panel panel = new();
+            panel.Name = "panel" + panelCount;
             panel.Size = new(370, 55);
 
             ComboBox stationSelect = new();
@@ -40,8 +45,10 @@ namespace TCH_desktop.View
             timePicker.Size = new(100, 27);
             timePicker.Location = new(230, 15);
             timePicker.Format = DateTimePickerFormat.Custom;
-            timePicker.CustomFormat = " HH:MM";
+            timePicker.CustomFormat = "HH:mm";
             timePicker.Cursor = Cursors.Hand;
+            timePicker.Leave += new System.EventHandler(CreateEntry);
+            timePicker.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckKeyPress);
 
             panel.Controls.Add(stationSelect);
             panel.Controls.Add(timePicker);
@@ -136,6 +143,7 @@ namespace TCH_desktop.View
         {
             if (panelCount < 11)
             {
+                addNewStation.Visible = false;
                 Panel panel = CreateNewPanel();
 
                 int x = addNewStation.Location.X + 5;
@@ -154,6 +162,93 @@ namespace TCH_desktop.View
                 panelCount++;
                 if (panelCount > 10) addNewStation.Visible = false;
             }
+        }
+
+        private void CreateEntry(object? sender, EventArgs e)
+        {
+            if (!isEdit)
+            {
+                addNewStation.Visible = true;
+
+                Label entry = new();
+                entry.Name = "entry" + (panelCount - 1);
+                entry.Size = new(387, 25);
+                entry.TextAlign = ContentAlignment.MiddleCenter;
+                entry.ForeColor = Color.Gold;
+
+                Panel panel = groupBox.Controls["panel" + (panelCount - 1)] as Panel;
+                ComboBox station = panel.Controls["select"] as ComboBox;
+                DateTimePicker time = panel.Controls["picker"] as DateTimePicker;
+
+                string hour = time.Value.Hour < 10 ? "0" + time.Value.Hour : (time.Value.Hour).ToString();
+                string minute = time.Value.Minute < 10 ? "0" + time.Value.Minute : (time.Value.Minute).ToString();
+                entry.Text = $"ст.{((Station)station.SelectedItem).Title} в {hour}:{minute}";
+                entry.Location = new(panel.Location.X - 7, panel.Location.Y + 17);
+                entry.Cursor = Cursors.Hand;
+                entry.Click += new System.EventHandler(ChangeEntry);
+
+                panel.Visible = false;
+                groupBox.Controls.Add(entry);
+
+                removeEntry.Location = new(entry.Location.X + entry.Width - 5, entry.Location.Y + 4);
+                if (!removeEntry.Visible) removeEntry.Visible = true;
+            }
+            else
+            {
+                Label entry = groupBox.Controls["entry" + editNumb] as Label;
+                Panel panel = groupBox.Controls["panel" + editNumb] as Panel;
+                ComboBox station = panel.Controls["select"] as ComboBox;
+                DateTimePicker time = panel.Controls["picker"] as DateTimePicker;
+
+                string hour = time.Value.Hour < 10 ? "0" + time.Value.Hour : (time.Value.Hour).ToString();
+                string minute = time.Value.Minute < 10 ? "0" + time.Value.Minute : (time.Value.Minute).ToString();
+                entry.Text = $"ст.{((Station)station.SelectedItem).Title} в {hour}:{minute}";
+
+                panel.Visible = false;
+                entry.Visible = true;
+                isEdit = false;
+                editNumb = String.Empty;
+            }
+        }
+
+        private void ChangeEntry(object? sender, EventArgs e)
+        {
+            isEdit = true;
+            addNewStation.Visible = false;
+
+            Label entry = sender as Label;
+            string number = entry.Name.Remove(0, 5);
+            entry.Visible = false;
+            editNumb = number;
+
+            Panel panel = groupBox.Controls["panel" + number] as Panel;
+            panel.Visible = true;
+        }
+
+        private void removeEntry_MouseEnter(object sender, EventArgs e)
+        {
+            removeEntry.ForeColor = Color.LightCoral;
+            removeEntry.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void removeEntry_MouseLeave(object sender, EventArgs e)
+        {
+            removeEntry.ForeColor = Color.Red;
+            removeEntry.BorderStyle = BorderStyle.None;
+        }
+
+        private void removeEntry_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CheckKeyPress(object? sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+
+            if (number == 13)
+                CreateEntry(sender, e);
+
         }
 
         #endregion

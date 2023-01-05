@@ -33,11 +33,13 @@
             this.addNewStation = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Label();
             this.addPastStationButton = new System.Windows.Forms.Label();
+            this.removeEntry = new System.Windows.Forms.Label();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox
             // 
+            this.groupBox.Controls.Add(this.removeEntry);
             this.groupBox.Controls.Add(this.addNewStation);
             this.groupBox.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBox.ForeColor = System.Drawing.Color.SandyBrown;
@@ -92,6 +94,23 @@
             this.addPastStationButton.MouseEnter += new System.EventHandler(this.addPastStationButton_MouseEnter);
             this.addPastStationButton.MouseLeave += new System.EventHandler(this.addPastStationButton_MouseLeave);
             // 
+            // removeEntry
+            // 
+            this.removeEntry.AutoSize = true;
+            this.removeEntry.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.removeEntry.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.removeEntry.ForeColor = System.Drawing.Color.Red;
+            this.removeEntry.Location = new System.Drawing.Point(51, 57);
+            this.removeEntry.Name = "removeEntry";
+            this.removeEntry.Size = new System.Drawing.Size(19, 17);
+            this.removeEntry.TabIndex = 1;
+            this.removeEntry.Text = "X";
+            this.removeEntry.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.removeEntry.Visible = false;
+            this.removeEntry.Click += new System.EventHandler(this.removeEntry_Click);
+            this.removeEntry.MouseEnter += new System.EventHandler(this.removeEntry_MouseEnter);
+            this.removeEntry.MouseLeave += new System.EventHandler(this.removeEntry_MouseLeave);
+            // 
             // StationMarksForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -121,5 +140,6 @@
         private Label cancelButton;
         private Label addPastStationButton;
         private Label addNewStation;
+        private Label removeEntry;
     }
 }
