@@ -16,7 +16,7 @@ namespace TCH_desktop.View
             InitializeComponent();
 
             this.tripForm = tripForm_;
-            panelCount = 1;
+            panelCount = 0;
             isEdit = false;
             editNumb = String.Empty;
         }
@@ -24,7 +24,7 @@ namespace TCH_desktop.View
         private Panel CreateNewPanel()
         {
             Panel panel = new();
-            panel.Name = "panel" + panelCount;
+            panel.Name = "panel" + ++panelCount;
             panel.Size = new(370, 55);
 
             ComboBox stationSelect = new();
@@ -141,7 +141,7 @@ namespace TCH_desktop.View
 
         private void addNewStation_Click(object sender, EventArgs e)
         {
-            if (panelCount < 11)
+            if (panelCount < 10)
             {
                 addNewStation.Visible = false;
                 Panel panel = CreateNewPanel();
@@ -156,11 +156,12 @@ namespace TCH_desktop.View
                     x = 427;
                     y = -23;
                 }
-                addNewStation.Location = new(x - 5, y + 75);
+                if (panelCount < 10)
+                    addNewStation.Location = new(x - 5, y + 75);
+                else if (panelCount >= 10)
+                    addNewStation.Visible = false;
 
                 (panel.Controls["select"] as ComboBox).DroppedDown = true;
-                panelCount++;
-                if (panelCount > 10) addNewStation.Visible = false;
             }
         }
 
@@ -171,12 +172,12 @@ namespace TCH_desktop.View
                 addNewStation.Visible = true;
 
                 Label entry = new();
-                entry.Name = "entry" + (panelCount - 1);
+                entry.Name = "entry" + (panelCount);
                 entry.Size = new(387, 25);
                 entry.TextAlign = ContentAlignment.MiddleCenter;
                 entry.ForeColor = Color.Gold;
 
-                Panel panel = groupBox.Controls["panel" + (panelCount - 1)] as Panel;
+                Panel panel = groupBox.Controls["panel" + (panelCount)] as Panel;
                 ComboBox station = panel.Controls["select"] as ComboBox;
                 DateTimePicker time = panel.Controls["picker"] as DateTimePicker;
 
@@ -190,7 +191,8 @@ namespace TCH_desktop.View
                 panel.Visible = false;
                 groupBox.Controls.Add(entry);
 
-                removeEntry.Location = new(entry.Location.X + entry.Width - 5, entry.Location.Y + 4);
+                int x = panelCount > 5 ? 800 : 400;
+                removeEntry.Location = new(x, entry.Location.Y + 4);
                 if (!removeEntry.Visible) removeEntry.Visible = true;
             }
             else
@@ -208,13 +210,18 @@ namespace TCH_desktop.View
                 entry.Visible = true;
                 isEdit = false;
                 editNumb = String.Empty;
+                removeEntry.Visible = true;
             }
+
+            if (panelCount >= 10) addNewStation.Visible = false;
+            else addNewStation.Visible = true;
         }
 
         private void ChangeEntry(object? sender, EventArgs e)
         {
             isEdit = true;
             addNewStation.Visible = false;
+            removeEntry.Visible = false;
 
             Label entry = sender as Label;
             string number = entry.Name.Remove(0, 5);
@@ -239,7 +246,33 @@ namespace TCH_desktop.View
 
         private void removeEntry_Click(object sender, EventArgs e)
         {
+            Label entry = groupBox.Controls["entry" + panelCount] as Label;
+            Panel panel = groupBox.Controls["panel" + panelCount] as Panel;
 
+            groupBox.Controls.Remove(panel);
+            groupBox.Controls.Remove(entry);
+
+            --panelCount;
+
+            Label prevEntry = groupBox.Controls["entry" + panelCount] as Label;
+            int x = 19;
+            int y = addNewStation.Location.Y;
+            if (panelCount == 9)
+            {
+                x = 427;
+                y += 58;
+                addNewStation.Visible = true;
+            }
+            else if (panelCount >= 5 && panelCount < 9)
+                x = 427;
+            else if (panelCount == 4)
+                y = 342;
+
+            addNewStation.Location = new(x, y - 58);
+
+            if (panelCount > 0)
+                removeEntry.Location = new(prevEntry.Location.X + prevEntry.Width - 10, prevEntry.Location.Y + 4);
+            else removeEntry.Visible = false;
         }
 
         private void CheckKeyPress(object? sender, KeyPressEventArgs e)
