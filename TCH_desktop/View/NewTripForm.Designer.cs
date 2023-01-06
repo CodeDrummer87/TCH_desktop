@@ -41,6 +41,8 @@
             this.addNotes = new System.Windows.Forms.Label();
             this.removeLocomotive = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.removeSpeedLimits = new System.Windows.Forms.Label();
+            this.speedLimitsInfo = new System.Windows.Forms.Label();
             this.removePastStations = new System.Windows.Forms.Label();
             this.pastStationsInfo = new System.Windows.Forms.Label();
             this.doubleTrain = new System.Windows.Forms.CheckBox();
@@ -219,6 +221,8 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.removeSpeedLimits);
+            this.groupBox1.Controls.Add(this.speedLimitsInfo);
             this.groupBox1.Controls.Add(this.removePastStations);
             this.groupBox1.Controls.Add(this.pastStationsInfo);
             this.groupBox1.Controls.Add(this.doubleTrain);
@@ -269,6 +273,31 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Новая поездка";
             // 
+            // removeSpeedLimits
+            // 
+            this.removeSpeedLimits.AutoSize = true;
+            this.removeSpeedLimits.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.removeSpeedLimits.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.removeSpeedLimits.ForeColor = System.Drawing.Color.Red;
+            this.removeSpeedLimits.Location = new System.Drawing.Point(554, 596);
+            this.removeSpeedLimits.Name = "removeSpeedLimits";
+            this.removeSpeedLimits.Size = new System.Drawing.Size(19, 17);
+            this.removeSpeedLimits.TabIndex = 73;
+            this.removeSpeedLimits.Text = "X";
+            this.removeSpeedLimits.Click += new System.EventHandler(this.removeSpeedLimits_Click);
+            // 
+            // speedLimitsInfo
+            // 
+            this.speedLimitsInfo.AutoSize = true;
+            this.speedLimitsInfo.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.speedLimitsInfo.ForeColor = System.Drawing.Color.Yellow;
+            this.speedLimitsInfo.Location = new System.Drawing.Point(459, 594);
+            this.speedLimitsInfo.Name = "speedLimitsInfo";
+            this.speedLimitsInfo.Size = new System.Drawing.Size(89, 18);
+            this.speedLimitsInfo.TabIndex = 72;
+            this.speedLimitsInfo.Text = "Описание";
+            this.speedLimitsInfo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
             // removePastStations
             // 
             this.removePastStations.AutoSize = true;
@@ -292,6 +321,7 @@
             this.pastStationsInfo.Size = new System.Drawing.Size(89, 18);
             this.pastStationsInfo.TabIndex = 70;
             this.pastStationsInfo.Text = "Описание";
+            this.pastStationsInfo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // doubleTrain
             // 
@@ -315,6 +345,7 @@
             this.brakeTestInfo.Size = new System.Drawing.Size(89, 18);
             this.brakeTestInfo.TabIndex = 68;
             this.brakeTestInfo.Text = "Описание";
+            this.brakeTestInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // removeBrakeTest
             // 
@@ -733,5 +764,7 @@
         public CheckBox doubleTrain;
         private Label pastStationsInfo;
         private Label removePastStations;
+        private Label removeSpeedLimits;
+        private Label speedLimitsInfo;
     }
 }

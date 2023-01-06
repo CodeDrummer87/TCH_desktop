@@ -15,6 +15,7 @@
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            tripForm.limits = String.Empty;
             tripForm.Enabled = true;
             Close();
             Dispose();
@@ -44,6 +45,16 @@
             addSpeedLimits.BackColor = SystemColors.InfoText;
         }
 
+        private void addSpeedLimits_Click(object sender, EventArgs e)
+        {
+            tripForm.limits = limitsTextBox.Text.Trim();
+
+            tripForm.Enabled = true;
+            Close();
+            Dispose();
+        }
+
         #endregion
+
     }
 }

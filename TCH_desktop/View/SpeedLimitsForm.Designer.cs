@@ -30,12 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpeedLimitsForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.limitsTextBox = new System.Windows.Forms.RichTextBox();
             this.cancelButton = new System.Windows.Forms.Label();
             this.addSpeedLimits = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.limitsTextBox);
             this.groupBox1.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.ForeColor = System.Drawing.Color.SandyBrown;
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -44,6 +47,14 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " ДУ-61: Ограничения и Предупреждения ";
+            // 
+            // limitsTextBox
+            // 
+            this.limitsTextBox.Location = new System.Drawing.Point(10, 37);
+            this.limitsTextBox.Name = "limitsTextBox";
+            this.limitsTextBox.Size = new System.Drawing.Size(803, 298);
+            this.limitsTextBox.TabIndex = 0;
+            this.limitsTextBox.Text = "";
             // 
             // cancelButton
             // 
@@ -71,6 +82,7 @@
             this.addSpeedLimits.Size = new System.Drawing.Size(109, 22);
             this.addSpeedLimits.TabIndex = 2;
             this.addSpeedLimits.Text = "Добавить";
+            this.addSpeedLimits.Click += new System.EventHandler(this.addSpeedLimits_Click);
             this.addSpeedLimits.MouseEnter += new System.EventHandler(this.addSpeedLimits_MouseEnter);
             this.addSpeedLimits.MouseLeave += new System.EventHandler(this.addSpeedLimits_MouseLeave);
             // 
@@ -89,6 +101,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ТЧ: Выписки из ДУ-61";
             this.TopMost = true;
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -99,5 +112,6 @@
         private GroupBox groupBox1;
         private Label cancelButton;
         private Label addSpeedLimits;
+        private RichTextBox limitsTextBox;
     }
 }

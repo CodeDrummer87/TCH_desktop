@@ -13,6 +13,7 @@ namespace TCH_desktop.View
         public string locoNumbStr;
         public List<string> brakeTests = new();
         public List<string> pastStations = new();
+        public string limits;
 
         public NewTripForm(StartForm startForm)
         {
@@ -21,6 +22,7 @@ namespace TCH_desktop.View
             this.startForm = startForm;
             Location = new Point(630, 120);
             locoNumbStr = String.Empty;
+            limits = String.Empty;
         }
 
         private void LoadAvailableStations()
@@ -151,10 +153,13 @@ namespace TCH_desktop.View
         {
             if (brakeTests.Count == 0)
             {
+                doubleTrain.Enabled = true;
                 ResetBrakeTestInfo();
             }
             else
             {
+                doubleTrain.Enabled = false;
+
                 addBrakeTestLabel.Text = "Проба тормозов: ";
                 addBrakeTestLabel.Location = new(261, addBrakeTestLabel.Location.Y);
                 brakeTestInfo.Text = "Основная проба";
@@ -204,13 +209,35 @@ namespace TCH_desktop.View
                     (number > 1 && number < 5) ? " станции" : " станций";
 
                 pastStationsInfo.Text = pastStations.Count + word;
-                pastStationsInfo.Location = new(428, pastStationsInfo.Location.Y - 2);
+                pastStationsInfo.Location = new(428, label14.Location.Y + 2);
                 pastStationsInfo.Visible = true;
 
                 int x = pastStationsInfo.Location.X + pastStationsInfo.Width + 2;
                 int y = pastStationsInfo.Location.Y + 3;
                 removePastStations.Location = new(x, y);
                 removePastStations.Visible = true;
+            }
+        }
+
+        private void DisplayLimits()
+        {
+            if (limits.Length == 0)
+            {
+                addSpeedLimits.Visible = true;
+                speedLimitsInfo.Visible = false;
+                removeSpeedLimits.Visible = false;
+            }
+            else
+            {
+                addSpeedLimits.Visible = false;
+                speedLimitsInfo.Text = "имеются";
+                speedLimitsInfo.Location = new(428, label15.Location.Y + 2);
+                speedLimitsInfo.Visible = true;
+
+                int x = speedLimitsInfo.Location.X + speedLimitsInfo.Width + 2;
+                int y = speedLimitsInfo.Location.Y + 3;
+                removeSpeedLimits.Location = new(x, y);
+                removeSpeedLimits.Visible = true;
             }
         }
 
@@ -224,6 +251,7 @@ namespace TCH_desktop.View
 
             DisplayBrakeTest();
             DisplayPastStations();
+            DisplayLimits();
         }
 
         private void NewTripForm_Load(object sender, EventArgs e)
@@ -501,6 +529,7 @@ namespace TCH_desktop.View
 
         private void removeBrakeTest_Click(object sender, EventArgs e)
         {
+            doubleTrain.Enabled = true;
             ResetBrakeTestInfo();
         }
 
@@ -513,7 +542,15 @@ namespace TCH_desktop.View
             addPassedStations.Visible = true;
         }
 
-        #endregion
+        private void removeSpeedLimits_Click(object sender, EventArgs e)
+        {
+            limits = String.Empty;
 
+            removeSpeedLimits.Visible = false;
+            speedLimitsInfo.Visible = false;
+            addSpeedLimits.Visible = true;
+        }
+
+        #endregion
     }
 }
