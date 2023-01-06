@@ -41,6 +41,8 @@
             this.addNotes = new System.Windows.Forms.Label();
             this.removeLocomotive = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.removePastStations = new System.Windows.Forms.Label();
+            this.pastStationsInfo = new System.Windows.Forms.Label();
             this.doubleTrain = new System.Windows.Forms.CheckBox();
             this.brakeTestInfo = new System.Windows.Forms.Label();
             this.removeBrakeTest = new System.Windows.Forms.Label();
@@ -217,6 +219,8 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.removePastStations);
+            this.groupBox1.Controls.Add(this.pastStationsInfo);
             this.groupBox1.Controls.Add(this.doubleTrain);
             this.groupBox1.Controls.Add(this.brakeTestInfo);
             this.groupBox1.Controls.Add(this.removeBrakeTest);
@@ -264,6 +268,30 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Новая поездка";
+            // 
+            // removePastStations
+            // 
+            this.removePastStations.AutoSize = true;
+            this.removePastStations.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.removePastStations.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.removePastStations.ForeColor = System.Drawing.Color.Red;
+            this.removePastStations.Location = new System.Drawing.Point(554, 554);
+            this.removePastStations.Name = "removePastStations";
+            this.removePastStations.Size = new System.Drawing.Size(19, 17);
+            this.removePastStations.TabIndex = 71;
+            this.removePastStations.Text = "X";
+            this.removePastStations.Click += new System.EventHandler(this.removePastStations_Click);
+            // 
+            // pastStationsInfo
+            // 
+            this.pastStationsInfo.AutoSize = true;
+            this.pastStationsInfo.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.pastStationsInfo.ForeColor = System.Drawing.Color.Yellow;
+            this.pastStationsInfo.Location = new System.Drawing.Point(459, 552);
+            this.pastStationsInfo.Name = "pastStationsInfo";
+            this.pastStationsInfo.Size = new System.Drawing.Size(89, 18);
+            this.pastStationsInfo.TabIndex = 70;
+            this.pastStationsInfo.Text = "Описание";
             // 
             // doubleTrain
             // 
@@ -703,5 +731,7 @@
         private Label removeBrakeTest;
         private Label brakeTestInfo;
         public CheckBox doubleTrain;
+        private Label pastStationsInfo;
+        private Label removePastStations;
     }
 }

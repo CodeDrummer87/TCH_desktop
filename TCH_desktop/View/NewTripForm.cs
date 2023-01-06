@@ -12,6 +12,7 @@ namespace TCH_desktop.View
 
         public string locoNumbStr;
         public List<string> brakeTests = new();
+        public List<string> pastStations = new();
 
         public NewTripForm(StartForm startForm)
         {
@@ -186,6 +187,33 @@ namespace TCH_desktop.View
             removeBrakeTest.Visible = false;
         }
 
+        private void DisplayPastStations()
+        {
+            if (pastStations.Count == 0)
+            {
+                addPassedStations.Visible = true;
+                pastStationsInfo.Visible = false;
+                removePastStations.Visible = false;
+            }
+            else
+            {
+                addPassedStations.Visible = false;
+
+                int number = pastStations.Count;
+                string word = number == 1 ? " станция" :
+                    (number > 1 && number < 5) ? " станции" : " станций";
+
+                pastStationsInfo.Text = pastStations.Count + word;
+                pastStationsInfo.Location = new(428, pastStationsInfo.Location.Y - 2);
+                pastStationsInfo.Visible = true;
+
+                int x = pastStationsInfo.Location.X + pastStationsInfo.Width + 2;
+                int y = pastStationsInfo.Location.Y + 3;
+                removePastStations.Location = new(x, y);
+                removePastStations.Visible = true;
+            }
+        }
+
 
         #region Interactive
 
@@ -195,6 +223,7 @@ namespace TCH_desktop.View
             DisplayLocoNumber(isDisplayLocoNumb);
 
             DisplayBrakeTest();
+            DisplayPastStations();
         }
 
         private void NewTripForm_Load(object sender, EventArgs e)
@@ -475,6 +504,16 @@ namespace TCH_desktop.View
             ResetBrakeTestInfo();
         }
 
+        private void removePastStations_Click(object sender, EventArgs e)
+        {
+            pastStations.Clear();
+
+            removePastStations.Visible = false;
+            pastStationsInfo.Visible = false;
+            addPassedStations.Visible = true;
+        }
+
         #endregion
+
     }
 }

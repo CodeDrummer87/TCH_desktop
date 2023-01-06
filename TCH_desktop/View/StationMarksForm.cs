@@ -95,6 +95,7 @@ namespace TCH_desktop.View
 
         private void StationMarksForm_Load(object sender, EventArgs e)
         {
+            tripForm.pastStations.Clear();
             LoadAvailableStations();
         }
 
@@ -110,6 +111,8 @@ namespace TCH_desktop.View
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            tripForm.pastStations.Clear();
+
             tripForm.Enabled = true;
             Close();
             Dispose();
@@ -141,6 +144,8 @@ namespace TCH_desktop.View
 
         private void addNewStation_Click(object sender, EventArgs e)
         {
+            removeEntry.Visible = false;
+
             if (panelCount < 10)
             {
                 addNewStation.Visible = false;
@@ -170,6 +175,7 @@ namespace TCH_desktop.View
             if (!isEdit)
             {
                 addNewStation.Visible = true;
+                removeEntry.Visible = true;
 
                 Label entry = new();
                 entry.Name = "entry" + (panelCount);
@@ -183,7 +189,10 @@ namespace TCH_desktop.View
 
                 string hour = time.Value.Hour < 10 ? "0" + time.Value.Hour : (time.Value.Hour).ToString();
                 string minute = time.Value.Minute < 10 ? "0" + time.Value.Minute : (time.Value.Minute).ToString();
-                entry.Text = $"ст.{((Station)station.SelectedItem).Title} в {hour}:{minute}";
+                string text = $"ст.{((Station)station.SelectedItem).Title} в {hour}:{minute}";
+                entry.Text = text;
+                tripForm.pastStations.Add(text);
+                
                 entry.Location = new(panel.Location.X - 7, panel.Location.Y + 17);
                 entry.Cursor = Cursors.Hand;
                 entry.Click += new System.EventHandler(ChangeEntry);
@@ -204,7 +213,10 @@ namespace TCH_desktop.View
 
                 string hour = time.Value.Hour < 10 ? "0" + time.Value.Hour : (time.Value.Hour).ToString();
                 string minute = time.Value.Minute < 10 ? "0" + time.Value.Minute : (time.Value.Minute).ToString();
-                entry.Text = $"ст.{((Station)station.SelectedItem).Title} в {hour}:{minute}";
+                string text = $"ст.{((Station)station.SelectedItem).Title} в {hour}:{minute}";
+                entry.Text = text;
+                int index = Convert.ToInt32(editNumb) - 1;
+                tripForm.pastStations[index] = text;
 
                 panel.Visible = false;
                 entry.Visible = true;
@@ -252,7 +264,7 @@ namespace TCH_desktop.View
             groupBox.Controls.Remove(panel);
             groupBox.Controls.Remove(entry);
 
-            --panelCount;
+            tripForm.pastStations.RemoveAt(--panelCount);
 
             Label prevEntry = groupBox.Controls["entry" + panelCount] as Label;
             int x = 19;
@@ -282,6 +294,13 @@ namespace TCH_desktop.View
             if (number == 13)
                 CreateEntry(sender, e);
 
+        }
+
+        private void addPastStationButton_Click(object sender, EventArgs e)
+        {
+            tripForm.Enabled = true;
+            Close();
+            Dispose();
         }
 
         #endregion
