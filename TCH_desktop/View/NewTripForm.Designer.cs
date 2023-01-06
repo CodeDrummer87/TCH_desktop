@@ -41,6 +41,8 @@
             this.addNotes = new System.Windows.Forms.Label();
             this.removeLocomotive = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.removeNotes = new System.Windows.Forms.Label();
+            this.notesInfo = new System.Windows.Forms.Label();
             this.removeSpeedLimits = new System.Windows.Forms.Label();
             this.speedLimitsInfo = new System.Windows.Forms.Label();
             this.removePastStations = new System.Windows.Forms.Label();
@@ -221,6 +223,8 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.removeNotes);
+            this.groupBox1.Controls.Add(this.notesInfo);
             this.groupBox1.Controls.Add(this.removeSpeedLimits);
             this.groupBox1.Controls.Add(this.speedLimitsInfo);
             this.groupBox1.Controls.Add(this.removePastStations);
@@ -272,6 +276,30 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Новая поездка";
+            // 
+            // removeNotes
+            // 
+            this.removeNotes.AutoSize = true;
+            this.removeNotes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.removeNotes.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.removeNotes.ForeColor = System.Drawing.Color.Red;
+            this.removeNotes.Location = new System.Drawing.Point(554, 638);
+            this.removeNotes.Name = "removeNotes";
+            this.removeNotes.Size = new System.Drawing.Size(19, 17);
+            this.removeNotes.TabIndex = 75;
+            this.removeNotes.Text = "X";
+            this.removeNotes.Click += new System.EventHandler(this.removeNotes_Click);
+            // 
+            // notesInfo
+            // 
+            this.notesInfo.AutoSize = true;
+            this.notesInfo.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.notesInfo.ForeColor = System.Drawing.Color.Yellow;
+            this.notesInfo.Location = new System.Drawing.Point(459, 637);
+            this.notesInfo.Name = "notesInfo";
+            this.notesInfo.Size = new System.Drawing.Size(89, 18);
+            this.notesInfo.TabIndex = 74;
+            this.notesInfo.Text = "Описание";
             // 
             // removeSpeedLimits
             // 
@@ -671,7 +699,7 @@
             this.attendanceTimePicker.CalendarMonthBackground = System.Drawing.SystemColors.InactiveCaption;
             this.attendanceTimePicker.CalendarTitleForeColor = System.Drawing.Color.GreenYellow;
             this.attendanceTimePicker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.attendanceTimePicker.CustomFormat = "дата: dd-MM-yyyy, время: HH:MM";
+            this.attendanceTimePicker.CustomFormat = "дата: dd-MM-yyyy, время: HH:mm";
             this.attendanceTimePicker.Font = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.attendanceTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.attendanceTimePicker.Location = new System.Drawing.Point(100, 50);
@@ -766,5 +794,7 @@
         private Label removePastStations;
         private Label removeSpeedLimits;
         private Label speedLimitsInfo;
+        private Label removeNotes;
+        private Label notesInfo;
     }
 }

@@ -14,6 +14,7 @@ namespace TCH_desktop.View
         public List<string> brakeTests = new();
         public List<string> pastStations = new();
         public string limits;
+        public string notes;
 
         public NewTripForm(StartForm startForm)
         {
@@ -23,6 +24,7 @@ namespace TCH_desktop.View
             Location = new Point(630, 120);
             locoNumbStr = String.Empty;
             limits = String.Empty;
+            notes = String.Empty;   
         }
 
         private void LoadAvailableStations()
@@ -241,6 +243,28 @@ namespace TCH_desktop.View
             }
         }
 
+        private void DisplayNotes()
+        {
+            if (notes.Length == 0)
+            {
+                addNotes.Visible = true;
+                notesInfo.Visible = false;
+                removeNotes.Visible = false;
+            }
+            else
+            {
+                addNotes.Visible = false;
+                notesInfo.Text = "имеются";
+                notesInfo.Location = new(428, label16.Location.Y + 2);
+                notesInfo.Visible = true;
+
+                int x = notesInfo.Location.X + notesInfo.Width + 2;
+                int y = notesInfo.Location.Y + 3;
+                removeNotes.Location = new(x, y);
+                removeNotes.Visible = true;
+            }
+        }
+
 
         #region Interactive
 
@@ -252,6 +276,7 @@ namespace TCH_desktop.View
             DisplayBrakeTest();
             DisplayPastStations();
             DisplayLimits();
+            DisplayNotes();
         }
 
         private void NewTripForm_Load(object sender, EventArgs e)
@@ -551,6 +576,16 @@ namespace TCH_desktop.View
             addSpeedLimits.Visible = true;
         }
 
+        private void removeNotes_Click(object sender, EventArgs e)
+        {
+            notes = String.Empty;
+
+            removeNotes.Visible = false;
+            notesInfo.Visible = false;
+            addNotes.Visible = true;
+        }
+
         #endregion
+
     }
 }

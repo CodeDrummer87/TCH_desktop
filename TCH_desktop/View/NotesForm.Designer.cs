@@ -31,10 +31,13 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cancelButton = new System.Windows.Forms.Label();
             this.addNotes = new System.Windows.Forms.Label();
+            this.notesTextBox = new System.Windows.Forms.RichTextBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.notesTextBox);
             this.groupBox1.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.ForeColor = System.Drawing.Color.SandyBrown;
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -70,8 +73,17 @@
             this.addNotes.Size = new System.Drawing.Size(109, 22);
             this.addNotes.TabIndex = 2;
             this.addNotes.Text = "Добавить";
+            this.addNotes.Click += new System.EventHandler(this.addNotes_Click);
             this.addNotes.MouseEnter += new System.EventHandler(this.addNotes_MouseEnter);
             this.addNotes.MouseLeave += new System.EventHandler(this.addNotes_MouseLeave);
+            // 
+            // notesTextBox
+            // 
+            this.notesTextBox.Location = new System.Drawing.Point(10, 37);
+            this.notesTextBox.Name = "notesTextBox";
+            this.notesTextBox.Size = new System.Drawing.Size(803, 298);
+            this.notesTextBox.TabIndex = 0;
+            this.notesTextBox.Text = "";
             // 
             // NotesForm
             // 
@@ -87,6 +99,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ТЧ: Заметки в пути";
             this.TopMost = true;
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -97,5 +110,6 @@
         private GroupBox groupBox1;
         private Label cancelButton;
         private Label addNotes;
+        private RichTextBox notesTextBox;
     }
 }

@@ -15,6 +15,8 @@
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            tripForm.notes = String.Empty;
+
             tripForm.Enabled = true;
             Close();
             Dispose();
@@ -44,6 +46,16 @@
             addNotes.BackColor = SystemColors.InfoText;
         }
 
+        private void addNotes_Click(object sender, EventArgs e)
+        {
+            tripForm.notes = notesTextBox.Text.Trim();
+
+            tripForm.Enabled = true;
+            Close();
+            Dispose();
+        }
+
         #endregion
+
     }
 }
