@@ -8,5 +8,5 @@ CREATE TABLE TripsBrakeTests
 (
 	Id INT IDENTITY(1, 1) PRIMARY KEY,
 	Trip INT REFERENCES Trips(Id) NOT NULL,
-	BrakeTest INT REFERENCES BrakeTests(Id) NOT NULL
+	BrakeTest NVARCHAR(100)
 );

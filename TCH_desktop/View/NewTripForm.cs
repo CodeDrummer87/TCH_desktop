@@ -351,7 +351,7 @@ namespace TCH_desktop.View
 
             int k = weight / axles;
             double value = k < 7 ? (double)(weight / 400) : (double)(weight * 0.8f / 400);
-            double trainFixation = GetRequiredTrainFixation(value);
+            double trainFixation = Math.Ceiling(GetRequiredTrainFixation(value));
 
             string fixation = String.Empty;
             if (trainFixation > brakeHolders)
@@ -420,6 +420,64 @@ namespace TCH_desktop.View
             }
 
             return Id;
+        }
+
+        private int GetBrakeHolders(int locoId)
+        {
+            int brakeHolders = 0;
+
+            string query = "SELECT NumberOfBrakeHolders FROM Locomotives WHERE Id=@locoId";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@locoId", SqlDbType.Int).Value = locoId;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    brakeHolders = reader.GetInt32(0);
+                }
+                reader.Close();
+                DataBase.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось получить значение количества тормозных башмаков на " +
+                    $"локомотиве:\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            return brakeHolders;
+        }
+
+        private void SaveBrakeTests(int tripId)
+        {
+            if (brakeTests.Count > 0)
+            {
+                string query = "INSERT TripsBrakeTests VALUES(@tripId, @brakeTest)";
+
+                for (int i = 0; i < brakeTests.Count; i++)
+                {
+                    try
+                    {
+                        SqlCommand command = new(query, DataBase.GetConnection());
+                        command.Parameters.Add("@tripId", SqlDbType.Int).Value = tripId;
+                        command.Parameters.Add("@brakeTest", SqlDbType.NVarChar).Value = brakeTests[i];
+                        DataBase.OpenConnection();
+
+                        command.ExecuteNonQuery();
+                        DataBase.CloseConnection();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Не удалось сохранить пробы тормозов текущей поездки в Базу Данных:\n\"{ex.Message}\"\n" +
+                                $"Обратитесь к системному администратору для устранения ошибки.",
+                                "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    }
+                }
+            }
         }
 
 
@@ -758,7 +816,8 @@ namespace TCH_desktop.View
                 foreach(string s in pastStations)
                     pStations += s + ';';
 
-            int trainId = SaveTrainData(4);
+            int brakeHolders = GetBrakeHolders(locoId);
+            int trainId = SaveTrainData(brakeHolders);
 
             string query = "INSERT INTO Trips (AttendanceTime, Locomotive, TrafficRoute, ElectricityFactor, " +
                 "Departure, Arrival, PassedStations, SpeedLimits, TechnicalSpeed, Notes, Train) " +
@@ -784,9 +843,8 @@ namespace TCH_desktop.View
                 command.ExecuteNonQuery();
                 DataBase.CloseConnection();
 
-                // + сохранить пробы тормозов
-                //int tripId = GetLastId("Trips");
-
+                int tripId = GetLastId("Trips");
+                SaveBrakeTests(tripId);
             }
             catch (Exception ex)
             {
