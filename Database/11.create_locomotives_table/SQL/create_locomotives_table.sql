@@ -27,8 +27,9 @@ CREATE TABLE Locomotives
 (
 	Id INT IDENTITY(1, 1) PRIMARY KEY,
 	LocoType INT REFERENCES LocomotiveTypes (Id),
-	Series NVARCHAR(10),
-	Number NVARCHAR(5),
-	Allocation INT REFERENCES LocomotiveDepots (Id),
-	NumberOfBrakeHolders INT
+	Series INT,
+	Number INT NOT NULL,
+	Allocation NVARCHAR(50),
+	NumberOfBrakeHolders INT,
+	ImagePath NVARCHAR(200)
 )

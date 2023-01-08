@@ -85,7 +85,7 @@ namespace TCH_desktop.View
                     });
                 }
                 locoSeriesSelect.DisplayMember = "Series";
-                locoSeriesSelect.SelectedIndex = 0;
+                locoSeriesSelect.SelectedIndex = 1;
 
                 reader.Close();
                 DataBase.CloseConnection();

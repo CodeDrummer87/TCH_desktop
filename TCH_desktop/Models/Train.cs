@@ -6,9 +6,6 @@ namespace TCH_desktop.Models
     {
         [Key]
         public int Id { get; set; }
-        public bool IsSingleLoco { get; set; }
-        public bool IsFreight { get; set; }
-        public bool IsEmpty { get; set; }
         public string Number { get; set; }
         public int Weight { get; set; }
         public int Axles { get; set; }

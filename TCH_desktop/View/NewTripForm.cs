@@ -265,6 +265,163 @@ namespace TCH_desktop.View
             }
         }
 
+        private int GetLocoId(string loco)
+        {
+            if (loco != String.Empty)
+            {
+                int index = loco.IndexOf('-');
+                string series = loco.Substring(0, index);
+                int seriesId = GetSeriesId(series);
+
+                index++;
+                string numberStr = loco.Substring(index);
+                int number = Convert.ToInt32(numberStr);
+
+                int locoId = 0;
+                string query = "SELECT Id FROM Locomotives WHERE Series=@sId and Number=@number";
+
+                try
+                {
+                    SqlCommand command = new(query, DataBase.GetConnection());
+                    command.Parameters.Add("@sId", SqlDbType.Int).Value = seriesId;
+                    command.Parameters.Add("@number", SqlDbType.Int).Value = number;
+                    DataBase.OpenConnection();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        locoId = reader.GetInt32(0);
+                    }
+                    reader.Close();
+                    DataBase.CloseConnection();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Не удалось получить Id локомотива:\n\"{ex.Message}\"\n" +
+                        $"Обратитесь к системному администратору для устранения ошибки.",
+                        "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+
+                return locoId;
+            }
+            else
+            {
+                MessageBox.Show($"Не указан локомотив, на котором совершена поездка", "Предупреждение",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return 0;
+            }
+        }
+
+        private int GetSeriesId(string series)
+        {
+            int seriesId = 0;
+            string query = "SELECT Id FROM LocoSeries WHERE Series=@s";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@s", SqlDbType.NVarChar).Value = series;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    seriesId = reader.GetInt32(0);
+                }
+                reader.Close();
+                DataBase.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось получить Id серии локомотива:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для устранения ошибки.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            return seriesId;
+        }
+
+        private int SaveTrainData(int brakeHolders)
+        {
+            string query = "INSERT Trains VALUES(@numb, @weight, @axles, @length, @tail, @fixation)";
+
+            int weight = Convert.ToInt32(trainMass.Text);
+            int axles = Convert.ToInt32(trainAxles.Text);
+
+            int k = weight / axles;
+            double value = k < 7 ? (double)(weight / 400) : (double)(weight * 0.8f / 400);
+            double trainFixation = GetRequiredTrainFixation(value);
+
+            string fixation = String.Empty;
+            if (trainFixation > brakeHolders)
+                fixation = $"{brakeHolders}ТБ и {trainFixation - brakeHolders}РТ";
+            else
+                fixation = $"{trainFixation}ТБ";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@numb", SqlDbType.NChar).Value = trainNumber.Text;
+                command.Parameters.Add("@weight", SqlDbType.NChar).Value = weight;
+                command.Parameters.Add("@axles", SqlDbType.NChar).Value = axles;
+                command.Parameters.Add("@length", SqlDbType.NChar).Value = trainSpecificLength.Text;
+                command.Parameters.Add("@tail", SqlDbType.NChar).Value = trainTailCar.Text;
+                command.Parameters.Add("@fixation", SqlDbType.NVarChar).Value = fixation;
+
+                DataBase.OpenConnection();
+
+                command.ExecuteNonQuery();
+                DataBase.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось сохранить данные поезда в Базу Данных:\n\"{ex.Message}\"\n" +
+                        $"Обратитесь к системному администратору для устранения ошибки.",
+                        "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            return GetLastId("Trains");
+        }
+
+        private double GetRequiredTrainFixation(double value)
+        {
+            string valStr = value.ToString();
+            int index = valStr.IndexOf(',');
+            string fixation = valStr.Substring(0, index + 2);
+
+            return Convert.ToDouble(fixation);
+        }
+
+        private int GetLastId(string table)
+        {
+            int Id = 0;
+
+            string query = $"SELECT MAX(Id) FROM {table}";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Id = reader.GetInt32(0);
+                }
+                reader.Close();
+                DataBase.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось получить ID последней записи в таблице \"Поезда\":\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для устранения ошибки.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            return Id;
+        }
+
 
         #region Interactive
 
@@ -585,7 +742,63 @@ namespace TCH_desktop.View
             addNotes.Visible = true;
         }
 
-        #endregion
+        private void saveDataTrip_Click(object sender, EventArgs e)
+        {
+            int locoId = GetLocoId(locoNumbStr);
+            DateTime attendaceTime = attendanceTimePicker.Value;
+            string trafficRoute = departureStation.Text + " - " + arrivalStation.Text;
+            
+            string departure = departureTimePicker.Value.Hour.ToString() + ':' + departureTimePicker.Value.Minute
+                + "\n(" + departureTrafficLight.Text + ')';
+            string arrival = arrivalTimePicker.Value.Hour.ToString() + ':' + arrivalTimePicker.Value.Minute
+                + "\n(" + arrivalTrafficLight.Text + ')';
 
+            string pStations = String.Empty;
+            if (pastStations.Count > 0)
+                foreach(string s in pastStations)
+                    pStations += s + ';';
+
+            int trainId = SaveTrainData(4);
+
+            string query = "INSERT INTO Trips (AttendanceTime, Locomotive, TrafficRoute, ElectricityFactor, " +
+                "Departure, Arrival, PassedStations, SpeedLimits, TechnicalSpeed, Notes, Train) " +
+                "VALUES (@atTime, @locoId, @route, @eF, @dep, @arr, @pasSt, @spLim, " +
+                "@techSp, @notes, @trainId)";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@atTime", SqlDbType.DateTime).Value = attendaceTime;
+                command.Parameters.Add("@locoId", SqlDbType.Int).Value = locoId;
+                command.Parameters.Add("@route", SqlDbType.NVarChar).Value = trafficRoute;
+                command.Parameters.Add("@eF", SqlDbType.Float).Value = 0.0F;    //.:: temporary code
+                command.Parameters.Add("@dep", SqlDbType.NVarChar).Value = departure;
+                command.Parameters.Add("@arr", SqlDbType.NVarChar).Value = arrival;
+                command.Parameters.Add("@pasSt", SqlDbType.NVarChar).Value = pStations;
+                command.Parameters.Add("@spLim", SqlDbType.NVarChar).Value = limits;
+                command.Parameters.Add("@techSp", SqlDbType.Float).Value = 0.0;  //.:: temporary code
+                command.Parameters.Add("@notes", SqlDbType.NVarChar).Value = notes;
+                command.Parameters.Add("@trainId", SqlDbType.Int).Value = trainId;
+                DataBase.OpenConnection();
+
+                command.ExecuteNonQuery();
+                DataBase.CloseConnection();
+
+                // + сохранить пробы тормозов
+                //int tripId = GetLastId("Trips");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось сохранить данные поездки в Базу Данных:\n\"{ex.Message}\"\n" +
+                        $"Обратитесь к системному администратору для устранения ошибки.",
+                        "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            startForm.Enabled = true;
+            this.Close();
+        }
+
+        #endregion
     }
 }

@@ -18,5 +18,6 @@ namespace TCH_desktop.Models
         public float ElectricityRecoveryRequired { get; set; }
         public float TechnicalSpeed { get; set; }
         public string Notes { get; set; }
+        public int Train { get; set; }
     }
 }

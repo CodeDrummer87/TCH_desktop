@@ -106,6 +106,7 @@
             this.saveDataTrip.Size = new System.Drawing.Size(212, 22);
             this.saveDataTrip.TabIndex = 1;
             this.saveDataTrip.Text = "Сохранить Поездку";
+            this.saveDataTrip.Click += new System.EventHandler(this.saveDataTrip_Click);
             this.saveDataTrip.MouseEnter += new System.EventHandler(this.saveDataTrip_MouseEnter);
             this.saveDataTrip.MouseLeave += new System.EventHandler(this.saveDataTrip_MouseLeave);
             // 
