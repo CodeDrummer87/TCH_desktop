@@ -36,6 +36,7 @@
             this.studyMenu = new System.Windows.Forms.Label();
             this.personDataMenu = new System.Windows.Forms.Label();
             this.developerEmail = new System.Windows.Forms.Label();
+            this.currentMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // exitButton
@@ -136,6 +137,17 @@
             this.developerEmail.TabIndex = 6;
             this.developerEmail.Text = "code.drummer87@gmail.com";
             // 
+            // currentMessage
+            // 
+            this.currentMessage.BackColor = System.Drawing.Color.Transparent;
+            this.currentMessage.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.currentMessage.ForeColor = System.Drawing.Color.Gold;
+            this.currentMessage.Location = new System.Drawing.Point(312, 818);
+            this.currentMessage.Name = "currentMessage";
+            this.currentMessage.Size = new System.Drawing.Size(811, 25);
+            this.currentMessage.TabIndex = 7;
+            this.currentMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -145,6 +157,7 @@
             this.BackgroundImage = global::TCH_desktop.Properties.Resources.start_form_background_image;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1200, 900);
+            this.Controls.Add(this.currentMessage);
             this.Controls.Add(this.developerEmail);
             this.Controls.Add(this.personDataMenu);
             this.Controls.Add(this.studyMenu);
@@ -173,5 +186,6 @@
         private Label studyMenu;
         private Label personDataMenu;
         private Label developerEmail;
+        private Label currentMessage;
     }
 }

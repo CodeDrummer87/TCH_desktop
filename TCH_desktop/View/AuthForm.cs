@@ -8,6 +8,9 @@ namespace TCH_desktop.View
         private  AccountAction account;
         private bool isHiddenPassword;
 
+        private System.Windows.Forms.Timer timer;
+        int timePeriod;
+
         public AuthForm()
         {
             InitializeComponent();
@@ -21,6 +24,10 @@ namespace TCH_desktop.View
             loginInp.Font = pswdInp.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 12, true);
             authButton.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 10, true);
             authFormErrorMessage.Font = Source.LoadFont(@".\source\fonts\zekton.ttf", 11, true);
+
+            timer = new System.Windows.Forms.Timer { Interval = 1000 };
+            timePeriod = 3;
+            timer.Tick += TimerTick;
         }
 
         private void exitButton_Click(object? sender, EventArgs e)
@@ -69,6 +76,7 @@ namespace TCH_desktop.View
                     {
                         authFormErrorMessage.Text = "Неверный пароль. Попробуйте ещё раз.";
                         pswdInp.Text = String.Empty;
+                        timer.Start();
                     }
                 }
                 else
@@ -76,6 +84,7 @@ namespace TCH_desktop.View
                     authFormErrorMessage.Text = $"аккаунта с почтой {uEmail} не существует";
                     loginInp.Text = String.Empty;
                     pswdInp.Text = String.Empty;
+                    timer.Start();
                 }
             }
         }
@@ -158,5 +167,18 @@ namespace TCH_desktop.View
             if (e.KeyCode == Keys.Enter)
                 authButton_Click(sender, e);
         }
+
+        private void TimerTick(object? sender, EventArgs e)
+        {
+            timePeriod--;
+
+            if (timePeriod <= 0)
+            {
+                timer.Stop();
+                timePeriod = 3;
+                authFormErrorMessage.Text = String.Empty;
+            }
+        }
+
     }
 }

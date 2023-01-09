@@ -153,22 +153,6 @@ namespace TCH_desktop.View
             }
         }
 
-        private void railRoads_SelectedIndexChanged(object? sender, EventArgs e)
-        {
-            LoadAvailableLocomotiveDepots();
-            if (locoDepots.Count > 0)
-            {
-                for (int i = 0; i < locoDepots.Count; i++)
-                    depot.Items.Add(locoDepots[i]);
-
-                depot.DisplayMember = "ShortTitle";
-                depot.SelectedIndex = 0;
-            }
-            else depot.Text = "список пуст";
-
-            AddColumnsItems();
-        }
-
         private void LoadAvailablePositions()
         {
             string query = "SELECT * FROM Positions";
@@ -240,11 +224,6 @@ namespace TCH_desktop.View
             }
         }
 
-        private void depot_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            AddColumnsItems();
-        }
-
         private void AddColumnsItems()
         {
             LoadAvailableColumns();
@@ -263,21 +242,6 @@ namespace TCH_desktop.View
         {
             return surNameInp.Text != String.Empty && firstNameInp.Text != String.Empty
                 && patronymicInp.Text != String.Empty && tabNumberInp.Text != String.Empty;
-        }
-
-        private void saveUserDataButton_EnabledChanged(object sender, EventArgs e)
-        {
-            saveUserDataButton.BackColor = saveUserDataButton.BackColor
-                == Color.YellowGreen ? Color.LightGray : Color.YellowGreen;
-        }
-
-        private void saveUserDataButton_Click(object sender, EventArgs e)
-        {
-            SaveUserData();
-            SaveEmployeeData();
-
-            this.Hide();
-            startForm.Show();
         }
 
         private void SaveUserData()
@@ -385,6 +349,16 @@ namespace TCH_desktop.View
 
         #region Interactive
 
+        private void saveUserDataButton_Click(object sender, EventArgs e)
+        {
+            SaveUserData();
+            SaveEmployeeData();
+
+            startForm.wasSavedUserData = true;
+            this.Hide();
+            startForm.Show();
+        }
+
         private void cancelButton_Click(object? sender, EventArgs e)
         {
             if (isEdit)
@@ -433,6 +407,33 @@ namespace TCH_desktop.View
         private void patronymicInp_TextChanged(object sender, EventArgs e)
         {
             saveUserDataButton.Enabled = ValidateUserData();
+        }
+
+        private void railRoads_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            LoadAvailableLocomotiveDepots();
+            if (locoDepots.Count > 0)
+            {
+                for (int i = 0; i < locoDepots.Count; i++)
+                    depot.Items.Add(locoDepots[i]);
+
+                depot.DisplayMember = "ShortTitle";
+                depot.SelectedIndex = 0;
+            }
+            else depot.Text = "список пуст";
+
+            AddColumnsItems();
+        }
+
+        private void saveUserDataButton_EnabledChanged(object sender, EventArgs e)
+        {
+            saveUserDataButton.BackColor = saveUserDataButton.BackColor
+                == Color.YellowGreen ? Color.LightGray : Color.YellowGreen;
+        }
+
+        private void depot_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AddColumnsItems();
         }
 
         #endregion

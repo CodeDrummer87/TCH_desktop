@@ -613,6 +613,7 @@
             this.departureTrafficLight.Name = "departureTrafficLight";
             this.departureTrafficLight.Size = new System.Drawing.Size(142, 26);
             this.departureTrafficLight.TabIndex = 41;
+            this.departureTrafficLight.SelectedIndexChanged += new System.EventHandler(this.departureTrafficLight_SelectedIndexChanged);
             // 
             // label6
             // 

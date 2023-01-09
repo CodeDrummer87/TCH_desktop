@@ -7,6 +7,9 @@ namespace TCH_desktop.View
         AuthForm authForm;
         AccountAction account;
 
+        private System.Windows.Forms.Timer timer;
+        private int timePeriod;
+
         public RegForm(AuthForm authForm, AccountAction account)
         {
             InitializeComponent();
@@ -27,6 +30,10 @@ namespace TCH_desktop.View
 
             codeForReg.Font = confirmEmailButton.Font = regButton.Font =
                Source.LoadFont(Source.zektonFont, 10, true);
+
+            timer = new System.Windows.Forms.Timer { Interval = 1000 };
+            timePeriod = 3;
+            timer.Tick += TimerTick;
         }
 
         private void exitButton_Click(object? sender, EventArgs e)
@@ -55,6 +62,7 @@ namespace TCH_desktop.View
         {
             this.Close();
             authForm.Show();
+            this.Dispose();
         }
 
         private void backToAuthForm_MouseLeave(object? sender, EventArgs e)
@@ -107,10 +115,27 @@ namespace TCH_desktop.View
             if (email != String.Empty && email != null)
             {
                 message = account.CreateNewAccount(email, password, confirmedPassword);
+                timer.Start();
             }
             else message = "Укажите свой email";
 
             currentMessage.Text = message;
+        }
+
+        private void TimerTick(object? sender, EventArgs e)
+        {
+            timePeriod--;
+
+            if (timePeriod <= 0)
+            {
+                timer.Stop();
+                timePeriod = 3;
+                currentMessage.Text = String.Empty;
+
+                this.Close();
+                this.Dispose();
+                authForm.Show();
+            }
         }
     }
 }

@@ -12,6 +12,12 @@ namespace TCH_desktop.View
         AuthForm authForm;
         AccountAction account;
 
+        private System.Windows.Forms.Timer timer;
+        int timePeriod;
+
+        public bool wasSavedTrip;
+        public bool wasSavedUserData;
+
         public StartForm(AuthForm authForm, AccountAction account, int currentUserLoginId)
         {
             InitializeComponent();
@@ -20,6 +26,10 @@ namespace TCH_desktop.View
             this.account = account;
             this.authForm.Hide();
 
+            timer = new System.Windows.Forms.Timer { Interval = 1000 };
+            timePeriod = 3;
+            timer.Tick += TimerTick;
+
             user = account.GetCurrentUserData(currentUserLoginId);
 
             if (!CheckUserData(ref user))
@@ -27,6 +37,9 @@ namespace TCH_desktop.View
                 UserDataSettingForm uDataSettingForm = new(this, authForm, false);
             }
             else this.Show();
+
+            wasSavedTrip = false;
+            wasSavedUserData = false;
         }
 
         public int GetCurrentUserId() => user.Id;
@@ -98,6 +111,8 @@ namespace TCH_desktop.View
             return result;
         }
 
+
+
         #region Interactive
 
         private void personDataMenu_Click(object sender, EventArgs e)
@@ -112,6 +127,20 @@ namespace TCH_desktop.View
             TopMost = false;
             Opacity = 100;
             Enabled = true;
+
+            if (wasSavedTrip)
+            {
+                wasSavedTrip = false;
+                currentMessage.Text = "Данные о поездке успешно сохранены";
+                timer.Start();
+            }
+
+            if (wasSavedUserData)
+            {
+                wasSavedUserData = false;
+                currentMessage.Text = "Личные данные пользователя сохранены";
+                timer.Start();
+            }
         }
 
         private void exitButton_Click(object? sender, EventArgs e)
@@ -178,6 +207,18 @@ namespace TCH_desktop.View
         private void personDataMenu_MouseLeave(object sender, EventArgs e)
         {
             personDataMenu.ForeColor = SystemColors.Control;
+        }
+
+        private void TimerTick(object? sender, EventArgs e)
+        {
+            timePeriod--;
+
+            if (timePeriod <= 0)
+            {
+                timer.Stop();
+                timePeriod = 3;
+                currentMessage.Text = String.Empty;
+            }
         }
 
         #endregion

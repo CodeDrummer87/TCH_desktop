@@ -24,7 +24,7 @@ namespace TCH_desktop.View
             Location = new Point(630, 120);
             locoNumbStr = String.Empty;
             limits = String.Empty;
-            notes = String.Empty;   
+            notes = String.Empty;
         }
 
         private void LoadAvailableStations()
@@ -346,18 +346,24 @@ namespace TCH_desktop.View
         {
             string query = "INSERT Trains VALUES(@numb, @weight, @axles, @length, @tail, @fixation)";
 
-            int weight = Convert.ToInt32(trainMass.Text);
-            int axles = Convert.ToInt32(trainAxles.Text);
+            string fixation = "-";
+            int weight = 0;
+            int axles = 0;
 
-            int k = weight / axles;
-            double value = k < 7 ? (double)(weight / 400) : (double)(weight * 0.8f / 400);
-            double trainFixation = Math.Ceiling(GetRequiredTrainFixation(value));
+            if (trainMass.Text != String.Empty && trainAxles.Text != String.Empty)
+            { 
+                weight = Convert.ToInt32(trainMass.Text);
+                axles = Convert.ToInt32(trainAxles.Text);
 
-            string fixation = String.Empty;
-            if (trainFixation > brakeHolders)
-                fixation = $"{brakeHolders}ТБ и {trainFixation - brakeHolders}РТ";
-            else
-                fixation = $"{trainFixation}ТБ";
+                int k = weight / axles;
+                double value = k < 7 ? (double)(weight / 400) : (double)(weight * 0.8f / 400);
+                double trainFixation = Math.Ceiling(GetRequiredTrainFixation(value));
+
+                if (trainFixation > brakeHolders)
+                    fixation = $"{brakeHolders}ТБ и {trainFixation - brakeHolders}РТ";
+                else
+                    fixation = $"{trainFixation}ТБ";
+            }
 
             try
             {
@@ -480,6 +486,9 @@ namespace TCH_desktop.View
             }
         }
 
+        private string CheckData(string data) => data == String.Empty ? "н/у" : data;
+
+
 
         #region Interactive
 
@@ -531,6 +540,8 @@ namespace TCH_desktop.View
 
                 LoadAvailableTrafficLights(trainNumb % 2 == 0, ((Station)(arrivalStation.SelectedItem)).Id);
                 SetTrafficLightsComboBox(arrivalTrafficLight);
+
+                departureTrafficLight.DroppedDown = true;
 
                 if (!addBrakeTest.Enabled)
                     addBrakeTest.Enabled = true;
@@ -802,61 +813,81 @@ namespace TCH_desktop.View
 
         private void saveDataTrip_Click(object sender, EventArgs e)
         {
-            int locoId = GetLocoId(locoNumbStr);
-            DateTime attendaceTime = attendanceTimePicker.Value;
-            string trafficRoute = departureStation.Text + " - " + arrivalStation.Text;
-            
-            string departure = departureTimePicker.Value.Hour.ToString() + ':' + departureTimePicker.Value.Minute
-                + "\n(" + departureTrafficLight.Text + ')';
-            string arrival = arrivalTimePicker.Value.Hour.ToString() + ':' + arrivalTimePicker.Value.Minute
-                + "\n(" + arrivalTrafficLight.Text + ')';
-
-            string pStations = String.Empty;
-            if (pastStations.Count > 0)
-                foreach(string s in pastStations)
-                    pStations += s + ';';
-
-            int brakeHolders = GetBrakeHolders(locoId);
-            int trainId = SaveTrainData(brakeHolders);
-
-            string query = "INSERT INTO Trips (AttendanceTime, Locomotive, TrafficRoute, ElectricityFactor, " +
-                "Departure, Arrival, PassedStations, SpeedLimits, TechnicalSpeed, Notes, Train) " +
-                "VALUES (@atTime, @locoId, @route, @eF, @dep, @arr, @pasSt, @spLim, " +
-                "@techSp, @notes, @trainId)";
-
-            try
+            if (trainNumber.Text != String.Empty && locoNumbStr != String.Empty)
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@atTime", SqlDbType.DateTime).Value = attendaceTime;
-                command.Parameters.Add("@locoId", SqlDbType.Int).Value = locoId;
-                command.Parameters.Add("@route", SqlDbType.NVarChar).Value = trafficRoute;
-                command.Parameters.Add("@eF", SqlDbType.Float).Value = 0.0F;    //.:: temporary code
-                command.Parameters.Add("@dep", SqlDbType.NVarChar).Value = departure;
-                command.Parameters.Add("@arr", SqlDbType.NVarChar).Value = arrival;
-                command.Parameters.Add("@pasSt", SqlDbType.NVarChar).Value = pStations;
-                command.Parameters.Add("@spLim", SqlDbType.NVarChar).Value = limits;
-                command.Parameters.Add("@techSp", SqlDbType.Float).Value = 0.0;  //.:: temporary code
-                command.Parameters.Add("@notes", SqlDbType.NVarChar).Value = notes;
-                command.Parameters.Add("@trainId", SqlDbType.Int).Value = trainId;
-                DataBase.OpenConnection();
+                int locoId = GetLocoId(locoNumbStr);
+                DateTime attendaceTime = attendanceTimePicker.Value;
+                string trafficRoute = departureStation.Text + " - " + arrivalStation.Text;
 
-                command.ExecuteNonQuery();
-                DataBase.CloseConnection();
+                string departure = departureTimePicker.Value.Hour.ToString() + ':' + departureTimePicker.Value.Minute
+                    + "\n(" + CheckData(departureTrafficLight.Text) + ')';
+                string arrival = arrivalTimePicker.Value.Hour.ToString() + ':' + arrivalTimePicker.Value.Minute
+                    + "\n(" + CheckData(arrivalTrafficLight.Text) + ')';
 
-                int tripId = GetLastId("Trips");
-                SaveBrakeTests(tripId);
+                string pStations = String.Empty;
+                if (pastStations.Count > 0)
+                    foreach (string s in pastStations)
+                        pStations += s + ';';
+
+                int brakeHolders = GetBrakeHolders(locoId);
+                int trainId = SaveTrainData(brakeHolders);
+
+                string query = "INSERT INTO Trips (AttendanceTime, Locomotive, TrafficRoute, ElectricityFactor, " +
+                    "Departure, Arrival, PassedStations, SpeedLimits, TechnicalSpeed, Notes, Train) " +
+                    "VALUES (@atTime, @locoId, @route, @eF, @dep, @arr, @pasSt, @spLim, " +
+                    "@techSp, @notes, @trainId)";
+
+                try
+                {
+                    SqlCommand command = new(query, DataBase.GetConnection());
+                    command.Parameters.Add("@atTime", SqlDbType.DateTime).Value = attendaceTime;
+                    command.Parameters.Add("@locoId", SqlDbType.Int).Value = locoId;
+                    command.Parameters.Add("@route", SqlDbType.NVarChar).Value = trafficRoute;
+                    command.Parameters.Add("@eF", SqlDbType.Float).Value = 0.0F;    //.:: temporary code
+                    command.Parameters.Add("@dep", SqlDbType.NVarChar).Value = departure;
+                    command.Parameters.Add("@arr", SqlDbType.NVarChar).Value = arrival;
+                    command.Parameters.Add("@pasSt", SqlDbType.NVarChar).Value = pStations;
+                    command.Parameters.Add("@spLim", SqlDbType.NVarChar).Value = limits;
+                    command.Parameters.Add("@techSp", SqlDbType.Float).Value = 0.0;  //.:: temporary code
+                    command.Parameters.Add("@notes", SqlDbType.NVarChar).Value = notes;
+                    command.Parameters.Add("@trainId", SqlDbType.Int).Value = trainId;
+                    DataBase.OpenConnection();
+
+                    command.ExecuteNonQuery();
+                    DataBase.CloseConnection();
+
+                    int tripId = GetLastId("Trips");
+                    SaveBrakeTests(tripId);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Не удалось сохранить данные поездки в Базу Данных:\n\"{ex.Message}\"\n" +
+                            $"Обратитесь к системному администратору для устранения ошибки.",
+                            "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+
+                startForm.Enabled = true;
+                startForm.wasSavedTrip = true;
+                this.Close();
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"Не удалось сохранить данные поездки в Базу Данных:\n\"{ex.Message}\"\n" +
-                        $"Обратитесь к системному администратору для устранения ошибки.",
-                        "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                string message = "Невозможно сохранить данные о поездке";
+                if (trainNumber.Text == String.Empty && locoNumbStr != String.Empty)
+                    message += ": не указан номер поезда.";
+                else if (trainNumber.Text != String.Empty && locoNumbStr == String.Empty)
+                    message += ": не указан локомотив.";
+                else message += ": не указаны номер поезда и локомотив";
+                MessageBox.Show(message, "Не указаны важные сведения о поездке", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
 
-            startForm.Enabled = true;
-            this.Close();
+        private void departureTrafficLight_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            arrivalTrafficLight.DroppedDown = true;
         }
 
         #endregion
+
     }
 }
