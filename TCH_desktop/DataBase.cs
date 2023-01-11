@@ -4,8 +4,7 @@ namespace TCH_desktop
 {
     internal static class DataBase
     {
-        static SqlConnection sqlConnection = new
-            (@"Data Source=LANCELOT\SQLEXPRESS;Initial Catalog=tchDb;Integrated Security=True;");
+        static SqlConnection sqlConnection = SetSqlConnection("master");
 
         public static SqlDataAdapter adapter = new();
 
@@ -26,5 +25,10 @@ namespace TCH_desktop
         }
 
         public static SqlConnection GetConnection() => sqlConnection;
+
+        public static SqlConnection SetSqlConnection(string dbName)
+        {
+            return new (@$"Data Source=LANCELOT\SQLEXPRESS;Initial Catalog={dbName};Integrated Security=True;");
+        }
     }
 }

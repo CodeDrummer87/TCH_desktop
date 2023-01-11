@@ -3,7 +3,7 @@ USE tchDb;
 
 GO
 
-IF OBJECT_ID('TripsBrakeTests', 'u') IS NULL
+IF OBJECT_ID(N'TripsBrakeTests', 'u') IS NULL
 CREATE TABLE TripsBrakeTests
 (
 	Id INT IDENTITY(1, 1) PRIMARY KEY,

@@ -1,4 +1,4 @@
-п»їIF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE ID = OBJECT_ID(N'tchDb'))
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE ID = OBJECT_ID(N'tchDb'))
 USE tchDb;
 
 GO
@@ -15,6 +15,6 @@ GO
 
 INSERT INTO Positions
 VALUES
-	('РџРѕРјРѕС‰РЅРёРє РјР°С€РёРЅРёСЃС‚Р°', 'РўР§РџРњ'),
-	('РњР°С€РёРЅРёСЃС‚', 'РўР§Рњ'),
-	('РњР°С€РёРЅРёСЃС‚-РёРЅСЃС‚СЂСѓРєС‚РѕСЂ', 'РўР§РњР')
+	(N'Помощник машиниста', 'ТЧПМ'),
+	(N'Машинист', 'ТЧМ'),
+	(N'Машинист-инструктор', 'ТЧМИ')

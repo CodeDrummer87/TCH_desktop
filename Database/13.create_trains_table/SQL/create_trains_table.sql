@@ -1,9 +1,9 @@
-﻿IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE ID = OBJECT_ID(N'tchDb'))
-USE tchDb;
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE ID = OBJECT_ID(N'tchDb'))
+USE tchDb
 
 GO
 
-IF OBJECT_ID('Trains', 'u') IS NULL
+IF OBJECT_ID(N'Trains', 'u') IS NULL
 CREATE TABLE Trains
 (
 	Id INT IDENTITY(1, 1) PRIMARY KEY,

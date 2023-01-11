@@ -1,4 +1,4 @@
-п»їIF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE ID = OBJECT_ID(N'tchDb'))
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE ID = OBJECT_ID(N'tchDb'))
 USE tchDb;
 
 GO
@@ -15,9 +15,9 @@ GO
 IF OBJECT_ID('ColumnSpecializations', 'u') IS NOT NULL
 INSERT INTO ColumnSpecializations
 VALUES
-	('Р“СЂСѓР·РѕРІР°СЏ РєРѕР»РѕРЅРЅР°'),
-	('РџР°СЃСЃР°Р¶РёСЂСЃРєР°СЏ РєРѕР»РѕРЅРЅР°'),
-	('РњР°РЅРµРІСЂРѕРІР°СЏ РєРѕР»РѕРЅРЅР°'),
-	('РҐРѕР·СЏР№СЃС‚РІРµРЅРЅР°СЏ РєРѕР»РѕРЅРЅР°'),
-	('РџРµСЂРµРґР°С‚РѕС‡РЅР°СЏ РєРѕР»РѕРЅРЅР°'),
-	('Р­РєРёРїРёСЂРѕРІРѕС‡РЅР°СЏ РєРѕР»РѕРЅРЅР°')
+	(N'Грузовая колонна'),
+	(N'Пассажирская колонна'),
+	(N'Маневровая колонна'),
+	(N'Хозяйственная колонна'),
+	(N'Передаточная колонна'),
+	(N'Экипировочная колонна')
