@@ -17,7 +17,6 @@ namespace TCH_desktop.View
         {
             InitializeComponent();
 
-            //.:: for test
             dbCreator = new DbCreator();
 
             account = new AccountAction();

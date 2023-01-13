@@ -10,31 +10,35 @@ namespace TCH_desktop.Presenter
         {
             if (CheckDbForExist("tchDb"))
             {
-                //.:: temporary code
-                MessageBox.Show(".:: База данных создана");
+
             }
             else
             {
-                string currentDir = Environment.CurrentDirectory;
-                int index = currentDir.IndexOf("Desktop") + 20;
+                if (MessageBox.Show(".:: Для корректной работы приложения необходимо развернуть и " +
+                    "подключить Базу Данных. В программу заложена возможность развернуть Базу Данных для сервера " +
+                    "MS SQL 2018 и выше. Развернуть?", "База данных отсутствует",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    string currentDir = Environment.CurrentDirectory;
+                    int index = currentDir.IndexOf("Desktop") + 20;
 
-                string root = (currentDir.Remove(index)) + "Database";
-                DeployDatabase(root);
-            }    
+                    string root = (currentDir.Remove(index)) + "Database";
+                    DeployDatabase(root);
+                }
+            }
         }
 
         public bool CheckDbForExist(string dbName)
         {
             int result = 0;
 
-            string query = "USE master GO SELECT COUNT(*) FROM sysdatabases WHERE NAME='@dbName'";
-            string updatedQuery = query.Replace("GO", "");
+            string query = "USE master SELECT COUNT(*) FROM sysdatabases WHERE NAME=@dbName";
 
             try
             {
-                SqlCommand command = new(updatedQuery, DataBase.GetConnection());
+                SqlCommand command = new(query, DataBase.GetMasterConnection());
                 command.Parameters.Add("@dbName", SqlDbType.VarChar).Value = dbName;
-                DataBase.OpenConnection();
+                DataBase.OpenMasterConnection();
 
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -42,7 +46,7 @@ namespace TCH_desktop.Presenter
                     result = reader.GetInt32(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
+                DataBase.CloseMasterConnection();
 
                 return result == 1 ? true : false;
             }
@@ -84,27 +88,30 @@ namespace TCH_desktop.Presenter
                 }
             }
 
-            DataBase.SetSqlConnection("tchDb");
+            MessageBox.Show(".:: Приложение готово к работе", "База Данных развёрнута",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public void RunScript(string query, int number)
         {
             query = query.Replace("GO", "");
 
+            int index = query.IndexOf("USE");
+            if (index != 0) query = query.Substring(index);
+
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                DataBase.OpenConnection();
+                SqlCommand command = new(@query, DataBase.GetMasterConnection());
+                DataBase.OpenMasterConnection();
 
                 command.ExecuteNonQuery();
-                DataBase.CloseConnection();
+                DataBase.CloseMasterConnection();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Не удалось выполнить {number}-й скрипт при развёртывании Базы Данных приложения." +
                     $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                MessageBox.Show(query);
             }
         }
     }

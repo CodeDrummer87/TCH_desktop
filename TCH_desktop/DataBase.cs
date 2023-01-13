@@ -4,7 +4,8 @@ namespace TCH_desktop
 {
     internal static class DataBase
     {
-        static SqlConnection sqlConnection = SetSqlConnection("master");
+        static SqlConnection sqlMasterConnection = SetSqlConnection("master");
+        static SqlConnection sqlConnection = SetSqlConnection("tchDb");
 
         public static SqlDataAdapter adapter = new();
 
@@ -16,6 +17,14 @@ namespace TCH_desktop
             }
         }
 
+        public static void OpenMasterConnection()
+        {
+            if (sqlMasterConnection.State == System.Data.ConnectionState.Closed)
+            {
+                sqlMasterConnection.Open();
+            }
+        }
+
         public static void CloseConnection()
         {
             if (sqlConnection.State == System.Data.ConnectionState.Open)
@@ -24,7 +33,17 @@ namespace TCH_desktop
             }
         }
 
+        public static void CloseMasterConnection()
+        {
+            if (sqlMasterConnection.State == System.Data.ConnectionState.Open)
+            {
+                sqlMasterConnection.Close();
+            }
+        }
+
         public static SqlConnection GetConnection() => sqlConnection;
+
+        public static SqlConnection GetMasterConnection() => sqlMasterConnection;
 
         public static SqlConnection SetSqlConnection(string dbName)
         {

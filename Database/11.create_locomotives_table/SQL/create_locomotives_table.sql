@@ -1,4 +1,4 @@
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE ID = OBJECT_ID(N'tchDb'))
+п»їIF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE ID = OBJECT_ID(N'tchDb'))
 USE tchDb;
 
 GO
@@ -15,10 +15,10 @@ GO
 IF OBJECT_ID('LocomotiveTypes', 'u') IS NOT NULL
 INSERT INTO LocomotiveTypes
 VALUES
-	(N'Паровоз'),
-	(N'Тепловоз'),
-	(N'Электровоз'),
-	(N'Газотурбовоз')
+	(N'РџР°СЂРѕРІРѕР·'),
+	(N'РўРµРїР»РѕРІРѕР·'),
+	(N'Р­Р»РµРєС‚СЂРѕРІРѕР·'),
+	(N'Р“Р°Р·РѕС‚СѓСЂР±РѕРІРѕР·')
 
 GO
 
