@@ -157,6 +157,15 @@ namespace TCH_desktop.View
             newTripForm.Show();
         }
 
+        private void allTripsMenu_Click(object sender, EventArgs e)
+        {
+            AllTripsForm allTripsForm = new(this);
+            TopMost = true;
+            Opacity = 60;
+            Enabled = false;
+            allTripsForm.Show();
+        }
+
         private void exitButton_MouseEnter(object? sender, EventArgs e)
         {
             exitButton.Text = "x";
@@ -172,41 +181,37 @@ namespace TCH_desktop.View
         private void newTripMenu_MouseEnter(object sender, EventArgs e)
         {
             newTripMenu.ForeColor = Color.GreenYellow;
+            newTripMenu.BackColor = Color.DimGray;
         }
 
         private void newTripMenu_MouseLeave(object sender, EventArgs e)
         {
             newTripMenu.ForeColor = SystemColors.Control;
+            newTripMenu.BackColor = Color.Transparent;
         }
 
-        private void infoMenu_MouseEnter(object sender, EventArgs e)
+        private void allTripsMenu_MouseEnter(object sender, EventArgs e)
         {
-            infoMenu.ForeColor = Color.GreenYellow;
+            allTripsMenu.ForeColor = Color.GreenYellow;
+            allTripsMenu.BackColor = Color.DimGray;
         }
 
-        private void infoMenu_MouseLeave(object sender, EventArgs e)
+        private void allTripsMenu_MouseLeave(object sender, EventArgs e)
         {
-            infoMenu.ForeColor = SystemColors.Control;
-        }
-
-        private void studyMenu_MouseEnter(object sender, EventArgs e)
-        {
-            studyMenu.ForeColor = Color.GreenYellow;
-        }
-
-        private void studyMenu_MouseLeave(object sender, EventArgs e)
-        {
-            studyMenu.ForeColor = SystemColors.Control;
+            allTripsMenu.ForeColor = SystemColors.Control;
+            allTripsMenu.BackColor = Color.Transparent;
         }
 
         private void personDataMenu_MouseEnter(object sender, EventArgs e)
         {
             personDataMenu.ForeColor = Color.GreenYellow;
+            personDataMenu.BackColor = Color.DimGray;
         }
 
         private void personDataMenu_MouseLeave(object sender, EventArgs e)
         {
             personDataMenu.ForeColor = SystemColors.Control;
+            personDataMenu.BackColor = Color.Transparent;
         }
 
         private void TimerTick(object? sender, EventArgs e)
@@ -222,6 +227,5 @@ namespace TCH_desktop.View
         }
 
         #endregion
-
     }
 }

@@ -276,7 +276,7 @@
             this.groupBox1.Size = new System.Drawing.Size(875, 716);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Новая поездка";
+            this.groupBox1.Text = " Новая поездка ";
             // 
             // removeNotes
             // 

@@ -32,8 +32,7 @@
             this.exitButton = new System.Windows.Forms.Label();
             this.infoAboutCurrentUser = new System.Windows.Forms.Label();
             this.newTripMenu = new System.Windows.Forms.Label();
-            this.infoMenu = new System.Windows.Forms.Label();
-            this.studyMenu = new System.Windows.Forms.Label();
+            this.allTripsMenu = new System.Windows.Forms.Label();
             this.personDataMenu = new System.Windows.Forms.Label();
             this.developerEmail = new System.Windows.Forms.Label();
             this.currentMessage = new System.Windows.Forms.Label();
@@ -82,40 +81,27 @@
             this.newTripMenu.MouseEnter += new System.EventHandler(this.newTripMenu_MouseEnter);
             this.newTripMenu.MouseLeave += new System.EventHandler(this.newTripMenu_MouseLeave);
             // 
-            // infoMenu
+            // allTripsMenu
             // 
-            this.infoMenu.BackColor = System.Drawing.Color.Transparent;
-            this.infoMenu.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.infoMenu.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.infoMenu.Location = new System.Drawing.Point(49, 330);
-            this.infoMenu.Name = "infoMenu";
-            this.infoMenu.Size = new System.Drawing.Size(200, 30);
-            this.infoMenu.TabIndex = 3;
-            this.infoMenu.Text = "ИНФОРМАЦИЯ";
-            this.infoMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.infoMenu.MouseEnter += new System.EventHandler(this.infoMenu_MouseEnter);
-            this.infoMenu.MouseLeave += new System.EventHandler(this.infoMenu_MouseLeave);
-            // 
-            // studyMenu
-            // 
-            this.studyMenu.BackColor = System.Drawing.Color.Transparent;
-            this.studyMenu.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.studyMenu.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.studyMenu.Location = new System.Drawing.Point(49, 380);
-            this.studyMenu.Name = "studyMenu";
-            this.studyMenu.Size = new System.Drawing.Size(200, 30);
-            this.studyMenu.TabIndex = 4;
-            this.studyMenu.Text = "УЧЁБА";
-            this.studyMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.studyMenu.MouseEnter += new System.EventHandler(this.studyMenu_MouseEnter);
-            this.studyMenu.MouseLeave += new System.EventHandler(this.studyMenu_MouseLeave);
+            this.allTripsMenu.BackColor = System.Drawing.Color.Transparent;
+            this.allTripsMenu.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.allTripsMenu.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.allTripsMenu.Location = new System.Drawing.Point(49, 330);
+            this.allTripsMenu.Name = "allTripsMenu";
+            this.allTripsMenu.Size = new System.Drawing.Size(200, 30);
+            this.allTripsMenu.TabIndex = 3;
+            this.allTripsMenu.Text = "ВСЕ ПОЕЗДКИ";
+            this.allTripsMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.allTripsMenu.Click += new System.EventHandler(this.allTripsMenu_Click);
+            this.allTripsMenu.MouseEnter += new System.EventHandler(this.allTripsMenu_MouseEnter);
+            this.allTripsMenu.MouseLeave += new System.EventHandler(this.allTripsMenu_MouseLeave);
             // 
             // personDataMenu
             // 
             this.personDataMenu.BackColor = System.Drawing.Color.Transparent;
             this.personDataMenu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.personDataMenu.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.personDataMenu.Location = new System.Drawing.Point(49, 430);
+            this.personDataMenu.Location = new System.Drawing.Point(49, 380);
             this.personDataMenu.Name = "personDataMenu";
             this.personDataMenu.Size = new System.Drawing.Size(200, 30);
             this.personDataMenu.TabIndex = 5;
@@ -160,8 +146,7 @@
             this.Controls.Add(this.currentMessage);
             this.Controls.Add(this.developerEmail);
             this.Controls.Add(this.personDataMenu);
-            this.Controls.Add(this.studyMenu);
-            this.Controls.Add(this.infoMenu);
+            this.Controls.Add(this.allTripsMenu);
             this.Controls.Add(this.newTripMenu);
             this.Controls.Add(this.infoAboutCurrentUser);
             this.Controls.Add(this.exitButton);
@@ -182,8 +167,7 @@
         private Label exitButton;
         private Label infoAboutCurrentUser;
         private Label newTripMenu;
-        private Label infoMenu;
-        private Label studyMenu;
+        private Label allTripsMenu;
         private Label personDataMenu;
         private Label developerEmail;
         private Label currentMessage;
