@@ -832,10 +832,10 @@ namespace TCH_desktop.View
                 int brakeHolders = GetBrakeHolders(locoId);
                 int trainId = SaveTrainData(brakeHolders);
 
-                string query = "INSERT INTO Trips (AttendanceTime, Locomotive, TrafficRoute, ElectricityFactor, " +
-                    "Departure, Arrival, PassedStations, SpeedLimits, TechnicalSpeed, Notes, Train) " +
-                    "VALUES (@atTime, @locoId, @route, @eF, @dep, @arr, @pasSt, @spLim, " +
-                    "@techSp, @notes, @trainId)";
+                string query = "INSERT INTO Trips (AttendanceTime, Locomotive, TrafficRoute, " +
+                    "Departure, Arrival, PassedStations, SpeedLimits, Notes, Train) " +
+                    "VALUES (@atTime, @locoId, @route, @dep, @arr, @pasSt, @spLim, " +
+                    "@notes, @trainId)";
 
                 try
                 {
@@ -843,12 +843,12 @@ namespace TCH_desktop.View
                     command.Parameters.Add("@atTime", SqlDbType.DateTime).Value = attendaceTime;
                     command.Parameters.Add("@locoId", SqlDbType.Int).Value = locoId;
                     command.Parameters.Add("@route", SqlDbType.NVarChar).Value = trafficRoute;
-                    command.Parameters.Add("@eF", SqlDbType.Float).Value = 0.0F;    //.:: temporary code
+                    //command.Parameters.Add("@eF", SqlDbType.Float).Value = 0.0F;    //.:: temporary code
                     command.Parameters.Add("@dep", SqlDbType.NVarChar).Value = departure;
                     command.Parameters.Add("@arr", SqlDbType.NVarChar).Value = arrival;
                     command.Parameters.Add("@pasSt", SqlDbType.NVarChar).Value = pStations;
                     command.Parameters.Add("@spLim", SqlDbType.NVarChar).Value = limits;
-                    command.Parameters.Add("@techSp", SqlDbType.Float).Value = 0.0;  //.:: temporary code
+                    //command.Parameters.Add("@techSp", SqlDbType.Float).Value = 0.0F;  //.:: temporary code
                     command.Parameters.Add("@notes", SqlDbType.NVarChar).Value = notes;
                     command.Parameters.Add("@trainId", SqlDbType.Int).Value = trainId;
                     DataBase.OpenConnection();
