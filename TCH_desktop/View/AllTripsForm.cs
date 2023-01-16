@@ -152,6 +152,7 @@ namespace TCH_desktop.View
         private Label AddLabel(string text, int index)
         {
             Label newLabel = new Label();
+            newLabel.Name = index.ToString();
             newLabel.AutoSize = true;
             newLabel.TextAlign = ContentAlignment.MiddleCenter;
             newLabel.Dock = DockStyle.Fill;
@@ -159,6 +160,11 @@ namespace TCH_desktop.View
             newLabel.BackColor = Color.Transparent;
             newLabel.Font = new("Lucida Console", 10.0F, FontStyle.Bold, GraphicsUnit.Point);
             newLabel.Text = text;
+            newLabel.Cursor = Cursors.Hand;
+
+            newLabel.MouseEnter += HoverLabel;
+            newLabel.MouseLeave += LeaveLabel;
+            newLabel.Click += ClickTripRow;
 
             return newLabel;
         }
@@ -201,8 +207,8 @@ namespace TCH_desktop.View
 
         private void AddNewTableCell(string data, int index)
         {
-            var trainNumb = AddLabel(data, index);
-            tripsTable.Controls.Add(trainNumb);
+            var label = AddLabel(data, index);
+            tripsTable.Controls.Add(label);
         }
 
         private string GetLocoSeries(int seriesId)
@@ -294,6 +300,40 @@ namespace TCH_desktop.View
             return count == 1 ? "поездка" :
                 count > 1 && count < 5 ? "поездки" : "поездок";
         } 
+
+        private void HoverLabel(object? sender, EventArgs e)
+        {
+            string index = ((Label)sender)?.Name;
+            for (int i = 0; i < tripsTable.Controls.Count; i++)
+            {
+                if (tripsTable.Controls[i].Name == index)
+                {
+                    tripsTable.Controls[i].ForeColor = Color.Lime;//MediumSpringGreen;
+                    tripsTable.Controls[i].BackColor = Color.DarkOliveGreen;
+                }
+            }
+        }
+
+        private void LeaveLabel(object? sender, EventArgs e)
+        {
+            string index = ((Label)sender)?.Name;
+            for (int i = 0; i < tripsTable.Controls.Count; i++)
+            {
+                if (tripsTable.Controls[i].Name == index)
+                {
+                    tripsTable.Controls[i].ForeColor = Convert.ToInt32(index) % 2 == 0 ?
+                        Color.Tan : Color.Bisque;
+                    tripsTable.Controls[i].BackColor = Color.Transparent;
+                }
+            }
+        }
+
+        private void ClickTripRow(object? sender, EventArgs e)
+        {
+            //.:: temporary code
+            MessageBox.Show(".:: Тут будет отображаться информация о поездке");
+        }
+
 
 
         #region Interactive
