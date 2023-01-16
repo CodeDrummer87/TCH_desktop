@@ -34,7 +34,7 @@ namespace TCH_desktop.View
             try
             {
                 SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@offset", SqlDbType.Int).Value = offset;
+                command.Parameters.Add("@offset", SqlDbType.Int).Value = offset * 8;
                 DataBase.OpenConnection();
 
                 SqlDataReader reader = command.ExecuteReader();
@@ -181,6 +181,15 @@ namespace TCH_desktop.View
                 string loco = $"{GetLocoSeries(locomotivesList[i].Series)}-{locomotivesList[i].Number}";
                 AddNewTableCell(loco, i);
             }
+
+            int totalCount = GetTotalTripsCount();
+            currentMessage.Text = $"Показано {tripsList.Count} {TransformWord(tripsList.Count)} " +
+                $"из {totalCount}";
+
+            if (tripsList.Count + offset * 8 == totalCount)
+                arrowRight.Visible = false;
+            else
+                if (!arrowRight.Visible) arrowRight.Visible = true;
         }
 
         private void AddNewTableRow()
@@ -225,29 +234,112 @@ namespace TCH_desktop.View
             return result;
         }
 
-
-
-        #region Interactive
-
-        private void AllTripsForm_Load(object sender, EventArgs e)
+        private void DisplayDataTable()
         {
             GetTrips();
             if (tripsList.Count > 0)
             {
                 GetTrainsById();
                 GetLocoById();
+
+                DisplayTripsData();
+            }   
+        }
+
+        private void ClearTable()
+        {
+            this.SuspendLayout();
+
+            int numberOfControls = tripsTable.Controls.Count;
+            while (numberOfControls > 5)
+                tripsTable.Controls.RemoveAt(--numberOfControls);
+            tripsTable.RowCount = 1;
+            tripsTable.RowStyles.Add(new RowStyle(SizeType.Percent, 32.8F));
+            tripsTable.Size = new Size(832, 40);
+            tHeight = tripsTable.Height + 20;
+
+            this.ResumeLayout();
+        }
+
+        private int GetTotalTripsCount()
+        {
+            int result = 0;
+            string query = $"SELECT COUNT(Id) FROM Trips";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = reader.GetInt32(0);
+                }
+                reader.Close();
+                DataBase.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось загрузить список поездов по ID:" +
+                    $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
-            if (tripsList.Count > 0)
-                DisplayTripsData();
+            return result;
         }
-    
+
+        private string TransformWord(int count)
+        {
+            return count == 1 ? "поездка" :
+                count > 1 && count < 5 ? "поездки" : "поездок";
+        } 
+
+
+        #region Interactive
+
+        private void AllTripsForm_Load(object sender, EventArgs e)
+        {
+            DisplayDataTable();
+        }
+
+        private void arrowRight_Click(object sender, EventArgs e)
+        {
+            arrowRight.Image = Properties.Resources.clicked_right_arrow;
+            ++offset;
+
+            if (!arrowLeft.Visible)
+                arrowLeft.Visible = true;
+
+            ClearTable();
+            DisplayDataTable();
+        }
+
+        private void arrowLeft_Click(object sender, EventArgs e)
+        {
+            tripsTable.SuspendLayout();
+
+            arrowLeft.Image = Properties.Resources.clicked_left_arrow;
+            --offset;
+
+            if (offset <= 0)
+            {
+                offset = 0;
+                arrowLeft.Visible = false;
+            }
+
+            ClearTable();
+            DisplayDataTable();
+
+            tripsTable.ResumeLayout();
+        }
+
         private void backToStartForm_Click(object sender, EventArgs e)
         {
             startForm.Enabled = true;
             this.Close();
         }
-
+        
         private void backToStartForm_MouseEnter(object sender, EventArgs e)
         {
             backToStartForm.ForeColor = Color.Yellow;
@@ -258,6 +350,26 @@ namespace TCH_desktop.View
         {
             backToStartForm.ForeColor = Color.GreenYellow;
             backToStartForm.BackColor = SystemColors.InfoText;
+        }
+
+        private void arrowRight_MouseEnter(object sender, EventArgs e)
+        {
+            arrowRight.Image = Properties.Resources.hover_right_arrow;
+        }
+
+        private void arrowRight_MouseLeave(object sender, EventArgs e)
+        {
+            arrowRight.Image = Properties.Resources.right_arrow;
+        }
+
+        private void arrowLeft_MouseEnter(object sender, EventArgs e)
+        {
+            arrowLeft.Image = Properties.Resources.hover_left_arrow;
+        }
+
+        private void arrowLeft_MouseLeave(object sender, EventArgs e)
+        {
+            arrowLeft.Image = Properties.Resources.left_arrow;
         }
 
         #endregion

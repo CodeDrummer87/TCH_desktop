@@ -30,6 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AllTripsForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.arrowLeft = new System.Windows.Forms.PictureBox();
+            this.currentMessage = new System.Windows.Forms.Label();
+            this.arrowRight = new System.Windows.Forms.PictureBox();
             this.tripsTable = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -38,12 +41,17 @@
             this.label5 = new System.Windows.Forms.Label();
             this.backToStartForm = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
             this.tripsTable.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.arrowLeft);
+            this.groupBox1.Controls.Add(this.currentMessage);
+            this.groupBox1.Controls.Add(this.arrowRight);
             this.groupBox1.Controls.Add(this.tripsTable);
             this.groupBox1.Font = new System.Drawing.Font("Lucida Console", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.ForeColor = System.Drawing.Color.SandyBrown;
@@ -53,6 +61,45 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Все поездки ";
+            // 
+            // arrowLeft
+            // 
+            this.arrowLeft.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.arrowLeft.Image = ((System.Drawing.Image)(resources.GetObject("arrowLeft.Image")));
+            this.arrowLeft.Location = new System.Drawing.Point(25, 643);
+            this.arrowLeft.Name = "arrowLeft";
+            this.arrowLeft.Size = new System.Drawing.Size(50, 50);
+            this.arrowLeft.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.arrowLeft.TabIndex = 3;
+            this.arrowLeft.TabStop = false;
+            this.arrowLeft.Visible = false;
+            this.arrowLeft.Click += new System.EventHandler(this.arrowLeft_Click);
+            this.arrowLeft.MouseEnter += new System.EventHandler(this.arrowLeft_MouseEnter);
+            this.arrowLeft.MouseLeave += new System.EventHandler(this.arrowLeft_MouseLeave);
+            // 
+            // currentMessage
+            // 
+            this.currentMessage.ForeColor = System.Drawing.Color.Gold;
+            this.currentMessage.Location = new System.Drawing.Point(85, 656);
+            this.currentMessage.Name = "currentMessage";
+            this.currentMessage.Size = new System.Drawing.Size(698, 25);
+            this.currentMessage.TabIndex = 2;
+            this.currentMessage.Text = "Текущее сообщение о выборке";
+            this.currentMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // arrowRight
+            // 
+            this.arrowRight.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.arrowRight.Image = ((System.Drawing.Image)(resources.GetObject("arrowRight.Image")));
+            this.arrowRight.Location = new System.Drawing.Point(804, 643);
+            this.arrowRight.Name = "arrowRight";
+            this.arrowRight.Size = new System.Drawing.Size(50, 50);
+            this.arrowRight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.arrowRight.TabIndex = 1;
+            this.arrowRight.TabStop = false;
+            this.arrowRight.Click += new System.EventHandler(this.arrowRight_Click);
+            this.arrowRight.MouseEnter += new System.EventHandler(this.arrowRight_MouseEnter);
+            this.arrowRight.MouseLeave += new System.EventHandler(this.arrowRight_MouseLeave);
             // 
             // tripsTable
             // 
@@ -106,7 +153,7 @@
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(401, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(152, 40);
+            this.label3.Size = new System.Drawing.Size(139, 40);
             this.label3.TabIndex = 2;
             this.label3.Text = "Номер поезда";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -116,7 +163,7 @@
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.DarkSlateGray;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(559, 0);
+            this.label4.Location = new System.Drawing.Point(546, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(138, 40);
             this.label4.TabIndex = 3;
@@ -128,9 +175,9 @@
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.DarkSlateGray;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(703, 0);
+            this.label5.Location = new System.Drawing.Point(690, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(126, 40);
+            this.label5.Size = new System.Drawing.Size(139, 40);
             this.label5.TabIndex = 4;
             this.label5.Text = "Локомотив";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -167,6 +214,8 @@
             this.TopMost = true;
             this.Load += new System.EventHandler(this.AllTripsForm_Load);
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).EndInit();
             this.tripsTable.ResumeLayout(false);
             this.tripsTable.PerformLayout();
             this.ResumeLayout(false);
@@ -184,5 +233,8 @@
         private Label label3;
         private Label label4;
         private Label label5;
+        private PictureBox arrowRight;
+        private Label currentMessage;
+        private PictureBox arrowLeft;
     }
 }
