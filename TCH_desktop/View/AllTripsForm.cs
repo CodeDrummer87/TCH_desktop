@@ -149,10 +149,10 @@ namespace TCH_desktop.View
             }
         }
 
-        private Label AddLabel(string text, int index)
+        private Label AddLabel(string text, int index, int tripId)
         {
             Label newLabel = new Label();
-            newLabel.Name = index.ToString();
+            newLabel.Name = $"{index}_{tripId}";
             newLabel.AutoSize = true;
             newLabel.TextAlign = ContentAlignment.MiddleCenter;
             newLabel.Dock = DockStyle.Fill;
@@ -164,7 +164,7 @@ namespace TCH_desktop.View
 
             newLabel.MouseEnter += HoverLabel;
             newLabel.MouseLeave += LeaveLabel;
-            newLabel.Click += ClickTripRow;
+            newLabel.MouseDoubleClick += ClickTripRow;
 
             return newLabel;
         }
@@ -175,21 +175,23 @@ namespace TCH_desktop.View
             {
                 AddNewTableRow();
 
-                string date = tripsList[0].AttendanceTime.ToString("dd.MM.yy\n(hh:mm)");
-                AddNewTableCell(date, i);
+                int tripId = tripsList[i].Id;
+                string date = tripsList[i].AttendanceTime.ToString("dd.MM.yy\n(hh:mm)");
+                AddNewTableCell(date, i, tripId);
 
-                AddNewTableCell(tripsList[i].TrafficRoute, i);
+                AddNewTableCell(tripsList[i].TrafficRoute, i, tripId);
 
-                AddNewTableCell(trainsList[i].Number, i);
+                AddNewTableCell(trainsList[i].Number, i, tripId);
 
-                AddNewTableCell(trainsList[i].Weight.ToString(), i);
+                AddNewTableCell(trainsList[i].Weight.ToString(), i, tripId);
 
                 string loco = $"{GetLocoSeries(locomotivesList[i].Series)}-{locomotivesList[i].Number}";
-                AddNewTableCell(loco, i);
+                AddNewTableCell(loco, i, tripId);
             }
 
             int totalCount = GetTotalTripsCount();
-            currentMessage.Text = $"Показано {tripsList.Count} {TransformWord(tripsList.Count)} " +
+            string total = offset == 0 ? String.Empty : $"({8 + tripsList.Count})";
+            currentMessage.Text = $"Показано {tripsList.Count}{total} {TransformWord(tripsList.Count)} " +
                 $"из {totalCount}";
 
             if (tripsList.Count + offset * 8 == totalCount)
@@ -205,9 +207,9 @@ namespace TCH_desktop.View
             tripsTable.RowStyles.Add(new(SizeType.Percent, 45.0F));
         }
 
-        private void AddNewTableCell(string data, int index)
+        private void AddNewTableCell(string data, int index, int tripId)
         {
-            var label = AddLabel(data, index);
+            var label = AddLabel(data, index, tripId);
             tripsTable.Controls.Add(label);
         }
 
@@ -303,12 +305,12 @@ namespace TCH_desktop.View
 
         private void HoverLabel(object? sender, EventArgs e)
         {
-            string index = ((Label)sender)?.Name;
+            string index = (((Label)sender)?.Name).Substring(0, 1);
             for (int i = 0; i < tripsTable.Controls.Count; i++)
             {
-                if (tripsTable.Controls[i].Name == index)
+                if ((tripsTable.Controls[i].Name).StartsWith(index))
                 {
-                    tripsTable.Controls[i].ForeColor = Color.Lime;//MediumSpringGreen;
+                    tripsTable.Controls[i].ForeColor = Color.Lime;
                     tripsTable.Controls[i].BackColor = Color.DarkOliveGreen;
                 }
             }
@@ -316,10 +318,10 @@ namespace TCH_desktop.View
 
         private void LeaveLabel(object? sender, EventArgs e)
         {
-            string index = ((Label)sender)?.Name;
+            string index = (((Label)sender)?.Name).Substring(0, 1);
             for (int i = 0; i < tripsTable.Controls.Count; i++)
             {
-                if (tripsTable.Controls[i].Name == index)
+                if ((tripsTable.Controls[i].Name).StartsWith(index))
                 {
                     tripsTable.Controls[i].ForeColor = Convert.ToInt32(index) % 2 == 0 ?
                         Color.Tan : Color.Bisque;
@@ -330,8 +332,17 @@ namespace TCH_desktop.View
 
         private void ClickTripRow(object? sender, EventArgs e)
         {
-            //.:: temporary code
-            MessageBox.Show(".:: Тут будет отображаться информация о поездке");
+            string name = ((Label)sender)?.Name;
+            int tripId = Convert.ToInt32(name.Substring(2));
+
+            //MessageBox.Show($"ID = {tripId}");
+            TripInfoForm tripInfoForm = new(this);
+            TopMost = false;
+            startForm.TopMost = false;
+            Opacity = 60;
+            Enabled = false;
+            tripInfoForm.Show();
+
         }
 
 
