@@ -5,7 +5,7 @@ using TCH_desktop.Models;
 namespace TCH_desktop.View
 {
     public partial class AllTripsForm : Form
-    {
+    {   
         private StartForm startForm;
         private List<Trip> tripsList = new();
         private List<Train> trainsList = new();
@@ -335,10 +335,9 @@ namespace TCH_desktop.View
             string name = ((Label)sender)?.Name;
             int tripId = Convert.ToInt32(name.Substring(2));
 
-            //MessageBox.Show($"ID = {tripId}");
-            TripInfoForm tripInfoForm = new(this);
-            TopMost = false;
-            startForm.TopMost = false;
+            TripInfoForm tripInfoForm = new(this, tripId);
+            TopMost = true;
+            startForm.TopMost = true;
             Opacity = 60;
             Enabled = false;
             tripInfoForm.Show();
