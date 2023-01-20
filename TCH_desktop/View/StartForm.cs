@@ -162,7 +162,7 @@ namespace TCH_desktop.View
             AllTripsForm allTripsForm = new(this);
             TopMost = true;
             Opacity = 60;
-            Enabled = false;
+            this.Enabled = false;
             allTripsForm.Show();
         }
 

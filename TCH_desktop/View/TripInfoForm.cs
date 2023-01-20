@@ -69,11 +69,16 @@ namespace TCH_desktop.View
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox.Location = new(857, 46);
             string defaultPath = Environment.CurrentDirectory + @"\source\images\addLocoImg.png";
-            pictureBox.Image = loco.ImagePath == String.Empty ?
-                new Bitmap(defaultPath) : new Bitmap(loco.ImagePath);
-            groupBox.Controls.Add(pictureBox);
+            if (loco.ImagePath == String.Empty)
+            {
+                pictureBox.Image = new Bitmap(defaultPath);
+                ApplyLocoPhoto(pictureBox, locoType, locoSeries, loco.Number);
+            }
+            else
+                pictureBox.Image = new Bitmap(loco.ImagePath);
 
-
+            groupBox.Controls.Add(pictureBox);  
+            
             this.Controls.Add(groupBox);
         }
 
@@ -266,6 +271,22 @@ namespace TCH_desktop.View
             }
 
             return result;
+        }
+
+        private void ApplyLocoPhoto(PictureBox pictureBox, string type, string series, int number)
+        {
+            string path = Environment.CurrentDirectory + @$"\Фотографии\{type}ы\{series}";
+            FileInfo image = new(path + $@"\{series}-{number}.jpg");
+
+            if (image.Exists)
+            {
+                pictureBox.Image = new Bitmap(path + $@"\{series}-{number}.jpg");
+            }
+            else
+            {
+                path = Environment.CurrentDirectory + @"\source\images\addLocoImg.png";
+                pictureBox.Image = new Bitmap(path);
+            }
         }
     }
 }

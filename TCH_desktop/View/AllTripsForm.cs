@@ -338,6 +338,7 @@ namespace TCH_desktop.View
             TripInfoForm tripInfoForm = new(this, tripId);
             TopMost = true;
             startForm.TopMost = true;
+            startForm.Enabled = false;
             Opacity = 60;
             Enabled = false;
             tripInfoForm.Show();
