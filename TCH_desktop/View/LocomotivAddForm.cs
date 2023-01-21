@@ -104,7 +104,7 @@ namespace TCH_desktop.View
             allocationSelect.Items.Clear();
             allocationSelect.ResetText();
 
-            string query =  "SELECT	CONCAT(d.ShortTitle, ' (', r.Abbreviation, ')') 'allocation'"  
+            string query =  "SELECT	CONCAT(d.ShortTitle, ', ', r.Abbreviation) 'allocation'"  
                             + "FROM LocomotiveDepots d "
                             + "INNER JOIN Railroads r "
                             + "ON r.Id = d.Railroad";
