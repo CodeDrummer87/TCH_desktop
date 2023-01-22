@@ -171,13 +171,13 @@ namespace TCH_desktop.View
             string text = String.Empty;
             if (tripForm.doubleTrain.Checked)
             {
-                text = $"ПТ (с {test.RequiredSpeedForDoubleTrain.Trim()} км/ч) " +
-                $"{test.RailwayLine.Trim()} < {test.PointForDoubleTrain.Trim()} км/пк>";
+                text = $"({test.RequiredSpeedForDoubleTrain.Trim()} км/ч) " +
+                $"{test.RailwayLine.Trim()} <{test.PointForDoubleTrain.Trim()}>";
             }
             else
             {
-                text = $"ПТ (с {test.RequiredSpeed.Trim()} км/ч) " +
-                $"{test.RailwayLine.Trim()} < {test.Point.Trim()} км/пк>";
+                text = $"({test.RequiredSpeed.Trim()} км/ч) " +
+                $"{test.RailwayLine.Trim()} <{test.Point.Trim()}>";
             }
 
             if (isMainTestBrakeAdded)

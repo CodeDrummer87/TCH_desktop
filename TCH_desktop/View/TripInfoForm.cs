@@ -42,6 +42,7 @@ namespace TCH_desktop.View
             string locoType = GetLocoType(loco.LocoType);
             string locoSeries = GetLocoSeries(loco.Series);
             Train train = GetTrainData(trip.Train);
+            Queue<string> brakeTests = GetBrakeTests(trip.Id);
 
             GroupBox tripGroupBox = new GroupBox();
             tripGroupBox.Text = $" Поездка \"{trip.TrafficRoute}\" от {trip.AttendanceTime.ToString("D")}";
@@ -101,6 +102,7 @@ namespace TCH_desktop.View
             electricityGroupBox.Size = new Size(390, 77);
             electricityGroupBox.TabStop = false;
             electricityGroupBox.Text = "Электроэнергия, рекуперация";
+            electricityGroupBox.Click += CloseForm;
             tripGroupBox.Controls.Add(electricityGroupBox);
 
             Label factor = new Label();
@@ -187,6 +189,7 @@ namespace TCH_desktop.View
             trainGroupBox.Size = new Size(289, 268);
             trainGroupBox.TabStop = false;
             trainGroupBox.Text = "Поезд";
+            trainGroupBox.Click += CloseForm;
             tripGroupBox.Controls.Add(trainGroupBox);
 
             Label trainNumb = new Label();
@@ -311,6 +314,7 @@ namespace TCH_desktop.View
             departureGroupBox.Size = new Size(154, 119);
             departureGroupBox.TabStop = false;
             departureGroupBox.Text = "Отправление";
+            departureGroupBox.Click += CloseForm;
             tripGroupBox.Controls.Add(departureGroupBox);
 
             Label departure = new Label();
@@ -320,6 +324,7 @@ namespace TCH_desktop.View
             departure.Size = new Size(142, 82);
             departure.Text = trip.Departure;
             departure.TextAlign = ContentAlignment.MiddleCenter;
+            departure.Click += CloseForm;
             departureGroupBox.Controls.Add(departure);
 
 
@@ -330,6 +335,7 @@ namespace TCH_desktop.View
             arrivalGroupBox.Size = new Size(154, 119);
             arrivalGroupBox.TabStop = false;
             arrivalGroupBox.Text = "Прибытие";
+            arrivalGroupBox.Click += CloseForm;
             tripGroupBox.Controls.Add(arrivalGroupBox);
 
             Label arrival = new Label();
@@ -339,8 +345,80 @@ namespace TCH_desktop.View
             arrival.Size = new Size(142, 79);
             arrival.Text = trip.Arrival;
             arrival.TextAlign = ContentAlignment.MiddleCenter;
+            arrival.Click += CloseForm;
             arrivalGroupBox.Controls.Add(arrival);
 
+
+            GroupBox brakeTestsGroupBox = new GroupBox();
+            brakeTestsGroupBox.Font = new Font("Verdana", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            brakeTestsGroupBox.ForeColor = Color.Chocolate;
+            brakeTestsGroupBox.Location = new Point(13, 411);
+            brakeTestsGroupBox.Size = new Size(509, 339);
+            brakeTestsGroupBox.TabStop = false;
+            brakeTestsGroupBox.Text = "Пробы тормозов в пути следования";
+            brakeTestsGroupBox.Click += CloseForm;
+            tripGroupBox.Controls.Add(brakeTestsGroupBox);
+
+            if (brakeTests.Count > 0)
+            {
+                int posY = 0;
+                foreach(string data in brakeTests)
+                {
+                    Label label = new Label();
+
+                    label.Font = new Font("Verdana", 9.2F, FontStyle.Regular, GraphicsUnit.Point);
+                    label.ForeColor = Color.LightGoldenrodYellow;
+                    label.Location = new Point(5, posY += 40);
+                    label.Size = new Size(497, 23);
+                    label.Text = data;
+                    label.TextAlign = ContentAlignment.MiddleCenter;
+                    label.Click += CloseForm;
+
+                    brakeTestsGroupBox.Controls.Add(label);
+                }
+            }
+
+
+            GroupBox passedStationsGroupBox = new();
+            passedStationsGroupBox.Font = new Font("Verdana", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            passedStationsGroupBox.ForeColor = Color.Chocolate;
+            passedStationsGroupBox.Location = new Point(529, 411);
+            passedStationsGroupBox.Size = new Size(250, 339);
+            passedStationsGroupBox.TabStop = false;
+            passedStationsGroupBox.Text = "Проследовали станции";
+            passedStationsGroupBox.Click += CloseForm;
+            tripGroupBox.Controls.Add(passedStationsGroupBox);
+
+            Label passedStations = new Label();
+            passedStations.Font = new Font("Verdana", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            passedStations.ForeColor = Color.LightGoldenrodYellow;
+            passedStations.Location = new Point(19, 40);
+            passedStations.Size = new Size(212, 279);
+            passedStations.Text = trip.PassedStations.Replace(";", "\n\n");
+            passedStations.TextAlign = ContentAlignment.MiddleCenter;
+            passedStations.Click += CloseForm;
+            passedStationsGroupBox.Controls.Add(passedStations);
+
+
+            GroupBox limitsGroupBox = new GroupBox();
+            limitsGroupBox.Font = new Font("Verdana", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            limitsGroupBox.ForeColor = Color.Chocolate;
+            limitsGroupBox.Location = new Point(785, 411);
+            limitsGroupBox.Size = new Size(483, 339);
+            limitsGroupBox.TabStop = false;
+            limitsGroupBox.Text = "Ограничения";
+            limitsGroupBox.Click += CloseForm;
+            tripGroupBox.Controls.Add(limitsGroupBox);
+
+            Label limits = new Label();
+            limits.Font = new Font("Verdana", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            limits.ForeColor = Color.LightGoldenrodYellow;
+            limits.Location = new Point(20, 40);
+            limits.Size = new Size(441, 279);
+            limits.Text = trip.SpeedLimits.Replace(";", "\n\n");
+            limits.TextAlign = ContentAlignment.MiddleCenter;
+            limits.Click += CloseForm;
+            limitsGroupBox.Controls.Add(limits);
 
 
             this.Controls.Add(tripGroupBox);
@@ -591,6 +669,36 @@ namespace TCH_desktop.View
             }
 
             return train;
+        }
+
+        private Queue<string> GetBrakeTests(int tripId)
+        {
+            Queue<string> brakeTests = new Queue<string>();
+            string query = "SELECT BrakeTest FROM TripsBrakeTests WHERE Trip=@tripId";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@tripId", SqlDbType.Int).Value = tripId;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    brakeTests.Enqueue(reader.GetString(0));
+                }
+
+                reader.Close();
+                DataBase.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось загрузить список проб тормозов в поездке (ID={tripId}):" +
+                    $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            return brakeTests;
         }
     }
 }
