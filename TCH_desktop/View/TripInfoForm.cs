@@ -83,6 +83,7 @@ namespace TCH_desktop.View
             pictureBox.Size = new(378, 288);
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox.Location = new(857, 105);
+            pictureBox.Cursor = Cursors.NoMove2D;
             pictureBox.TabStop = false;
             string defaultPath = Environment.CurrentDirectory + @"\source\images\addLocoImg.png";
             if (loco.ImagePath == String.Empty)
@@ -92,8 +93,12 @@ namespace TCH_desktop.View
             }
             else
                 pictureBox.Image = new Bitmap(loco.ImagePath);
+            pictureBox.Click += OpenSlider;
+
             tripGroupBox.Controls.Add(pictureBox);
 
+
+            #region ElectricityGroupBox
 
             GroupBox electricityGroupBox = new();
             electricityGroupBox.Font = new("Verdana", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
@@ -162,6 +167,8 @@ namespace TCH_desktop.View
             elRecoveryValue.TextAlign = ContentAlignment.MiddleCenter;
             electricityGroupBox.Controls.Add(elRecoveryValue);
 
+            #endregion
+
 
             GroupBox notesGroupBox = new();
             notesGroupBox.Font = new Font("Verdana", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
@@ -181,6 +188,7 @@ namespace TCH_desktop.View
             notes.TextAlign = ContentAlignment.MiddleCenter;
             notesGroupBox.Controls.Add(notes);
 
+            #region trainGroupBox
 
             GroupBox trainGroupBox = new GroupBox();
             trainGroupBox.Font = new Font("Verdana", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
@@ -305,6 +313,8 @@ namespace TCH_desktop.View
             fixationValue.Text = train.TrainFixation;
             fixationValue.TextAlign = ContentAlignment.MiddleCenter;
             trainGroupBox.Controls.Add(fixationValue);
+
+            #endregion
 
 
             GroupBox departureGroupBox = new GroupBox();
@@ -699,6 +709,14 @@ namespace TCH_desktop.View
             }
 
             return brakeTests;
+        }
+
+        private void OpenSlider(object? sender, EventArgs e)
+        {
+            PhotoSliderForm sliderForm = new(this);
+            Opacity = 60;
+            Enabled = false;
+            sliderForm.Show();
         }
     }
 }
