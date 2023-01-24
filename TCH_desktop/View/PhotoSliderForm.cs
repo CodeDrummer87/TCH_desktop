@@ -5,7 +5,7 @@
         private TripInfoForm tripInfoForm;
 
         private int currentIndex;
-        private string[] files;
+        private List<string> files = new();
 
         public PhotoSliderForm(TripInfoForm tripInfoForm, string directoryPath)
         {
@@ -13,15 +13,27 @@
 
             this.tripInfoForm = tripInfoForm;
 
-            currentIndex = 0;
             if (Directory.Exists(directoryPath))
-                files = Directory.GetFiles(directoryPath);
+                files = new List<string>(Directory.GetFiles(directoryPath));
 
-            mainSpace.ImageLocation = files[0];
+            currentIndex = GetIndex(files.Count() - 1);
+            mainSpace.ImageLocation = files[currentIndex];
         }
 
         private int GetIndex(int index) => 
             index > files.Count() - 1 ? 0 : index < 0 ? files.Count() - 1 : index;
+
+        private bool RemovePhoto(string path)
+        {
+            FileInfo file = new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+                return true;
+            }
+
+            return false;
+        }
 
 
         #region Interactive
@@ -103,7 +115,37 @@
 
         private void removeButton_Click(object sender, EventArgs e)
         {
+            DialogResult result = MessageBox.Show("Удалить фотографию?", "Внимание!",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
+            if (result == DialogResult.Yes)
+            {
+                if (RemovePhoto(files[currentIndex]))
+                {
+                    files.RemoveAt(currentIndex);
+                    arrowRight_Click(sender, e);
+                }
+            }
+        }
+
+        private void arrowLeft_MouseDown(object sender, MouseEventArgs e)
+        {
+            arrowLeft.Image = Properties.Resources.side_left_click;
+        }
+
+        private void arrowLeft_MouseUp(object sender, MouseEventArgs e)
+        {
+            arrowLeft.Image = Properties.Resources.side_left_hover;
+        }
+
+        private void arrowRight_MouseDown(object sender, MouseEventArgs e)
+        {
+            arrowRight.Image = Properties.Resources.side_right_click;
+        }
+
+        private void arrowRight_MouseUp(object sender, MouseEventArgs e)
+        {
+            arrowRight.Image = Properties.Resources.side_right_hover;
         }
 
         #endregion

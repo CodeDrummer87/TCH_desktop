@@ -199,6 +199,12 @@ namespace TCH_desktop.View
 
             dir = new(dir + @"\" + locoSeries);
 
+            string seriesNumber = $"{locoSeries}-{locoNumberInp.Text}";
+            if (!Directory.Exists(dir + @"\" + seriesNumber))
+                dir.CreateSubdirectory(seriesNumber);
+
+            dir = new(dir + @"\" + seriesNumber);
+
             if (tempImageFullName != String.Empty)
             {
                 FileInfo locoPhoto = new(tempImageFullName);

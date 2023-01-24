@@ -72,8 +72,10 @@
             this.arrowRight.TabStop = false;
             this.toolTip1.SetToolTip(this.arrowRight, "Следующая фотография");
             this.arrowRight.Click += new System.EventHandler(this.arrowRight_Click);
+            this.arrowRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.arrowRight_MouseDown);
             this.arrowRight.MouseEnter += new System.EventHandler(this.arrowRight_MouseEnter);
             this.arrowRight.MouseLeave += new System.EventHandler(this.arrowRight_MouseLeave);
+            this.arrowRight.MouseUp += new System.Windows.Forms.MouseEventHandler(this.arrowRight_MouseUp);
             // 
             // arrowLeft
             // 
@@ -87,8 +89,10 @@
             this.arrowLeft.TabStop = false;
             this.toolTip1.SetToolTip(this.arrowLeft, "Предыдущая фотография");
             this.arrowLeft.Click += new System.EventHandler(this.arrowLeft_Click);
+            this.arrowLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.arrowLeft_MouseDown);
             this.arrowLeft.MouseEnter += new System.EventHandler(this.arrowLeft_MouseEnter);
             this.arrowLeft.MouseLeave += new System.EventHandler(this.arrowLeft_MouseLeave);
+            this.arrowLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.arrowLeft_MouseUp);
             // 
             // mainSpace
             // 

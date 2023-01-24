@@ -253,6 +253,16 @@ namespace TCH_desktop.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap side_left_click {
+            get {
+                object obj = ResourceManager.GetObject("side_left_click", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap side_left_hover {
             get {
                 object obj = ResourceManager.GetObject("side_left_hover", resourceCulture);
@@ -266,6 +276,16 @@ namespace TCH_desktop.Properties {
         internal static System.Drawing.Bitmap side_right {
             get {
                 object obj = ResourceManager.GetObject("side_right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap side_right_click {
+            get {
+                object obj = ResourceManager.GetObject("side_right_click", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
