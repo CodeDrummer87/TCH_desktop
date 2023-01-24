@@ -95,6 +95,7 @@
             this.mainSpace.Location = new System.Drawing.Point(55, 0);
             this.mainSpace.Name = "mainSpace";
             this.mainSpace.Size = new System.Drawing.Size(1280, 960);
+            this.mainSpace.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.mainSpace.TabIndex = 3;
             this.mainSpace.TabStop = false;
             // 
@@ -143,7 +144,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PhotoSliderForm";
-            this.Opacity = 0.85D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ТЧ: Фотографии";
             this.TopMost = true;

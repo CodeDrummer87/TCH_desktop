@@ -4,12 +4,24 @@
     {
         private TripInfoForm tripInfoForm;
 
-        public PhotoSliderForm(TripInfoForm tripInfoForm)
+        private int currentIndex;
+        private string[] files;
+
+        public PhotoSliderForm(TripInfoForm tripInfoForm, string directoryPath)
         {
             InitializeComponent();
 
             this.tripInfoForm = tripInfoForm;
+
+            currentIndex = 0;
+            if (Directory.Exists(directoryPath))
+                files = Directory.GetFiles(directoryPath);
+
+            mainSpace.ImageLocation = files[0];
         }
+
+        private int GetIndex(int index) => 
+            index > files.Count() - 1 ? 0 : index < 0 ? files.Count() - 1 : index;
 
 
         #region Interactive
@@ -44,12 +56,8 @@
 
         private void arrowRight_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void mainSpace_MouseEnter(object sender, EventArgs e)
-        {
-
+            currentIndex = GetIndex(++currentIndex);
+            mainSpace.ImageLocation = files[currentIndex];
         }
 
         private void arrowLeft_MouseEnter(object sender, EventArgs e)
@@ -64,7 +72,8 @@
 
         private void arrowLeft_Click(object sender, EventArgs e)
         {
-
+            currentIndex = GetIndex(--currentIndex);
+            mainSpace.ImageLocation = files[currentIndex];
         }
 
         private void addButton_MouseEnter(object sender, EventArgs e)

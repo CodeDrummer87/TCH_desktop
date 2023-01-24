@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Xml.Linq;
 using TCH_desktop.Models;
 
 namespace TCH_desktop.View
@@ -12,6 +13,7 @@ namespace TCH_desktop.View
         private bool isFinalForm;
         private bool isGrowingInWidth;
         private bool isGrowingInHeight;
+        private bool isSetPhoto;
 
         private System.Windows.Forms.Timer timer;
 
@@ -30,6 +32,7 @@ namespace TCH_desktop.View
             isFinalForm = false;
             isGrowingInWidth = true;
             isGrowingInHeight = false;
+            isSetPhoto = false;
 
             timer = new System.Windows.Forms.Timer { Interval = 10 };
             timer.Tick += TimerTick;
@@ -80,20 +83,31 @@ namespace TCH_desktop.View
             tripGroupBox.Controls.Add(locomotive);
 
             PictureBox pictureBox = new PictureBox();
+
+            pictureBox.Name = "locoImagePB";
             pictureBox.Size = new(378, 288);
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox.Location = new(857, 105);
-            pictureBox.Cursor = Cursors.NoMove2D;
             pictureBox.TabStop = false;
-            string defaultPath = Environment.CurrentDirectory + @"\source\images\addLocoImg.png";
+
             if (loco.ImagePath == String.Empty)
+                ApplyLocoPhoto(pictureBox, locoType, locoSeries, loco.Number, ref isSetPhoto);
+            else
             {
-                pictureBox.Image = new Bitmap(defaultPath);
-                ApplyLocoPhoto(pictureBox, locoType, locoSeries, loco.Number);
+                isSetPhoto = true;
+                pictureBox.ImageLocation = loco.ImagePath;
+            }
+
+            if (isSetPhoto)
+            {
+                pictureBox.Cursor = Cursors.NoMove2D;
+                pictureBox.Click += OpenSlider;
             }
             else
-                pictureBox.Image = new Bitmap(loco.ImagePath);
-            pictureBox.Click += OpenSlider;
+            {
+                pictureBox.Cursor = Cursors.Hand;
+                pictureBox.Click += CloseForm;
+            }
 
             tripGroupBox.Controls.Add(pictureBox);
 
@@ -625,17 +639,19 @@ namespace TCH_desktop.View
             return result;
         }
 
-        private void ApplyLocoPhoto(PictureBox pictureBox, string type, string series, int number)
+        private void ApplyLocoPhoto(PictureBox pictureBox, string type, string series, int number, ref bool isSet)
         {
             string path = Environment.CurrentDirectory + @$"\Фотографии\{type}ы\{series}";
             FileInfo image = new(path + $@"\{series}-{number}.jpg");
 
             if (image.Exists)
             {
-                pictureBox.Image = new Bitmap(path + $@"\{series}-{number}.jpg");
+                isSet = true;
+                pictureBox.ImageLocation = path + $@"\{series}-{number}.jpg";
             }
             else
             {
+                isSet = false;
                 path = Environment.CurrentDirectory + @"\source\images\addLocoImg.png";
                 pictureBox.Image = new Bitmap(path);
             }
@@ -713,7 +729,12 @@ namespace TCH_desktop.View
 
         private void OpenSlider(object? sender, EventArgs e)
         {
-            PhotoSliderForm sliderForm = new(this);
+            PictureBox pictBox = (PictureBox)sender;
+            string path = pictBox.ImageLocation;
+            FileInfo file = new FileInfo(path);
+            string directoryPath = file?.DirectoryName;
+
+            PhotoSliderForm sliderForm = new(this, directoryPath);
             Opacity = 60;
             Enabled = false;
             sliderForm.Show();
