@@ -226,6 +226,28 @@ namespace TCH_desktop.View
             }
         }
 
+        private void statisticsScreenMenu_MouseEnter(object sender, EventArgs e)
+        {
+            statisticsScreenMenu.ForeColor = Color.GreenYellow;
+            statisticsScreenMenu.BackColor = Color.DimGray;
+        }
+
+        private void statisticsScreenMenu_MouseLeave(object sender, EventArgs e)
+        {
+            statisticsScreenMenu.ForeColor = SystemColors.Control;
+            statisticsScreenMenu.BackColor = Color.Transparent;
+        }
+
+        private void statisticsScreenMenu_Click(object sender, EventArgs e)
+        {
+            StatisticsScreenForm statScreen = new(this);
+            TopMost = true;
+            Opacity = 60;
+            this.Enabled = false;
+            statScreen.Show();
+        }
+
         #endregion
+
     }
 }

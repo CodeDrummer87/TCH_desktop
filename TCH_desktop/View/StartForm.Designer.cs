@@ -36,6 +36,7 @@
             this.personDataMenu = new System.Windows.Forms.Label();
             this.developerEmail = new System.Windows.Forms.Label();
             this.currentMessage = new System.Windows.Forms.Label();
+            this.statisticsScreenMenu = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // exitButton
@@ -101,7 +102,7 @@
             this.personDataMenu.BackColor = System.Drawing.Color.Transparent;
             this.personDataMenu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.personDataMenu.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.personDataMenu.Location = new System.Drawing.Point(49, 380);
+            this.personDataMenu.Location = new System.Drawing.Point(49, 430);
             this.personDataMenu.Name = "personDataMenu";
             this.personDataMenu.Size = new System.Drawing.Size(200, 30);
             this.personDataMenu.TabIndex = 5;
@@ -134,6 +135,21 @@
             this.currentMessage.TabIndex = 7;
             this.currentMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // statisticsScreenMenu
+            // 
+            this.statisticsScreenMenu.BackColor = System.Drawing.Color.Transparent;
+            this.statisticsScreenMenu.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.statisticsScreenMenu.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.statisticsScreenMenu.Location = new System.Drawing.Point(49, 380);
+            this.statisticsScreenMenu.Name = "statisticsScreenMenu";
+            this.statisticsScreenMenu.Size = new System.Drawing.Size(200, 30);
+            this.statisticsScreenMenu.TabIndex = 8;
+            this.statisticsScreenMenu.Text = "ЭКРАН СТАТИСТИКИ";
+            this.statisticsScreenMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.statisticsScreenMenu.Click += new System.EventHandler(this.statisticsScreenMenu_Click);
+            this.statisticsScreenMenu.MouseEnter += new System.EventHandler(this.statisticsScreenMenu_MouseEnter);
+            this.statisticsScreenMenu.MouseLeave += new System.EventHandler(this.statisticsScreenMenu_MouseLeave);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -143,6 +159,7 @@
             this.BackgroundImage = global::TCH_desktop.Properties.Resources.start_form_background_image;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1200, 900);
+            this.Controls.Add(this.statisticsScreenMenu);
             this.Controls.Add(this.currentMessage);
             this.Controls.Add(this.developerEmail);
             this.Controls.Add(this.personDataMenu);
@@ -171,5 +188,6 @@
         private Label personDataMenu;
         private Label developerEmail;
         private Label currentMessage;
+        private Label statisticsScreenMenu;
     }
 }
