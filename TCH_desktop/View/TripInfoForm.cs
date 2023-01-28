@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using TCH_desktop.Models;
 
@@ -13,7 +14,7 @@ namespace TCH_desktop.View
         private bool isFinalForm;
         private bool isGrowingInWidth;
         private bool isGrowingInHeight;
-        private bool isSetPhoto;
+        private string dirPath = String.Empty;
 
         private System.Windows.Forms.Timer timer;
 
@@ -32,7 +33,6 @@ namespace TCH_desktop.View
             isFinalForm = false;
             isGrowingInWidth = true;
             isGrowingInHeight = false;
-            isSetPhoto = false;
 
             timer = new System.Windows.Forms.Timer { Interval = 10 };
             timer.Tick += TimerTick;
@@ -91,24 +91,30 @@ namespace TCH_desktop.View
             pictureBox.TabStop = false;
 
             if (loco.ImagePath == String.Empty)
-                ApplyLocoPhoto(pictureBox, locoType, locoSeries, loco.Number, ref isSetPhoto);
+                pictureBox.Image = Properties.Resources.addLocoImg;
             else
-            {
-                isSetPhoto = true;
                 pictureBox.ImageLocation = loco.ImagePath;
-            }
 
-            if (isSetPhoto)
-            {
-                pictureBox.Cursor = Cursors.NoMove2D;
-                pictureBox.Click += OpenSlider;
-            }
-            else
-            {
-                pictureBox.Cursor = Cursors.Hand;
-                pictureBox.Click += CloseForm;
-            }
+            string path = Environment.CurrentDirectory + 
+                @$"\Фотографии\{locoType}ы\{locoSeries}\{locoSeries}-{loco.Number}";
+            
+            dirPath = path;
 
+            var directory = new DirectoryInfo(path);
+            if (directory.Exists)
+            {
+                FileInfo[] photos = directory.GetFiles();
+                if (photos.Length > 0)
+                {
+                    toolTip.SetToolTip(pictureBox, "Для просмотра фотографий щёлкните тут");
+                    pictureBox.Click += OpenSlider;
+                }
+                else
+                {
+                    toolTip.SetToolTip(pictureBox, "Чтобы добавить фотографии, щёлкните тут");
+                    pictureBox.Click += AddNewPhoto;
+                }
+            }
             tripGroupBox.Controls.Add(pictureBox);
 
 
@@ -639,24 +645,6 @@ namespace TCH_desktop.View
             return result;
         }
 
-        private void ApplyLocoPhoto(PictureBox pictureBox, string type, string series, int number, ref bool isSet)
-        {
-            string path = Environment.CurrentDirectory + @$"\Фотографии\{type}ы\{series}";
-            FileInfo image = new(path + $@"\{series}-{number}.jpg");
-
-            if (image.Exists)
-            {
-                isSet = true;
-                pictureBox.ImageLocation = path + $@"\{series}-{number}.jpg";
-            }
-            else
-            {
-                isSet = false;
-                path = Environment.CurrentDirectory + @"\source\images\addLocoImg.png";
-                pictureBox.Image = new Bitmap(path);
-            }
-        }
-
         private Train GetTrainData(int trainId)
         {
             Train train = null;
@@ -729,15 +717,61 @@ namespace TCH_desktop.View
 
         private void OpenSlider(object? sender, EventArgs e)
         {
-            PictureBox pictBox = (PictureBox)sender;
-            string path = pictBox.ImageLocation;
-            FileInfo file = new FileInfo(path);
-            string directoryPath = file?.DirectoryName;
-
-            PhotoSliderForm sliderForm = new(this, directoryPath);
+            PhotoSliderForm sliderForm = new(this, dirPath);
             Opacity = 60;
             Enabled = false;
             sliderForm.Show();
+        }
+
+        public void AddNewPhoto(object? sender, EventArgs e)
+        {
+            OpenFileDialog fDialog = new();
+
+            fDialog.Title = "Фотография локомотива";
+            fDialog.Filter = "Файлы изображений(*.jpg;*.png;*.bmp)|*.jpg;*.png;*.bmp";
+
+            if (fDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    FileInfo file = new FileInfo(fDialog.FileName);
+
+                    int index = dirPath.LastIndexOf(@"\");
+                    string loco = dirPath.Substring(index + 1);
+
+                    string newPhoto = dirPath + $"\\{loco}{file.Extension}";
+                    DirectoryInfo dir = new(newPhoto);
+                    file.CopyTo(dir.FullName, true);
+
+                    PictureBox pictureBox = (PictureBox)sender;
+                    SetDisplaySlider(true);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Невозможно загрузить файл: {ex.Message}",
+                        "Ошибка загрузки изображения", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+
+        public void SetDisplaySlider(bool isDisplaySlider)
+        {
+            PictureBox pictureBox = Controls?.Find("locoImagePB", true).FirstOrDefault() as PictureBox;
+            
+            if (isDisplaySlider)
+            {
+                toolTip.SetToolTip(pictureBox, "Для просмотра фотографий щёлкните тут");
+
+                pictureBox.Click -= AddNewPhoto;
+                pictureBox.Click += OpenSlider;
+            }
+            else
+            {
+                toolTip.SetToolTip(pictureBox, "Чтобы добавить фотографии, щёлкните тут");
+
+                pictureBox.Click -= OpenSlider;
+                pictureBox.Click += AddNewPhoto;
+            }
         }
     }
 }

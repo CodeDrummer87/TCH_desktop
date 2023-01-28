@@ -8,7 +8,7 @@ CREATE TABLE Trips
 (
 	Id INT IDENTITY(1, 1) PRIMARY KEY,
 	AttendanceTime DATETIME NOT NULL,
-	Locomotive INT REFERENCES Locomotives (Id) NOT NULL,
+	Locomotive INT REFERENCES Locomotives (Id) ON DELETE SET DEFAULT,
 	TrafficRoute NVARCHAR(200) NOT NULL,
 	ElectricityFactor FLOAT,
 	Departure NVARCHAR(20),

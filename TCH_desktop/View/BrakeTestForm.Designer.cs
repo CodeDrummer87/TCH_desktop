@@ -189,6 +189,7 @@
             // cancelButton
             // 
             this.cancelButton.AutoSize = true;
+            this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cancelButton.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.cancelButton.ForeColor = System.Drawing.Color.GreenYellow;
             this.cancelButton.Location = new System.Drawing.Point(31, 362);
@@ -203,6 +204,7 @@
             // addBrakeTests
             // 
             this.addBrakeTests.AutoSize = true;
+            this.addBrakeTests.Cursor = System.Windows.Forms.Cursors.Hand;
             this.addBrakeTests.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.addBrakeTests.ForeColor = System.Drawing.Color.GreenYellow;
             this.addBrakeTests.Location = new System.Drawing.Point(714, 362);

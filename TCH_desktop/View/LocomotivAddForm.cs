@@ -276,10 +276,7 @@ namespace TCH_desktop.View
                 locoImageBox.Image = new Bitmap(path + $@"\{series}-{number}.jpg");
             }
             else
-            {
-                path = Environment.CurrentDirectory + @"\source\images\addLocoImg.png";
-                locoImageBox.Image = new Bitmap(path);
-            }
+                locoImageBox.Image = Properties.Resources.addLocoImg;
         }
 
         private void SetDefaultControl(bool flag)

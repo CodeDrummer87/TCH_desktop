@@ -37,12 +37,14 @@
             this.addButton = new System.Windows.Forms.PictureBox();
             this.removeButton = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.setDefaultPhotoButton = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.closeButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainSpace)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.addButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.removeButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.setDefaultPhotoButton)).BeginInit();
             this.SuspendLayout();
             // 
             // closeButton
@@ -122,7 +124,7 @@
             // 
             this.removeButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.removeButton.Image = ((System.Drawing.Image)(resources.GetObject("removeButton.Image")));
-            this.removeButton.Location = new System.Drawing.Point(1336, 140);
+            this.removeButton.Location = new System.Drawing.Point(1336, 210);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(55, 55);
             this.removeButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -133,12 +135,28 @@
             this.removeButton.MouseEnter += new System.EventHandler(this.removeButton_MouseEnter);
             this.removeButton.MouseLeave += new System.EventHandler(this.removeButton_MouseLeave);
             // 
+            // setDefaultPhotoButton
+            // 
+            this.setDefaultPhotoButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.setDefaultPhotoButton.Image = ((System.Drawing.Image)(resources.GetObject("setDefaultPhotoButton.Image")));
+            this.setDefaultPhotoButton.Location = new System.Drawing.Point(1336, 140);
+            this.setDefaultPhotoButton.Name = "setDefaultPhotoButton";
+            this.setDefaultPhotoButton.Size = new System.Drawing.Size(55, 55);
+            this.setDefaultPhotoButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.setDefaultPhotoButton.TabIndex = 6;
+            this.setDefaultPhotoButton.TabStop = false;
+            this.toolTip1.SetToolTip(this.setDefaultPhotoButton, "Установить как фото по умолчанию");
+            this.setDefaultPhotoButton.Click += new System.EventHandler(this.setDefaultPhotoButton_Click);
+            this.setDefaultPhotoButton.MouseEnter += new System.EventHandler(this.setDefaultPhotoButton_MouseEnter);
+            this.setDefaultPhotoButton.MouseLeave += new System.EventHandler(this.setDefaultPhotoButton_MouseLeave);
+            // 
             // PhotoSliderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.ClientSize = new System.Drawing.Size(1390, 960);
+            this.Controls.Add(this.setDefaultPhotoButton);
             this.Controls.Add(this.removeButton);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.mainSpace);
@@ -157,6 +175,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.mainSpace)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.addButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.removeButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.setDefaultPhotoButton)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -170,5 +189,6 @@
         private PictureBox addButton;
         private PictureBox removeButton;
         private ToolTip toolTip1;
+        private PictureBox setDefaultPhotoButton;
     }
 }

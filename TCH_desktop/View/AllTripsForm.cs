@@ -63,7 +63,7 @@ namespace TCH_desktop.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Не удалось загрузить список поездок c {offset} по {offset + 5}:" +
+                MessageBox.Show($"Не удалось загрузить список поездок c {offset} по {offset + 8}:" +
                     $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
                     "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
@@ -194,10 +194,10 @@ namespace TCH_desktop.View
             currentMessage.Text = $"Показано {tripsList.Count}{total} {TransformWord(tripsList.Count)} " +
                 $"из {totalCount}";
 
-            if (tripsList.Count + offset * 8 == totalCount)
-                arrowRight.Visible = false;
+            if (totalCount - (tripsList.Count + offset * 8) > 0)
+                arrowRight.Visible = true;
             else
-                if (!arrowRight.Visible) arrowRight.Visible = true;
+                arrowRight.Visible = false;
         }
 
         private void AddNewTableRow()
