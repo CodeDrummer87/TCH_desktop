@@ -158,7 +158,7 @@ namespace TCH_desktop.View
             newLabel.Dock = DockStyle.Fill;
             newLabel.ForeColor = index % 2 == 0 ? Color.Tan : Color.Bisque;
             newLabel.BackColor = Color.Transparent;
-            newLabel.Font = new("Lucida Console", 10.0F, FontStyle.Bold, GraphicsUnit.Point);
+            newLabel.Font = new("Lucida Console", 9.5F, FontStyle.Bold, GraphicsUnit.Point);
             newLabel.Text = text;
             newLabel.Cursor = Cursors.Hand;
 
@@ -185,7 +185,8 @@ namespace TCH_desktop.View
 
                 AddNewTableCell(trainsList[i].Weight.ToString(), i, tripId);
 
-                string loco = $"{GetLocoSeries(locomotivesList[i].Series)}-{locomotivesList[i].Number}";
+                string loco = $"{GetLocoSeries(locomotivesList[i].Series)}-" +
+                    $"{GetThreeDigitNumber(locomotivesList[i].Number)}";
                 AddNewTableCell(loco, i, tripId);
             }
 
@@ -343,6 +344,12 @@ namespace TCH_desktop.View
             Enabled = false;
             tripInfoForm.Show();
 
+        }
+
+        public string GetThreeDigitNumber(int numb)
+        {
+            return (numb > 0 && numb < 10) ? "00" + numb :
+                (numb > 9 && numb < 100) ? "0" + numb : numb.ToString();
         }
 
 

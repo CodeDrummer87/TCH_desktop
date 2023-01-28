@@ -1,22 +1,24 @@
-﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
+using System.Xml.Linq;
 
 namespace TCH_desktop.View
 {
     public partial class PhotoSliderForm : Form
     {
         private TripInfoForm tripInfoForm;
+        private int tripId;
 
         private int currentIndex;
         private List<string> files = new();
         private string directoryPath = String.Empty;
 
-        public PhotoSliderForm(TripInfoForm tripInfoForm, string directoryPath)
+        public PhotoSliderForm(TripInfoForm tripInfoForm, string directoryPath, int tripId)
         {
             InitializeComponent();
 
             this.tripInfoForm = tripInfoForm;
+            this.tripId = tripId;
 
             if (Directory.Exists(directoryPath))
             {
@@ -27,7 +29,7 @@ namespace TCH_desktop.View
             DisplayLastPhoto();
         }
 
-        private int GetIndex(int index) => 
+        private int GetIndex(int index) =>
             index > files.Count() - 1 ? 0 : index < 0 ? files.Count() - 1 : index;
 
         private bool RemovePhoto(string path)
@@ -45,6 +47,10 @@ namespace TCH_desktop.View
                     {
                         UpdateImagePathForLoco(path);
                         file.Delete();
+
+                        PictureBox pBox = tripInfoForm.Controls?.Find("locoImagePB", true).FirstOrDefault() as PictureBox;
+                        pBox.Image = Properties.Resources.addLocoImg;
+
                         return true;
                     }
                 }
@@ -95,7 +101,7 @@ namespace TCH_desktop.View
             string query = "UPDATE Locomotives SET ImagePath='' WHERE ImagePath=@imgPath";
 
             try
-            { 
+            {
                 SqlCommand command = new(query, DataBase.GetConnection());
                 command.Parameters.Add("@imgPath", SqlDbType.VarChar).Value = path;
                 DataBase.OpenConnection();
@@ -110,6 +116,7 @@ namespace TCH_desktop.View
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
+
 
 
         #region Interactive
@@ -269,7 +276,30 @@ namespace TCH_desktop.View
 
         private void setDefaultPhotoButton_Click(object sender, EventArgs e)
         {
-            
+            string path = mainSpace.ImageLocation;
+            string query = "UPDATE Locomotives SET ImagePath=@path WHERE Id=@tripId";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@path", SqlDbType.VarChar).Value = path;
+                command.Parameters.Add("@tripId", SqlDbType.Int).Value = tripId;
+                DataBase.OpenConnection();
+
+                command.ExecuteNonQuery();
+                DataBase.CloseConnection();
+
+                PictureBox pBox = tripInfoForm.Controls?.Find("locoImagePB", true).FirstOrDefault() as PictureBox;
+                pBox.ImageLocation = path;
+                MessageBox.Show("Фотография локомотива установлена как обложка для текущей поездки", 
+                    "Настройки сохранены", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось записать путь к фотографии локомотива для данной поездки\n\"" +
+                    $"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
         }
 
         #endregion

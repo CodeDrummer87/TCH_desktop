@@ -78,7 +78,8 @@ namespace TCH_desktop.View
             locomotive.ForeColor = Color.PaleGreen;
             locomotive.Location = new Point(374, 66);
             locomotive.Size = new Size(860, 27);
-            locomotive.Text = locoType + ' ' + locoSeries + $"-{loco.Number} ({loco.Allocation})";
+            locomotive.Text = locoType + ' ' + locoSeries + 
+                $"-{allTripsForm.GetThreeDigitNumber(loco.Number)} ({loco.Allocation})";
             locomotive.TextAlign = ContentAlignment.MiddleRight;
             tripGroupBox.Controls.Add(locomotive);
 
@@ -717,7 +718,7 @@ namespace TCH_desktop.View
 
         private void OpenSlider(object? sender, EventArgs e)
         {
-            PhotoSliderForm sliderForm = new(this, dirPath);
+            PhotoSliderForm sliderForm = new(this, dirPath, tripId);
             Opacity = 60;
             Enabled = false;
             sliderForm.Show();
@@ -743,7 +744,6 @@ namespace TCH_desktop.View
                     DirectoryInfo dir = new(newPhoto);
                     file.CopyTo(dir.FullName, true);
 
-                    PictureBox pictureBox = (PictureBox)sender;
                     SetDisplaySlider(true);
                 }
                 catch (Exception ex)
