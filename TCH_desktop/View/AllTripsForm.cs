@@ -5,7 +5,8 @@ using TCH_desktop.Models;
 namespace TCH_desktop.View
 {
     public partial class AllTripsForm : Form
-    {   
+    {
+        private int userId;
         private StartForm startForm;
         private List<Trip> tripsList = new();
         private List<Train> trainsList = new();
@@ -19,6 +20,7 @@ namespace TCH_desktop.View
             InitializeComponent();
 
             this.startForm = startForm;
+            userId = this.startForm.GetCurrentUserId();
             Location = new Point(630, 120);
 
             tHeight = tripsTable.Height + 20;
@@ -29,11 +31,13 @@ namespace TCH_desktop.View
         {
             tripsList.Clear();
 
-            string query = $"SELECT * FROM Trips ORDER BY AttendanceTime DESC OFFSET @offset ROWS FETCH NEXT 8 ROWS ONLY";
+            string query = $"SELECT * FROM Trips WHERE UserId=@uId " +
+                $"ORDER BY AttendanceTime DESC OFFSET @offset ROWS FETCH NEXT 8 ROWS ONLY";
 
             try
             {
                 SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
                 command.Parameters.Add("@offset", SqlDbType.Int).Value = offset * 8;
                 DataBase.OpenConnection();
 
@@ -273,11 +277,12 @@ namespace TCH_desktop.View
         private int GetTotalTripsCount()
         {
             int result = 0;
-            string query = $"SELECT COUNT(Id) FROM Trips";
+            string query = $"SELECT COUNT(Id) FROM Trips WHERE UserId=@uId";
 
             try
             {
                 SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
                 DataBase.OpenConnection();
 
                 SqlDataReader reader = command.ExecuteReader();
@@ -298,7 +303,7 @@ namespace TCH_desktop.View
             return result;
         }
 
-        private string TransformWord(int count)
+        public static string TransformWord(int count)
         {
             return count == 1 ? "поездка" :
                 count > 1 && count < 5 ? "поездки" : "поездок";

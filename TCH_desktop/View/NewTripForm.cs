@@ -833,9 +833,9 @@ namespace TCH_desktop.View
                 int trainId = SaveTrainData(brakeHolders);
 
                 string query = "INSERT INTO Trips (AttendanceTime, Locomotive, TrafficRoute, " +
-                    "Departure, Arrival, PassedStations, SpeedLimits, Notes, Train) " +
+                    "Departure, Arrival, PassedStations, SpeedLimits, Notes, Train, UserId) " +
                     "VALUES (@atTime, @locoId, @route, @dep, @arr, @pasSt, @spLim, " +
-                    "@notes, @trainId)";
+                    "@notes, @trainId, @userId)";
 
                 try
                 {
@@ -851,6 +851,7 @@ namespace TCH_desktop.View
                     //command.Parameters.Add("@techSp", SqlDbType.Float).Value = 0.0F;  //.:: temporary code
                     command.Parameters.Add("@notes", SqlDbType.NVarChar).Value = notes;
                     command.Parameters.Add("@trainId", SqlDbType.Int).Value = trainId;
+                    command.Parameters.Add("@userId", SqlDbType.Int).Value = startForm.GetCurrentUserId();
                     DataBase.OpenConnection();
 
                     command.ExecuteNonQuery();

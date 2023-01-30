@@ -19,5 +19,6 @@ CREATE TABLE Trips
 	ElectricityRecoveryRequired FLOAT,
 	TechnicalSpeed FLOAT,
 	Notes NVARCHAR(MAX),
-	Train INT REFERENCES Trains (Id)
+	Train INT REFERENCES Trains (Id),
+	UserId INT REFERENCES Users (Id) ON DELETE SET DEFAULT
 )

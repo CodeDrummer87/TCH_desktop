@@ -84,7 +84,7 @@
             this.currentMessage.Name = "currentMessage";
             this.currentMessage.Size = new System.Drawing.Size(698, 25);
             this.currentMessage.TabIndex = 2;
-            this.currentMessage.Text = "Текущее сообщение о выборке";
+            this.currentMessage.Text = "Список пуст";
             this.currentMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // arrowRight
@@ -97,6 +97,7 @@
             this.arrowRight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.arrowRight.TabIndex = 1;
             this.arrowRight.TabStop = false;
+            this.arrowRight.Visible = false;
             this.arrowRight.Click += new System.EventHandler(this.arrowRight_Click);
             this.arrowRight.MouseEnter += new System.EventHandler(this.arrowRight_MouseEnter);
             this.arrowRight.MouseLeave += new System.EventHandler(this.arrowRight_MouseLeave);
