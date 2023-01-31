@@ -7,4 +7,12 @@
 
         public Statistics() { }
     }
+
+    public struct TripTime
+    {
+        public string departure = String.Empty;
+        public string arrival = String.Empty;
+
+        public TripTime() { }
+    }
 }

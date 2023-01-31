@@ -10,6 +10,7 @@ namespace TCH_desktop.View
         private StartForm startForm;
         private int userId;
         private List<Statistics> tripStat = new();
+        private List<TripTime> tripsTime = new();
         int tStatIndex;
 
         public StatisticsScreenForm(StartForm startForm)
@@ -25,7 +26,7 @@ namespace TCH_desktop.View
 
         /*
         1) Всего поездок - количество (done)
-        2) Времени в пути - сумма
+        2) Времени в пути - сумма (done)
         3) Тонн брутто перевезено
         4) Плечи на которых пришлось поработать (в скобках количество поездок) (done)
         5) Самый популярный локомотив в поездках
@@ -143,6 +144,109 @@ namespace TCH_desktop.View
                 $"({tripsCounter} {AllTripsForm.TransformWord(tripsCounter)}) ★";
         }
 
+        private string GetTravelHours(string start, string end)
+        {
+            int index = start.IndexOf(':');
+            int stHours = Convert.ToInt32(start.Substring(0, index));
+            int stMinutes = Convert.ToInt32(start.Substring(index + 1, 2));
+
+            index = end.IndexOf(':');
+            int eHours = Convert.ToInt32(end.Substring(0, index));
+            int eMinutes = Convert.ToInt32(end.Substring(index + 1, 2));
+
+            int resHours = 0;
+            int resMinutes = 0;
+
+            while(eHours != stHours)
+            {
+                --eHours;
+                if (eHours == -1) eHours = 23;
+                ++resHours;
+            }
+
+            if (stMinutes > 0)
+            {
+                --resHours;
+                resMinutes = 60 - stMinutes;
+            }
+
+            resMinutes += eMinutes;
+            if (resMinutes > 59)
+            {
+                ++resHours;
+                resMinutes -= 60;
+            }
+
+            return $"{resHours}:{resMinutes}";
+        }
+
+        private string SumHours(string totalTime, string newTime)
+        {
+            int index = totalTime.IndexOf(':');
+            int totalHours = Convert.ToInt32(totalTime.Substring(0, index));
+            int totalMinutes = Convert.ToInt32(totalTime.Substring(index + 1));
+
+            index = newTime.IndexOf(':');
+            int newHours = Convert.ToInt32(newTime.Substring(0, index));
+            int newMinutes = Convert.ToInt32(newTime.Substring(index + 1));
+
+            int resultHours = totalHours + newHours;
+            int resultMinutes = totalMinutes + newMinutes;
+            if (resultMinutes > 59)
+            {
+                ++resultHours;
+                resultMinutes -= 60;
+            }
+
+            return $"{resultHours}:{resultMinutes}";
+        }
+
+        private void GetTripTime()
+        {
+            string query = "SELECT Departure, Arrival FROM Trips WHERE UserId=@uId";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    tripsTime.Add(new TripTime 
+                    {
+                        departure = reader.GetString(0),
+                        arrival = reader.GetString(1)
+                    });
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось получить общее количество поездок пользователя:" +
+                    $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            DataBase.CloseConnection();
+        }
+
+        private void DisplayTotalTravelTime()
+        {
+            GetTripTime();
+
+            string sumTravelTime = "0:0";
+
+            for (int i = 0; i < tripsTime.Count; i++)
+            {
+                string tripTime = GetTravelHours(tripsTime[i].departure, tripsTime[i].arrival);
+                sumTravelTime = SumHours(sumTravelTime, tripTime);
+            }
+
+            totalTravelTime.Text = sumTravelTime + " (час)";
+        }
+
 
 
         #region Interactive
@@ -152,7 +256,9 @@ namespace TCH_desktop.View
             totalTrips.Text = GetTotalTrips().ToString();
 
             GetTripStatistics();
-            DisplayTrafficRouteCounter();        
+            DisplayTrafficRouteCounter();
+
+            DisplayTotalTravelTime();            
         }
 
         private void closeScreen_MouseEnter(object sender, EventArgs e)
