@@ -139,9 +139,14 @@ namespace TCH_desktop.View
 
         private void DisplayTrafficRouteCounter()
         {
-            int tripsCounter = tripStat[tStatIndex].totalTrips;
-            trafficRouteAndCounter.Text = $"★ {tripStat[tStatIndex].trafficRoute} " +
-                $"({tripsCounter} {AllTripsForm.TransformWord(tripsCounter)}) ★";
+            if (tripStat.Count > 0)
+            {
+                int tripsCounter = tripStat[tStatIndex].totalTrips;
+                trafficRouteAndCounter.Text = $"★ {tripStat[tStatIndex].trafficRoute} " +
+                    $"({tripsCounter} {AllTripsForm.TransformWord(tripsCounter)}) ★";
+            }
+            else
+                trafficRouteAndCounter.Text = "Ни одной поездки не найдено";
         }
 
         private string GetTravelHours(string start, string end)
@@ -192,13 +197,14 @@ namespace TCH_desktop.View
 
             int resultHours = totalHours + newHours;
             int resultMinutes = totalMinutes + newMinutes;
+
             if (resultMinutes > 59)
             {
                 ++resultHours;
                 resultMinutes -= 60;
             }
 
-            return $"{resultHours}:{resultMinutes}";
+            return $"{resultHours}:{(resultMinutes > 9 ? resultMinutes : "0" + resultMinutes)}";
         }
 
         private void GetTripTime()
@@ -247,6 +253,39 @@ namespace TCH_desktop.View
             totalTravelTime.Text = sumTravelTime + " (час)";
         }
 
+        private int GetSumWeight()
+        {
+            int result = 0;
+            string query = "SELECT SUM(t.Weight) FROM Trains t " +
+                "INNER JOIN Trips tr " +
+                "ON tr.Train=t.Id " +
+                "WHERE tr.UserId=@uId";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = reader.GetInt32(0);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось получить сумму тонн брутто со всех поездок пользователя:" +
+                    $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            DataBase.CloseConnection();
+
+            return result;
+        }
+
 
 
         #region Interactive
@@ -258,7 +297,8 @@ namespace TCH_desktop.View
             GetTripStatistics();
             DisplayTrafficRouteCounter();
 
-            DisplayTotalTravelTime();            
+            DisplayTotalTravelTime();
+            sumWeight.Text = GetSumWeight().ToString();
         }
 
         private void closeScreen_MouseEnter(object sender, EventArgs e)

@@ -30,6 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatisticsScreenForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.sumWeight = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.totalTravelTime = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.arrowRight = new System.Windows.Forms.PictureBox();
             this.arrowLeft = new System.Windows.Forms.PictureBox();
@@ -37,8 +41,6 @@
             this.totalTrips = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.closeScreen = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.totalTravelTime = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
@@ -47,6 +49,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.sumWeight);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.totalTravelTime);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.panel1);
@@ -60,6 +64,48 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Экран Статистики ";
+            // 
+            // sumWeight
+            // 
+            this.sumWeight.AutoSize = true;
+            this.sumWeight.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.sumWeight.Location = new System.Drawing.Point(397, 232);
+            this.sumWeight.Name = "sumWeight";
+            this.sumWeight.Size = new System.Drawing.Size(22, 22);
+            this.sumWeight.TabIndex = 6;
+            this.sumWeight.Text = "0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label3.ForeColor = System.Drawing.Color.Moccasin;
+            this.label3.Location = new System.Drawing.Point(29, 232);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(362, 22);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Тонн брутто перевезено [сумма]:";
+            // 
+            // totalTravelTime
+            // 
+            this.totalTravelTime.AutoSize = true;
+            this.totalTravelTime.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.totalTravelTime.Location = new System.Drawing.Point(686, 57);
+            this.totalTravelTime.Name = "totalTravelTime";
+            this.totalTravelTime.Size = new System.Drawing.Size(22, 22);
+            this.totalTravelTime.TabIndex = 4;
+            this.totalTravelTime.Text = "0";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label2.ForeColor = System.Drawing.Color.Moccasin;
+            this.label2.Location = new System.Drawing.Point(499, 57);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(181, 22);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Времени в пути:";
             // 
             // panel1
             // 
@@ -151,27 +197,6 @@
             this.closeScreen.MouseEnter += new System.EventHandler(this.closeScreen_MouseEnter);
             this.closeScreen.MouseLeave += new System.EventHandler(this.closeScreen_MouseLeave);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.ForeColor = System.Drawing.Color.Moccasin;
-            this.label2.Location = new System.Drawing.Point(286, 57);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(181, 22);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Времени в пути:";
-            // 
-            // totalTravelTime
-            // 
-            this.totalTravelTime.AutoSize = true;
-            this.totalTravelTime.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.totalTravelTime.Location = new System.Drawing.Point(473, 57);
-            this.totalTravelTime.Name = "totalTravelTime";
-            this.totalTravelTime.Size = new System.Drawing.Size(22, 22);
-            this.totalTravelTime.TabIndex = 4;
-            this.totalTravelTime.Text = "0";
-            // 
             // StatisticsScreenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -211,5 +236,7 @@
         private PictureBox arrowRight;
         private Label totalTravelTime;
         private Label label2;
+        private Label sumWeight;
+        private Label label3;
     }
 }
