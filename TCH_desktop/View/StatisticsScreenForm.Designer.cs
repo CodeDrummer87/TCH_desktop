@@ -30,6 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatisticsScreenForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.locoResultLabel = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.locoConditionLabel = new System.Windows.Forms.Label();
+            this.colonLabel = new System.Windows.Forms.Label();
+            this.locoSeriesLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.sumWeight = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.totalTravelTime = new System.Windows.Forms.Label();
@@ -49,6 +55,12 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.locoResultLabel);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.locoConditionLabel);
+            this.groupBox1.Controls.Add(this.colonLabel);
+            this.groupBox1.Controls.Add(this.locoSeriesLabel);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.sumWeight);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.totalTravelTime);
@@ -64,6 +76,75 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Экран Статистики ";
+            // 
+            // locoResultLabel
+            // 
+            this.locoResultLabel.AutoSize = true;
+            this.locoResultLabel.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.locoResultLabel.Location = new System.Drawing.Point(466, 304);
+            this.locoResultLabel.Name = "locoResultLabel";
+            this.locoResultLabel.Size = new System.Drawing.Size(65, 22);
+            this.locoResultLabel.TabIndex = 12;
+            this.locoResultLabel.Text = "result";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label7.ForeColor = System.Drawing.Color.Moccasin;
+            this.label7.Location = new System.Drawing.Point(195, 304);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(188, 22);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "локомотив серии";
+            // 
+            // locoConditionLabel
+            // 
+            this.locoConditionLabel.AutoSize = true;
+            this.locoConditionLabel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.locoConditionLabel.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.locoConditionLabel.ForeColor = System.Drawing.Color.Gold;
+            this.locoConditionLabel.Location = new System.Drawing.Point(109, 304);
+            this.locoConditionLabel.Name = "locoConditionLabel";
+            this.locoConditionLabel.Size = new System.Drawing.Size(86, 22);
+            this.locoConditionLabel.TabIndex = 10;
+            this.locoConditionLabel.Text = "старый";
+            this.locoConditionLabel.Click += new System.EventHandler(this.locoConditionLabel_Click);
+            // 
+            // colonLabel
+            // 
+            this.colonLabel.AutoSize = true;
+            this.colonLabel.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.colonLabel.ForeColor = System.Drawing.Color.Moccasin;
+            this.colonLabel.Location = new System.Drawing.Point(443, 304);
+            this.colonLabel.Name = "colonLabel";
+            this.colonLabel.Size = new System.Drawing.Size(23, 22);
+            this.colonLabel.TabIndex = 9;
+            this.colonLabel.Text = ": ";
+            // 
+            // locoSeriesLabel
+            // 
+            this.locoSeriesLabel.AutoSize = true;
+            this.locoSeriesLabel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.locoSeriesLabel.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.locoSeriesLabel.ForeColor = System.Drawing.Color.Gold;
+            this.locoSeriesLabel.Location = new System.Drawing.Point(383, 304);
+            this.locoSeriesLabel.Name = "locoSeriesLabel";
+            this.locoSeriesLabel.Size = new System.Drawing.Size(65, 22);
+            this.locoSeriesLabel.TabIndex = 8;
+            this.locoSeriesLabel.Text = "ВЛ10";
+            this.locoSeriesLabel.Click += new System.EventHandler(this.locoSeriesLabel_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label4.ForeColor = System.Drawing.Color.Moccasin;
+            this.label4.Location = new System.Drawing.Point(29, 304);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 22);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Самый";
             // 
             // sumWeight
             // 
@@ -238,5 +319,11 @@
         private Label label2;
         private Label sumWeight;
         private Label label3;
+        private Label label7;
+        private Label locoConditionLabel;
+        private Label colonLabel;
+        private Label locoSeriesLabel;
+        private Label label4;
+        private Label locoResultLabel;
     }
 }

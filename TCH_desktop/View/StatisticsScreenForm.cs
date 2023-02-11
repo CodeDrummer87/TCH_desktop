@@ -11,7 +11,11 @@ namespace TCH_desktop.View
         private int userId;
         private List<Statistics> tripStat = new();
         private List<TripTime> tripsTime = new();
-        int tStatIndex;
+        private int tStatIndex;
+
+        private bool isOldestLoco;
+        private List<string> series = new();
+        private int seriesIndex = 0;
 
         public StatisticsScreenForm(StartForm startForm)
         {
@@ -22,12 +26,15 @@ namespace TCH_desktop.View
 
             userId = this.startForm.GetCurrentUserId();
             tStatIndex = 0;
+
+            isOldestLoco = true;
+            series = GetAvailableLocoSeries();
         }
 
         /*
         1) Всего поездок - количество (done)
         2) Времени в пути - сумма (done)
-        3) Тонн брутто перевезено
+        3) Тонн брутто перевезено (done)
         4) Плечи на которых пришлось поработать (в скобках количество поездок) (done)
         5) Самый популярный локомотив в поездках
         6) Самая старая Синара
@@ -286,6 +293,91 @@ namespace TCH_desktop.View
             return result;
         }
 
+        private List<string> GetAvailableLocoSeries()
+        {
+            List<string> series = new ();
+            string query = "SELECT DISTINCT ls.Series " +
+                "FROM Trips t " +
+                "INNER JOIN Locomotives l " +
+                "ON l.id=t.Locomotive " +
+                "INNER JOIN LocoSeries ls " +
+                "ON ls.id=l.Series " +
+                "WHERE UserId=@uId";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    series.Add(reader.GetString(0));
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось получить доступные серии локомотивов пользователя:" +
+                    $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            DataBase.CloseConnection();
+
+            return series;
+        }
+
+        private void SetColonLabel()
+        {
+            int x = locoSeriesLabel.Location.X + locoSeriesLabel.Width - 5;
+            colonLabel.Location = new Point(x, 304);
+
+            x = colonLabel.Location.X + colonLabel.Width;
+            locoResultLabel.Location = new Point(x, 304);
+        }
+
+        private string GetLocoByCondition(string locoSeries)
+        {
+            int locoNumber = 0;
+            string condition = isOldestLoco ? "MIN" : "MAX";
+
+            string query = $"SELECT {condition}(l.Number) " +
+                "FROM Locomotives l " +
+                "INNER JOIN LocoSeries ls " +
+                "ON l.Series=ls.Id " +
+                "INNER JOIN Trips t " +
+                "ON t.Locomotive=l.Id " +
+                "WHERE t.UserId=@uId AND ls.Series=@locoSeries";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                command.Parameters.Add("@locoSeries", SqlDbType.NVarChar).Value = locoSeries;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    locoNumber = reader.GetInt32(0);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось получить самый {(isOldestLoco ? "старый" : "новый")} " +
+                    $"номер локомотива\n\"{ex.Message}\"" +
+                    $"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            DataBase.CloseConnection();
+
+            return locoSeries + $"-{locoNumber}";
+        }
+
 
 
         #region Interactive
@@ -299,6 +391,9 @@ namespace TCH_desktop.View
 
             DisplayTotalTravelTime();
             sumWeight.Text = GetSumWeight().ToString();
+
+            locoSeriesLabel.Text = series[seriesIndex];
+            locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
         }
 
         private void closeScreen_MouseEnter(object sender, EventArgs e)
@@ -369,6 +464,41 @@ namespace TCH_desktop.View
         private void arrowLeft_MouseUp(object sender, MouseEventArgs e)
         {
             arrowLeft.Image = Properties.Resources.side_left_hover;
+        }
+
+        private void locoConditionLabel_Click(object sender, EventArgs e)
+        {
+            if (isOldestLoco)
+            {
+                isOldestLoco = false;
+                locoConditionLabel.Text = "новый";
+            }
+            else
+            {
+                isOldestLoco = true;
+                locoConditionLabel.Text = "старый";
+            }
+
+            locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
+
+            int x = locoConditionLabel.Location.X + locoConditionLabel.Width;
+            label7.Location = new Point(x, 304);
+
+            x = label7.Location.X + label7.Width;
+            locoSeriesLabel.Location = new Point(x, 304);
+
+            SetColonLabel();
+        }
+
+        private void locoSeriesLabel_Click(object sender, EventArgs e)
+        {
+            ++seriesIndex;
+            if (seriesIndex == series.Count)
+                seriesIndex = 0;
+
+            locoSeriesLabel.Text = series[seriesIndex];
+            locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
+            SetColonLabel();
         }
 
         #endregion
