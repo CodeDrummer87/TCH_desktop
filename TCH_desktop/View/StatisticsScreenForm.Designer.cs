@@ -47,6 +47,8 @@
             this.totalTrips = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.closeScreen = new System.Windows.Forms.Label();
+            this.mostPopularLocoLabel = new System.Windows.Forms.Label();
+            this.mostPopularLocoResult = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
@@ -55,6 +57,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.mostPopularLocoResult);
+            this.groupBox1.Controls.Add(this.mostPopularLocoLabel);
             this.groupBox1.Controls.Add(this.locoResultLabel);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.locoConditionLabel);
@@ -278,6 +282,27 @@
             this.closeScreen.MouseEnter += new System.EventHandler(this.closeScreen_MouseEnter);
             this.closeScreen.MouseLeave += new System.EventHandler(this.closeScreen_MouseLeave);
             // 
+            // mostPopularLocoLabel
+            // 
+            this.mostPopularLocoLabel.AutoSize = true;
+            this.mostPopularLocoLabel.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.mostPopularLocoLabel.ForeColor = System.Drawing.Color.Moccasin;
+            this.mostPopularLocoLabel.Location = new System.Drawing.Point(29, 376);
+            this.mostPopularLocoLabel.Name = "mostPopularLocoLabel";
+            this.mostPopularLocoLabel.Size = new System.Drawing.Size(339, 22);
+            this.mostPopularLocoLabel.TabIndex = 13;
+            this.mostPopularLocoLabel.Text = "Самый популярный локомотив:";
+            // 
+            // mostPopularLocoResult
+            // 
+            this.mostPopularLocoResult.AutoSize = true;
+            this.mostPopularLocoResult.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.mostPopularLocoResult.Location = new System.Drawing.Point(374, 376);
+            this.mostPopularLocoResult.Name = "mostPopularLocoResult";
+            this.mostPopularLocoResult.Size = new System.Drawing.Size(65, 22);
+            this.mostPopularLocoResult.TabIndex = 14;
+            this.mostPopularLocoResult.Text = "result";
+            // 
             // StatisticsScreenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -325,5 +350,7 @@
         private Label locoSeriesLabel;
         private Label label4;
         private Label locoResultLabel;
+        private Label mostPopularLocoLabel;
+        private Label mostPopularLocoResult;
     }
 }

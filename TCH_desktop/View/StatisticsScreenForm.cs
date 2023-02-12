@@ -37,8 +37,10 @@ namespace TCH_desktop.View
         3) Тонн брутто перевезено (done)
         4) Плечи на которых пришлось поработать (в скобках количество поездок) (done)
         5) Самый популярный локомотив в поездках
-        6) Самая старая Синара
-        7) Самая новая Синара
+        6) Самая старая Синара (done)
+        7) Самая новая Синара (done)
+        8) Поездок на <тип лок-ва>: кол-во
+        9) Дата первой / последней поездки
         */
 
         private int GetTotalTrips()
@@ -378,6 +380,89 @@ namespace TCH_desktop.View
             return locoSeries + $"-{locoNumber}";
         }
 
+        private List<LocomotiveTripsCounter> GetLocoCounters()
+        {
+            List<LocomotiveTripsCounter> locoTripsCounter = new();
+
+            string query = "SELECT CONCAT(ls.Series, '-', l.Number), " +
+                "COUNT(CONCAT(ls.Series, '-', l.Number)) " +
+                "FROM Trips t " +
+                "INNER JOIN Locomotives l " +
+                "ON l.Id=t.Locomotive " +
+                "INNER JOIN LocoSeries ls " +
+                "ON ls.Id=l.Series " +
+                "WHERE UserId=@uId " +
+                "GROUP BY CONCAT(ls.Series, '-', l.Number)";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    locoTripsCounter.Add(new LocomotiveTripsCounter 
+                    {
+                        Locomotive = reader.GetString(0),
+                        Count = reader.GetInt32(1)
+                    });
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось получить самый популярный локомотив.\n\"{ex.Message}\"" +
+                    $"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            DataBase.CloseConnection();
+
+            return locoTripsCounter;
+        }
+
+        private void GetMostPopularLoco()
+        {
+            List<LocomotiveTripsCounter> locoCounters = GetLocoCounters();
+            int maxValue = 0;
+
+            for (int i = 0; i < locoCounters.Count; i++) 
+                if (locoCounters[i].Count >= maxValue)
+                    maxValue = locoCounters[i].Count;
+
+            int sameMeaning = 0;
+
+            mostPopularLocoResult.Text = String.Empty;
+            foreach (LocomotiveTripsCounter c in locoCounters)
+                if (c.Count == maxValue)
+                {
+                    ++sameMeaning;
+                    if (mostPopularLocoResult.Text == String.Empty)
+                        mostPopularLocoResult.Text += c.Locomotive;
+                    else
+                        mostPopularLocoResult.Text += ",\n" + c.Locomotive;
+                }
+
+
+            if (sameMeaning > 1)
+            {
+                mostPopularLocoLabel.Text = "Самые популярные локомотивы:";
+                mostPopularLocoResult.Text += $"    (по {maxValue} {TransformWord(maxValue)})";
+            }
+            else
+                mostPopularLocoResult.Text += $"    ({maxValue} {TransformWord(maxValue)})";
+
+            int x = mostPopularLocoLabel.Location.X + mostPopularLocoLabel.Width;
+            mostPopularLocoResult.Location = new Point(x, mostPopularLocoLabel.Location.Y);
+        }
+
+        private string TransformWord(int value)
+        {
+            return value > 4 ? "поездок" : "поездки";
+        }
+
 
 
         #region Interactive
@@ -394,6 +479,8 @@ namespace TCH_desktop.View
 
             locoSeriesLabel.Text = series[seriesIndex];
             locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
+
+            GetMostPopularLoco();
         }
 
         private void closeScreen_MouseEnter(object sender, EventArgs e)
