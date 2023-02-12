@@ -30,6 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatisticsScreenForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tripStatusResult = new System.Windows.Forms.Label();
+            this.tripDateLabel = new System.Windows.Forms.Label();
+            this.tripStatusLabel = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.totalTripsBySeriesResult = new System.Windows.Forms.Label();
             this.colonLabel2 = new System.Windows.Forms.Label();
             this.totalTripsBySeries = new System.Windows.Forms.Label();
             this.totalTripsBySeriesLabel = new System.Windows.Forms.Label();
@@ -52,7 +57,6 @@
             this.totalTrips = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.closeScreen = new System.Windows.Forms.Label();
-            this.totalTripsBySeriesResult = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
@@ -61,6 +65,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.tripStatusResult);
+            this.groupBox1.Controls.Add(this.tripDateLabel);
+            this.groupBox1.Controls.Add(this.tripStatusLabel);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.totalTripsBySeriesResult);
             this.groupBox1.Controls.Add(this.colonLabel2);
             this.groupBox1.Controls.Add(this.totalTripsBySeries);
@@ -88,6 +96,61 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Экран Статистики ";
+            // 
+            // tripStatusResult
+            // 
+            this.tripStatusResult.AutoSize = true;
+            this.tripStatusResult.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.tripStatusResult.Location = new System.Drawing.Point(287, 565);
+            this.tripStatusResult.Name = "tripStatusResult";
+            this.tripStatusResult.Size = new System.Drawing.Size(65, 22);
+            this.tripStatusResult.TabIndex = 23;
+            this.tripStatusResult.Text = "result";
+            // 
+            // tripDateLabel
+            // 
+            this.tripDateLabel.AutoSize = true;
+            this.tripDateLabel.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.tripDateLabel.ForeColor = System.Drawing.Color.Moccasin;
+            this.tripDateLabel.Location = new System.Drawing.Point(185, 565);
+            this.tripDateLabel.Name = "tripDateLabel";
+            this.tripDateLabel.Size = new System.Drawing.Size(102, 22);
+            this.tripDateLabel.TabIndex = 22;
+            this.tripDateLabel.Text = "поездки:";
+            // 
+            // tripStatusLabel
+            // 
+            this.tripStatusLabel.AutoSize = true;
+            this.tripStatusLabel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tripStatusLabel.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.tripStatusLabel.ForeColor = System.Drawing.Color.Gold;
+            this.tripStatusLabel.Location = new System.Drawing.Point(94, 565);
+            this.tripStatusLabel.Name = "tripStatusLabel";
+            this.tripStatusLabel.Size = new System.Drawing.Size(85, 22);
+            this.tripStatusLabel.TabIndex = 21;
+            this.tripStatusLabel.Text = "первой";
+            this.tripStatusLabel.Click += new System.EventHandler(this.tripStatusLabel_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label6.ForeColor = System.Drawing.Color.Moccasin;
+            this.label6.Location = new System.Drawing.Point(29, 565);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(59, 22);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "Дата";
+            // 
+            // totalTripsBySeriesResult
+            // 
+            this.totalTripsBySeriesResult.AutoSize = true;
+            this.totalTripsBySeriesResult.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.totalTripsBySeriesResult.Location = new System.Drawing.Point(522, 476);
+            this.totalTripsBySeriesResult.Name = "totalTripsBySeriesResult";
+            this.totalTripsBySeriesResult.Size = new System.Drawing.Size(65, 22);
+            this.totalTripsBySeriesResult.TabIndex = 18;
+            this.totalTripsBySeriesResult.Text = "result";
             // 
             // colonLabel2
             // 
@@ -239,7 +302,7 @@
             // 
             this.totalTravelTime.AutoSize = true;
             this.totalTravelTime.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.totalTravelTime.Location = new System.Drawing.Point(686, 57);
+            this.totalTravelTime.Location = new System.Drawing.Point(620, 57);
             this.totalTravelTime.Name = "totalTravelTime";
             this.totalTravelTime.Size = new System.Drawing.Size(22, 22);
             this.totalTravelTime.TabIndex = 4;
@@ -250,7 +313,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label2.ForeColor = System.Drawing.Color.Moccasin;
-            this.label2.Location = new System.Drawing.Point(499, 57);
+            this.label2.Location = new System.Drawing.Point(433, 57);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(181, 22);
             this.label2.TabIndex = 3;
@@ -346,16 +409,6 @@
             this.closeScreen.MouseEnter += new System.EventHandler(this.closeScreen_MouseEnter);
             this.closeScreen.MouseLeave += new System.EventHandler(this.closeScreen_MouseLeave);
             // 
-            // totalTripsBySeriesResult
-            // 
-            this.totalTripsBySeriesResult.AutoSize = true;
-            this.totalTripsBySeriesResult.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.totalTripsBySeriesResult.Location = new System.Drawing.Point(522, 476);
-            this.totalTripsBySeriesResult.Name = "totalTripsBySeriesResult";
-            this.totalTripsBySeriesResult.Size = new System.Drawing.Size(65, 22);
-            this.totalTripsBySeriesResult.TabIndex = 18;
-            this.totalTripsBySeriesResult.Text = "result";
-            // 
             // StatisticsScreenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -409,5 +462,9 @@
         private Label totalTripsBySeries;
         private Label colonLabel2;
         private Label totalTripsBySeriesResult;
+        private Label label6;
+        private Label tripStatusLabel;
+        private Label tripDateLabel;
+        private Label tripStatusResult;
     }
 }

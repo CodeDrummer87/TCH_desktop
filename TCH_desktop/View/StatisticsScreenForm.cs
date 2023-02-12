@@ -17,6 +17,7 @@ namespace TCH_desktop.View
         private List<string> series = new();
         private int seriesIndex = 0;
         private int seriesCountIndex = 0;
+        private bool isFirstTrip;
 
         public StatisticsScreenForm(StartForm startForm)
         {
@@ -30,19 +31,8 @@ namespace TCH_desktop.View
 
             isOldestLoco = true;
             series = GetAvailableLocoSeries();
+            isFirstTrip = true;
         }
-
-        /*
-        1) Всего поездок - количество (done)
-        2) Времени в пути - сумма (done)
-        3) Тонн брутто перевезено (done)
-        4) Плечи на которых пришлось поработать (в скобках количество поездок) (done)
-        5) Самый популярный локомотив в поездках (done)
-        6) Самая старая Синара (done)
-        7) Самая новая Синара (done)
-        8) Всего поездок на <тип лок-ва>: кол-во (done)
-        9) Дата первой / последней поездки
-        */
 
         private int GetTotalTrips()
         {
@@ -260,7 +250,7 @@ namespace TCH_desktop.View
                 sumTravelTime = SumHours(sumTravelTime, tripTime);
             }
 
-            totalTravelTime.Text = sumTravelTime + " (час)";
+            totalTravelTime.Text = sumTravelTime;
         }
 
         private int GetSumWeight()
@@ -378,7 +368,7 @@ namespace TCH_desktop.View
 
             DataBase.CloseConnection();
 
-            return locoSeries + $"-{locoNumber}";
+            return locoSeries + '-' + TransformLocoNumber(locoNumber);
         }
 
         private List<LocomotiveTripsCounter> GetLocoCounters()
@@ -450,18 +440,23 @@ namespace TCH_desktop.View
             if (sameMeaning > 1)
             {
                 mostPopularLocoLabel.Text = "Самые популярные локомотивы:";
-                mostPopularLocoResult.Text += $"    (по {maxValue} {TransformWord(maxValue)})";
+                mostPopularLocoResult.Text += $"    (по {maxValue} {TransformWord(maxValue, "поездка")})";
             }
             else
-                mostPopularLocoResult.Text += $"    ({maxValue} {TransformWord(maxValue)})";
+                mostPopularLocoResult.Text += $"    ({maxValue} {TransformWord(maxValue, "поездка")})";
 
             int x = mostPopularLocoLabel.Location.X + mostPopularLocoLabel.Width;
             mostPopularLocoResult.Location = new Point(x, mostPopularLocoLabel.Location.Y);
         }
 
-        private string TransformWord(int value)
+        private string TransformWord(int value, string word)
         {
-            return value == 1 ? "поездка" : (value > 1 && value < 5) ? "поездки" : "поездок";
+            return word switch
+            {
+                "поездка" => value == 1 ? word : (value > 1 && value < 5) ? "поездки" : "поездок",
+                "день" => value == 1 ? word : (value > 1 && value < 5) ? "дня" : "дней",
+                _ => word
+            };
         }
 
         private void DisplayTotalTripsByLocoSeries()
@@ -473,7 +468,7 @@ namespace TCH_desktop.View
 
             SetColonLabel2(y);
             int tripsCount = GetTotalTripsBySeriesCount(series[seriesCountIndex]);
-            totalTripsBySeriesResult.Text = $"{tripsCount} {TransformWord(tripsCount)}";
+            totalTripsBySeriesResult.Text = $"{tripsCount} {TransformWord(tripsCount, "поездка")}";
         }
 
         private void SetColonLabel2(int y)
@@ -525,6 +520,42 @@ namespace TCH_desktop.View
             return result;
         }
 
+        private string TransformLocoNumber(int numb)
+        {
+            return (numb < 10 ? "00" + numb : (numb > 10 && numb < 100) ? "0" + numb : numb.ToString());
+        }
+
+        private string GetFirstOrLastTrip()
+        {
+            string condition = isFirstTrip ? "MIN" : "MAX";
+            string query = $"SELECT {condition}(AttendanceTime) FROM Trips WHERE UserId=@uId";
+            string result = String.Empty;
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = $"{reader.GetDateTime(0):f}";
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось получить дату {(isFirstTrip ? "первой" : "последней")} поездки" +
+                    $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            DataBase.CloseConnection();
+
+            return result;
+        }
+
 
 
         #region Interactive
@@ -544,6 +575,21 @@ namespace TCH_desktop.View
 
             GetMostPopularLoco();
             DisplayTotalTripsByLocoSeries();
+
+            int x = label6.Location.X;
+            int y = totalTripsBySeriesLabel.Location.Y + 72;
+            
+            label6.Location = new Point(x, y);
+
+            x += label6.Width;
+            tripStatusLabel.Location = new Point(x, y);
+
+            x += tripStatusLabel.Width;
+            tripDateLabel.Location = new Point(x, y);
+
+            x += tripDateLabel.Width;
+            tripStatusResult.Location = new Point(x, y);
+            tripStatusResult.Text = GetFirstOrLastTrip();
         }
 
         private void closeScreen_MouseEnter(object sender, EventArgs e)
@@ -661,7 +707,28 @@ namespace TCH_desktop.View
             SetColonLabel2(totalTripsBySeries.Location.Y);
 
             int tripsCount = GetTotalTripsBySeriesCount(series[seriesCountIndex]);
-            totalTripsBySeriesResult.Text = $"{tripsCount} {TransformWord(tripsCount)}";
+            totalTripsBySeriesResult.Text = $"{tripsCount} {TransformWord(tripsCount, "поездка")}";
+        }
+
+        private void tripStatusLabel_Click(object sender, EventArgs e)
+        {
+            if (isFirstTrip)
+            {
+                isFirstTrip = false;
+                tripStatusLabel.Text = "последней";
+            }
+            else
+            {
+                isFirstTrip = true;
+                tripStatusLabel.Text = "первой";
+            }
+
+            int x = tripStatusLabel.Location.X + tripStatusLabel.Width;
+            tripDateLabel.Location = new Point(x, tripDateLabel.Location.Y);
+
+            x += tripDateLabel.Width;
+            tripStatusResult.Location = new Point(x, tripStatusResult.Location.Y);
+            tripStatusResult.Text = GetFirstOrLastTrip();
         }
 
         #endregion
