@@ -30,6 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatisticsScreenForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.colonLabel2 = new System.Windows.Forms.Label();
+            this.totalTripsBySeries = new System.Windows.Forms.Label();
+            this.totalTripsBySeriesLabel = new System.Windows.Forms.Label();
+            this.mostPopularLocoResult = new System.Windows.Forms.Label();
+            this.mostPopularLocoLabel = new System.Windows.Forms.Label();
             this.locoResultLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.locoConditionLabel = new System.Windows.Forms.Label();
@@ -47,8 +52,7 @@
             this.totalTrips = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.closeScreen = new System.Windows.Forms.Label();
-            this.mostPopularLocoLabel = new System.Windows.Forms.Label();
-            this.mostPopularLocoResult = new System.Windows.Forms.Label();
+            this.totalTripsBySeriesResult = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
@@ -57,6 +61,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.totalTripsBySeriesResult);
+            this.groupBox1.Controls.Add(this.colonLabel2);
+            this.groupBox1.Controls.Add(this.totalTripsBySeries);
+            this.groupBox1.Controls.Add(this.totalTripsBySeriesLabel);
             this.groupBox1.Controls.Add(this.mostPopularLocoResult);
             this.groupBox1.Controls.Add(this.mostPopularLocoLabel);
             this.groupBox1.Controls.Add(this.locoResultLabel);
@@ -80,6 +88,62 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Экран Статистики ";
+            // 
+            // colonLabel2
+            // 
+            this.colonLabel2.AutoSize = true;
+            this.colonLabel2.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.colonLabel2.ForeColor = System.Drawing.Color.Moccasin;
+            this.colonLabel2.Location = new System.Drawing.Point(499, 476);
+            this.colonLabel2.Name = "colonLabel2";
+            this.colonLabel2.Size = new System.Drawing.Size(17, 22);
+            this.colonLabel2.TabIndex = 17;
+            this.colonLabel2.Text = ":";
+            // 
+            // totalTripsBySeries
+            // 
+            this.totalTripsBySeries.AutoSize = true;
+            this.totalTripsBySeries.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.totalTripsBySeries.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.totalTripsBySeries.ForeColor = System.Drawing.Color.Gold;
+            this.totalTripsBySeries.Location = new System.Drawing.Point(433, 476);
+            this.totalTripsBySeries.Name = "totalTripsBySeries";
+            this.totalTripsBySeries.Size = new System.Drawing.Size(51, 22);
+            this.totalTripsBySeries.TabIndex = 16;
+            this.totalTripsBySeries.Text = "loco";
+            this.totalTripsBySeries.Click += new System.EventHandler(this.totalTripsBySeries_Click);
+            // 
+            // totalTripsBySeriesLabel
+            // 
+            this.totalTripsBySeriesLabel.AutoSize = true;
+            this.totalTripsBySeriesLabel.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.totalTripsBySeriesLabel.ForeColor = System.Drawing.Color.Moccasin;
+            this.totalTripsBySeriesLabel.Location = new System.Drawing.Point(29, 476);
+            this.totalTripsBySeriesLabel.Name = "totalTripsBySeriesLabel";
+            this.totalTripsBySeriesLabel.Size = new System.Drawing.Size(398, 22);
+            this.totalTripsBySeriesLabel.TabIndex = 15;
+            this.totalTripsBySeriesLabel.Text = "Всего поездок на локомотивах серии";
+            // 
+            // mostPopularLocoResult
+            // 
+            this.mostPopularLocoResult.AutoSize = true;
+            this.mostPopularLocoResult.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.mostPopularLocoResult.Location = new System.Drawing.Point(374, 376);
+            this.mostPopularLocoResult.Name = "mostPopularLocoResult";
+            this.mostPopularLocoResult.Size = new System.Drawing.Size(65, 22);
+            this.mostPopularLocoResult.TabIndex = 14;
+            this.mostPopularLocoResult.Text = "result";
+            // 
+            // mostPopularLocoLabel
+            // 
+            this.mostPopularLocoLabel.AutoSize = true;
+            this.mostPopularLocoLabel.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.mostPopularLocoLabel.ForeColor = System.Drawing.Color.Moccasin;
+            this.mostPopularLocoLabel.Location = new System.Drawing.Point(29, 376);
+            this.mostPopularLocoLabel.Name = "mostPopularLocoLabel";
+            this.mostPopularLocoLabel.Size = new System.Drawing.Size(339, 22);
+            this.mostPopularLocoLabel.TabIndex = 13;
+            this.mostPopularLocoLabel.Text = "Самый популярный локомотив:";
             // 
             // locoResultLabel
             // 
@@ -282,26 +346,15 @@
             this.closeScreen.MouseEnter += new System.EventHandler(this.closeScreen_MouseEnter);
             this.closeScreen.MouseLeave += new System.EventHandler(this.closeScreen_MouseLeave);
             // 
-            // mostPopularLocoLabel
+            // totalTripsBySeriesResult
             // 
-            this.mostPopularLocoLabel.AutoSize = true;
-            this.mostPopularLocoLabel.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.mostPopularLocoLabel.ForeColor = System.Drawing.Color.Moccasin;
-            this.mostPopularLocoLabel.Location = new System.Drawing.Point(29, 376);
-            this.mostPopularLocoLabel.Name = "mostPopularLocoLabel";
-            this.mostPopularLocoLabel.Size = new System.Drawing.Size(339, 22);
-            this.mostPopularLocoLabel.TabIndex = 13;
-            this.mostPopularLocoLabel.Text = "Самый популярный локомотив:";
-            // 
-            // mostPopularLocoResult
-            // 
-            this.mostPopularLocoResult.AutoSize = true;
-            this.mostPopularLocoResult.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.mostPopularLocoResult.Location = new System.Drawing.Point(374, 376);
-            this.mostPopularLocoResult.Name = "mostPopularLocoResult";
-            this.mostPopularLocoResult.Size = new System.Drawing.Size(65, 22);
-            this.mostPopularLocoResult.TabIndex = 14;
-            this.mostPopularLocoResult.Text = "result";
+            this.totalTripsBySeriesResult.AutoSize = true;
+            this.totalTripsBySeriesResult.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.totalTripsBySeriesResult.Location = new System.Drawing.Point(522, 476);
+            this.totalTripsBySeriesResult.Name = "totalTripsBySeriesResult";
+            this.totalTripsBySeriesResult.Size = new System.Drawing.Size(65, 22);
+            this.totalTripsBySeriesResult.TabIndex = 18;
+            this.totalTripsBySeriesResult.Text = "result";
             // 
             // StatisticsScreenForm
             // 
@@ -352,5 +405,9 @@
         private Label locoResultLabel;
         private Label mostPopularLocoLabel;
         private Label mostPopularLocoResult;
+        private Label totalTripsBySeriesLabel;
+        private Label totalTripsBySeries;
+        private Label colonLabel2;
+        private Label totalTripsBySeriesResult;
     }
 }

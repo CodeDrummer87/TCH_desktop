@@ -16,6 +16,7 @@ namespace TCH_desktop.View
         private bool isOldestLoco;
         private List<string> series = new();
         private int seriesIndex = 0;
+        private int seriesCountIndex = 0;
 
         public StatisticsScreenForm(StartForm startForm)
         {
@@ -36,10 +37,10 @@ namespace TCH_desktop.View
         2) Времени в пути - сумма (done)
         3) Тонн брутто перевезено (done)
         4) Плечи на которых пришлось поработать (в скобках количество поездок) (done)
-        5) Самый популярный локомотив в поездках
+        5) Самый популярный локомотив в поездках (done)
         6) Самая старая Синара (done)
         7) Самая новая Синара (done)
-        8) Поездок на <тип лок-ва>: кол-во
+        8) Всего поездок на <тип лок-ва>: кол-во (done)
         9) Дата первой / последней поездки
         */
 
@@ -460,7 +461,68 @@ namespace TCH_desktop.View
 
         private string TransformWord(int value)
         {
-            return value > 4 ? "поездок" : "поездки";
+            return value == 1 ? "поездка" : (value > 1 && value < 5) ? "поездки" : "поездок";
+        }
+
+        private void DisplayTotalTripsByLocoSeries()
+        {
+            totalTripsBySeries.Text = series[seriesCountIndex];
+
+            int y = mostPopularLocoResult.Location.Y + mostPopularLocoResult.Height + 45; 
+            totalTripsBySeriesLabel.Location = new Point(29, y);
+
+            SetColonLabel2(y);
+            int tripsCount = GetTotalTripsBySeriesCount(series[seriesCountIndex]);
+            totalTripsBySeriesResult.Text = $"{tripsCount} {TransformWord(tripsCount)}";
+        }
+
+        private void SetColonLabel2(int y)
+        {
+            int x = totalTripsBySeriesLabel.Location.X + totalTripsBySeriesLabel.Width;
+            totalTripsBySeries.Location = new Point(x, y);
+
+            x += totalTripsBySeries.Width - 5;
+            colonLabel2.Location = new Point(x, y);
+
+            x += colonLabel2.Width;
+            totalTripsBySeriesResult.Location = new Point(x, y);
+        }
+
+        private int GetTotalTripsBySeriesCount(string locoSeries)
+        {
+            int result = 0;
+            string query = "SELECT COUNT(ls.Series) " +
+                "FROM Trips t " +
+                "INNER JOIN Locomotives l " +
+                "ON l.Id=t.Locomotive " +
+                "INNER JOIN LocoSeries ls " +
+                "ON ls.Id=l.Series " +
+                "WHERE UserId=@uId AND ls.Series=@locoSeries";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                command.Parameters.Add("@locoSeries", SqlDbType.NVarChar).Value = locoSeries;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = reader.GetInt32(0);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось получить количество поездок для серии локомотивов {locoSeries}" +
+                    $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            DataBase.CloseConnection();
+
+            return result;
         }
 
 
@@ -481,6 +543,7 @@ namespace TCH_desktop.View
             locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
 
             GetMostPopularLoco();
+            DisplayTotalTripsByLocoSeries();
         }
 
         private void closeScreen_MouseEnter(object sender, EventArgs e)
@@ -586,6 +649,19 @@ namespace TCH_desktop.View
             locoSeriesLabel.Text = series[seriesIndex];
             locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
             SetColonLabel();
+        }
+
+        private void totalTripsBySeries_Click(object sender, EventArgs e)
+        {
+            ++seriesCountIndex;
+            if (seriesCountIndex == series.Count)
+                seriesCountIndex = 0;
+
+            totalTripsBySeries.Text = series[seriesCountIndex];
+            SetColonLabel2(totalTripsBySeries.Location.Y);
+
+            int tripsCount = GetTotalTripsBySeriesCount(series[seriesCountIndex]);
+            totalTripsBySeriesResult.Text = $"{tripsCount} {TransformWord(tripsCount)}";
         }
 
         #endregion
