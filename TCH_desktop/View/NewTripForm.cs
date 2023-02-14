@@ -350,7 +350,7 @@ namespace TCH_desktop.View
             int weight = 0;
             int axles = 0;
 
-            if (trainMass.Text != String.Empty && trainAxles.Text != String.Empty)
+            if (!singleLoco.Checked && trainMass.Text != String.Empty && trainAxles.Text != String.Empty)
             { 
                 weight = Convert.ToInt32(trainMass.Text);
                 axles = Convert.ToInt32(trainAxles.Text);
@@ -371,9 +371,12 @@ namespace TCH_desktop.View
                 command.Parameters.Add("@numb", SqlDbType.NChar).Value = trainNumber.Text;
                 command.Parameters.Add("@weight", SqlDbType.NChar).Value = weight;
                 command.Parameters.Add("@axles", SqlDbType.NChar).Value = axles;
-                command.Parameters.Add("@length", SqlDbType.NChar).Value = trainSpecificLength.Text;
-                command.Parameters.Add("@tail", SqlDbType.NChar).Value = trainTailCar.Text;
-                command.Parameters.Add("@fixation", SqlDbType.NVarChar).Value = fixation;
+                command.Parameters.Add("@length", SqlDbType.NChar).Value = !singleLoco.Checked ? 
+                    trainSpecificLength.Text : 0;
+                command.Parameters.Add("@tail", SqlDbType.NChar).Value = !singleLoco.Checked ? 
+                    trainTailCar.Text : 0;
+                command.Parameters.Add("@fixation", SqlDbType.NVarChar).Value = !singleLoco.Checked ?
+                    fixation : 0;
 
                 DataBase.OpenConnection();
 
@@ -888,7 +891,34 @@ namespace TCH_desktop.View
             arrivalTrafficLight.DroppedDown = true;
         }
 
-        #endregion
+        private void radioButton_CheckedChanged(object? sender, EventArgs e)
+        {
+            RadioButton rButton = (RadioButton)sender;
+            if (rButton.Checked)
+            {
+                if (rButton.Text == "Следование резервом")
+                {
+                    trainMass.Enabled = trainAxles.Enabled = trainSpecificLength.Enabled =
+                        trainTailCar.Enabled = false;
 
+                    trainMass.BackColor = trainAxles.BackColor = trainSpecificLength.BackColor = 
+                        trainTailCar.BackColor = SystemColors.InactiveCaption;
+
+                    label8.ForeColor = label9.ForeColor = label10.ForeColor = label11.ForeColor = Color.Gray;
+                }
+                else
+                {
+                    trainMass.Enabled = trainAxles.Enabled = trainSpecificLength.Enabled =
+                        trainTailCar.Enabled = true;
+
+                    trainMass.BackColor = trainAxles.BackColor = trainSpecificLength.BackColor =
+                        trainTailCar.BackColor = SystemColors.Window;
+
+                    label8.ForeColor = label9.ForeColor = label10.ForeColor = label11.ForeColor = Color.GreenYellow;
+                }
+            }
+        }
+
+        #endregion
     }
 }

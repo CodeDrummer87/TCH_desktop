@@ -41,13 +41,16 @@
             this.addNotes = new System.Windows.Forms.Label();
             this.removeLocomotive = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.trainType = new System.Windows.Forms.Panel();
+            this.doubleTrain = new System.Windows.Forms.RadioButton();
+            this.singleLoco = new System.Windows.Forms.RadioButton();
+            this.freightTrain = new System.Windows.Forms.RadioButton();
             this.removeNotes = new System.Windows.Forms.Label();
             this.notesInfo = new System.Windows.Forms.Label();
             this.removeSpeedLimits = new System.Windows.Forms.Label();
             this.speedLimitsInfo = new System.Windows.Forms.Label();
             this.removePastStations = new System.Windows.Forms.Label();
             this.pastStationsInfo = new System.Windows.Forms.Label();
-            this.doubleTrain = new System.Windows.Forms.CheckBox();
             this.brakeTestInfo = new System.Windows.Forms.Label();
             this.removeBrakeTest = new System.Windows.Forms.Label();
             this.addBrakeTest = new System.Windows.Forms.Label();
@@ -80,6 +83,7 @@
             this.attendanceTimePicker = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            this.trainType.SuspendLayout();
             this.SuspendLayout();
             // 
             // backToStartForm
@@ -224,13 +228,13 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.trainType);
             this.groupBox1.Controls.Add(this.removeNotes);
             this.groupBox1.Controls.Add(this.notesInfo);
             this.groupBox1.Controls.Add(this.removeSpeedLimits);
             this.groupBox1.Controls.Add(this.speedLimitsInfo);
             this.groupBox1.Controls.Add(this.removePastStations);
             this.groupBox1.Controls.Add(this.pastStationsInfo);
-            this.groupBox1.Controls.Add(this.doubleTrain);
             this.groupBox1.Controls.Add(this.brakeTestInfo);
             this.groupBox1.Controls.Add(this.removeBrakeTest);
             this.groupBox1.Controls.Add(this.addBrakeTest);
@@ -277,6 +281,56 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Новая поездка ";
+            // 
+            // trainType
+            // 
+            this.trainType.Controls.Add(this.doubleTrain);
+            this.trainType.Controls.Add(this.singleLoco);
+            this.trainType.Controls.Add(this.freightTrain);
+            this.trainType.ForeColor = System.Drawing.Color.GreenYellow;
+            this.trainType.Location = new System.Drawing.Point(66, 166);
+            this.trainType.Name = "trainType";
+            this.trainType.Size = new System.Drawing.Size(735, 43);
+            this.trainType.TabIndex = 76;
+            // 
+            // doubleTrain
+            // 
+            this.doubleTrain.AutoSize = true;
+            this.doubleTrain.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.doubleTrain.Location = new System.Drawing.Point(240, 14);
+            this.doubleTrain.Name = "doubleTrain";
+            this.doubleTrain.Size = new System.Drawing.Size(209, 22);
+            this.doubleTrain.TabIndex = 2;
+            this.doubleTrain.TabStop = true;
+            this.doubleTrain.Text = "Сдвоенный поезд";
+            this.doubleTrain.UseVisualStyleBackColor = true;
+            this.doubleTrain.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+            // 
+            // singleLoco
+            // 
+            this.singleLoco.AutoSize = true;
+            this.singleLoco.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.singleLoco.Location = new System.Drawing.Point(469, 14);
+            this.singleLoco.Name = "singleLoco";
+            this.singleLoco.Size = new System.Drawing.Size(257, 22);
+            this.singleLoco.TabIndex = 1;
+            this.singleLoco.Text = "Следование резервом";
+            this.singleLoco.UseVisualStyleBackColor = true;
+            this.singleLoco.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+            // 
+            // freightTrain
+            // 
+            this.freightTrain.AutoSize = true;
+            this.freightTrain.Checked = true;
+            this.freightTrain.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.freightTrain.Location = new System.Drawing.Point(17, 14);
+            this.freightTrain.Name = "freightTrain";
+            this.freightTrain.Size = new System.Drawing.Size(197, 22);
+            this.freightTrain.TabIndex = 0;
+            this.freightTrain.TabStop = true;
+            this.freightTrain.Text = "Грузовой поезд";
+            this.freightTrain.UseVisualStyleBackColor = true;
+            this.freightTrain.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // removeNotes
             // 
@@ -351,18 +405,6 @@
             this.pastStationsInfo.TabIndex = 70;
             this.pastStationsInfo.Text = "Описание";
             this.pastStationsInfo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // doubleTrain
-            // 
-            this.doubleTrain.AutoSize = true;
-            this.doubleTrain.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.doubleTrain.ForeColor = System.Drawing.Color.GreenYellow;
-            this.doubleTrain.Location = new System.Drawing.Point(365, 201);
-            this.doubleTrain.Name = "doubleTrain";
-            this.doubleTrain.Size = new System.Drawing.Size(205, 24);
-            this.doubleTrain.TabIndex = 69;
-            this.doubleTrain.Text = "Сдвоенный поезд";
-            this.doubleTrain.UseVisualStyleBackColor = true;
             // 
             // brakeTestInfo
             // 
@@ -742,6 +784,8 @@
             this.Load += new System.EventHandler(this.NewTripForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.trainType.ResumeLayout(false);
+            this.trainType.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -791,12 +835,15 @@
         private Label addBrakeTest;
         private Label removeBrakeTest;
         private Label brakeTestInfo;
-        public CheckBox doubleTrain;
         private Label pastStationsInfo;
         private Label removePastStations;
         private Label removeSpeedLimits;
         private Label speedLimitsInfo;
         private Label removeNotes;
         private Label notesInfo;
+        public Panel trainType;
+        public RadioButton singleLoco;
+        public RadioButton freightTrain;
+        public RadioButton doubleTrain;
     }
 }
