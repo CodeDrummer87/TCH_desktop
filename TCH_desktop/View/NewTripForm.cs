@@ -491,6 +491,12 @@ namespace TCH_desktop.View
 
         private string CheckData(string data) => data == String.Empty ? "н/у" : data;
 
+        private bool CheckValuesForCalc()
+        {
+            return (distanceTextBox.Text != String.Empty && trainMass.Text != String.Empty &&
+                electricityFactorTextBox.Text != String.Empty );
+        }
+
 
 
         #region Interactive
@@ -526,9 +532,6 @@ namespace TCH_desktop.View
                 departureStation.DisplayMember = arrivalStation.DisplayMember = "Title";
                 departureStation.SelectedIndex = arrivalStation.SelectedIndex = 0;
             }
-
-            trainNumber.Focus();
-
         }
 
         private void trainNumber_Leave(object sender, EventArgs e)
@@ -544,8 +547,6 @@ namespace TCH_desktop.View
                 LoadAvailableTrafficLights(trainNumb % 2 == 0, ((Station)(arrivalStation.SelectedItem)).Id);
                 SetTrafficLightsComboBox(arrivalTrafficLight);
 
-                departureTrafficLight.DroppedDown = true;
-
                 if (!addBrakeTest.Enabled)
                     addBrakeTest.Enabled = true;
             }
@@ -554,6 +555,8 @@ namespace TCH_desktop.View
                 EnableFields(false);
                 addBrakeTest.Enabled = false;
             }
+
+            trainMass.Focus();
         }
 
         private void departureStation_SelectedIndexChanged(object sender, EventArgs e)
@@ -564,6 +567,8 @@ namespace TCH_desktop.View
                 LoadAvailableTrafficLights(trainNumb % 2 == 0, ((Station)(departureStation.SelectedItem)).Id);
                 SetTrafficLightsComboBox(departureTrafficLight);
             }
+
+            distanceTextBox.Focus();
         }
 
         private void arrivalStation_SelectedIndexChanged(object sender, EventArgs e)
@@ -574,6 +579,7 @@ namespace TCH_desktop.View
                 LoadAvailableTrafficLights(trainNumb % 2 == 0, ((Station)(arrivalStation.SelectedItem)).Id);
                 SetTrafficLightsComboBox(arrivalTrafficLight);
             }
+            distanceTextBox.Focus();
         }
 
         private void backToStartForm_Click(object sender, EventArgs e)
@@ -835,10 +841,16 @@ namespace TCH_desktop.View
                 int brakeHolders = GetBrakeHolders(locoId);
                 int trainId = SaveTrainData(brakeHolders);
 
+                float elFactor = electricityFactorTextBox.Text != String.Empty ?
+                    Convert.ToSingle(electricityFactorTextBox.Text.Replace('.', ',')) : 0.0F;
+                int elAmountReq = elAmountRequiredValue.Text != String.Empty ?
+                    Convert.ToInt32(elAmountRequiredValue.Text) : 0;
+
                 string query = "INSERT INTO Trips (AttendanceTime, Locomotive, TrafficRoute, " +
-                    "Departure, Arrival, PassedStations, SpeedLimits, Notes, Train, UserId) " +
-                    "VALUES (@atTime, @locoId, @route, @dep, @arr, @pasSt, @spLim, " +
-                    "@notes, @trainId, @userId)";
+                    "ElectricityFactor, Departure, Arrival, PassedStations, SpeedLimits, " +
+                    "ElectricityAmountRequired, Notes, Train, UserId) " +
+                    "VALUES (@atTime, @locoId, @route, @eF, @dep, @arr, @pasSt, @spLim, " +
+                    "@elAmountRequired, @notes, @trainId, @userId)";
 
                 try
                 {
@@ -846,11 +858,12 @@ namespace TCH_desktop.View
                     command.Parameters.Add("@atTime", SqlDbType.DateTime).Value = attendaceTime;
                     command.Parameters.Add("@locoId", SqlDbType.Int).Value = locoId;
                     command.Parameters.Add("@route", SqlDbType.NVarChar).Value = trafficRoute;
-                    //command.Parameters.Add("@eF", SqlDbType.Float).Value = 0.0F;    //.:: temporary code
+                    command.Parameters.Add("@eF", SqlDbType.Float).Value = elFactor;
                     command.Parameters.Add("@dep", SqlDbType.NVarChar).Value = departure;
                     command.Parameters.Add("@arr", SqlDbType.NVarChar).Value = arrival;
                     command.Parameters.Add("@pasSt", SqlDbType.NVarChar).Value = pStations;
                     command.Parameters.Add("@spLim", SqlDbType.NVarChar).Value = limits;
+                    command.Parameters.Add("@elAmountRequired", SqlDbType.Int).Value = elAmountReq;
                     //command.Parameters.Add("@techSp", SqlDbType.Float).Value = 0.0F;  //.:: temporary code
                     command.Parameters.Add("@notes", SqlDbType.NVarChar).Value = notes;
                     command.Parameters.Add("@trainId", SqlDbType.Int).Value = trainId;
@@ -886,11 +899,6 @@ namespace TCH_desktop.View
             }
         }
 
-        private void departureTrafficLight_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            arrivalTrafficLight.DroppedDown = true;
-        }
-
         private void radioButton_CheckedChanged(object? sender, EventArgs e)
         {
             RadioButton rButton = (RadioButton)sender;
@@ -917,6 +925,45 @@ namespace TCH_desktop.View
                     label8.ForeColor = label9.ForeColor = label10.ForeColor = label11.ForeColor = Color.GreenYellow;
                 }
             }
+        }
+
+        private void distanceTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+
+            if (!Char.IsDigit(number) && number != 8)
+                e.Handled = true;
+        }
+
+        private void electricityFactorTextBox_Leave(object sender, EventArgs e)
+        {
+            if (CheckValuesForCalc())
+            {
+                float k = Convert.ToSingle(electricityFactorTextBox.Text.Replace('.', ','));
+                float weight = Convert.ToSingle(trainMass.Text);
+                float distance = Convert.ToSingle(distanceTextBox.Text);
+
+                float value = (k * weight * distance / 1000000);
+                float remainder = value - (int)value;
+
+                remainder = Convert.ToSingle(remainder.ToString().Substring(0, 3));
+                elAmountRequiredValue.Text = (remainder > 0.0 ? (int)(++value) : (int)value).ToString();
+            }
+        }
+
+        private void distanceTextBox_Leave(object sender, EventArgs e)
+        {
+            trainNumber.Focus();
+        }
+
+        private void trainTailCar_Leave(object sender, EventArgs e)
+        {
+            electricityFactorTextBox.Focus();
+        }
+
+        private void electricityFactorTextBox_Enter(object sender, EventArgs e)
+        {
+            electricityFactorTextBox.Text = String.Empty;
         }
 
         #endregion

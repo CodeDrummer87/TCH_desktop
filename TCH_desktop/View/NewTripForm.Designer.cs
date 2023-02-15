@@ -41,6 +41,12 @@
             this.addNotes = new System.Windows.Forms.Label();
             this.removeLocomotive = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.elAmountRequiredValue = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.electricityFactorTextBox = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.distanceTextBox = new System.Windows.Forms.TextBox();
             this.trainType = new System.Windows.Forms.Panel();
             this.doubleTrain = new System.Windows.Forms.RadioButton();
             this.singleLoco = new System.Windows.Forms.RadioButton();
@@ -228,6 +234,12 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.elAmountRequiredValue);
+            this.groupBox1.Controls.Add(this.label19);
+            this.groupBox1.Controls.Add(this.label18);
+            this.groupBox1.Controls.Add(this.electricityFactorTextBox);
+            this.groupBox1.Controls.Add(this.label17);
+            this.groupBox1.Controls.Add(this.distanceTextBox);
             this.groupBox1.Controls.Add(this.trainType);
             this.groupBox1.Controls.Add(this.removeNotes);
             this.groupBox1.Controls.Add(this.notesInfo);
@@ -281,6 +293,71 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Новая поездка ";
+            // 
+            // elAmountRequiredValue
+            // 
+            this.elAmountRequiredValue.Font = new System.Drawing.Font("Verdana", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.elAmountRequiredValue.ForeColor = System.Drawing.Color.Yellow;
+            this.elAmountRequiredValue.Location = new System.Drawing.Point(88, 383);
+            this.elAmountRequiredValue.Name = "elAmountRequiredValue";
+            this.elAmountRequiredValue.Size = new System.Drawing.Size(72, 25);
+            this.elAmountRequiredValue.TabIndex = 82;
+            this.elAmountRequiredValue.Text = "0";
+            this.elAmountRequiredValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label19.Location = new System.Drawing.Point(56, 353);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(144, 18);
+            this.label19.TabIndex = 81;
+            this.label19.Text = "Расчёт Эл.Энергии";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label18.Location = new System.Drawing.Point(83, 424);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(77, 15);
+            this.label18.TabIndex = 80;
+            this.label18.Text = "Коэфф-т";
+            // 
+            // electricityFactorTextBox
+            // 
+            this.electricityFactorTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.electricityFactorTextBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.electricityFactorTextBox.Location = new System.Drawing.Point(83, 439);
+            this.electricityFactorTextBox.Name = "electricityFactorTextBox";
+            this.electricityFactorTextBox.Size = new System.Drawing.Size(77, 25);
+            this.electricityFactorTextBox.TabIndex = 79;
+            this.electricityFactorTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.electricityFactorTextBox.Enter += new System.EventHandler(this.electricityFactorTextBox_Enter);
+            this.electricityFactorTextBox.Leave += new System.EventHandler(this.electricityFactorTextBox_Leave);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label17.Location = new System.Drawing.Point(702, 105);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(147, 15);
+            this.label17.TabIndex = 78;
+            this.label17.Text = "расстояние, км";
+            // 
+            // distanceTextBox
+            // 
+            this.distanceTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.distanceTextBox.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.distanceTextBox.Location = new System.Drawing.Point(704, 123);
+            this.distanceTextBox.Name = "distanceTextBox";
+            this.distanceTextBox.Size = new System.Drawing.Size(145, 31);
+            this.distanceTextBox.TabIndex = 77;
+            this.distanceTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.distanceTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.distanceTextBox_KeyPress);
+            this.distanceTextBox.Leave += new System.EventHandler(this.distanceTextBox_Leave);
             // 
             // trainType
             // 
@@ -510,7 +587,7 @@
             // label13
             // 
             this.label13.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label13.Location = new System.Drawing.Point(497, 98);
+            this.label13.Location = new System.Drawing.Point(440, 96);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(251, 25);
             this.label13.TabIndex = 55;
@@ -520,7 +597,7 @@
             // label12
             // 
             this.label12.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label12.Location = new System.Drawing.Point(194, 98);
+            this.label12.Location = new System.Drawing.Point(156, 96);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(250, 25);
             this.label12.TabIndex = 54;
@@ -536,6 +613,7 @@
             this.trainTailCar.TabIndex = 52;
             this.trainTailCar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.trainTailCar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainTailCar_KeyPress);
+            this.trainTailCar.Leave += new System.EventHandler(this.trainTailCar_Leave);
             // 
             // label11
             // 
@@ -655,7 +733,6 @@
             this.departureTrafficLight.Name = "departureTrafficLight";
             this.departureTrafficLight.Size = new System.Drawing.Size(142, 26);
             this.departureTrafficLight.TabIndex = 41;
-            this.departureTrafficLight.SelectedIndexChanged += new System.EventHandler(this.departureTrafficLight_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -685,7 +762,7 @@
             this.arrivalStation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.arrivalStation.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.arrivalStation.FormattingEnabled = true;
-            this.arrivalStation.Location = new System.Drawing.Point(498, 126);
+            this.arrivalStation.Location = new System.Drawing.Point(441, 124);
             this.arrivalStation.Name = "arrivalStation";
             this.arrivalStation.Size = new System.Drawing.Size(250, 31);
             this.arrivalStation.TabIndex = 36;
@@ -696,7 +773,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label4.ForeColor = System.Drawing.Color.GreenYellow;
-            this.label4.Location = new System.Drawing.Point(459, 126);
+            this.label4.Location = new System.Drawing.Point(412, 124);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(23, 31);
             this.label4.TabIndex = 35;
@@ -709,7 +786,7 @@
             this.departureStation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.departureStation.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.departureStation.FormattingEnabled = true;
-            this.departureStation.Location = new System.Drawing.Point(194, 126);
+            this.departureStation.Location = new System.Drawing.Point(156, 124);
             this.departureStation.Name = "departureStation";
             this.departureStation.Size = new System.Drawing.Size(250, 31);
             this.departureStation.TabIndex = 34;
@@ -720,7 +797,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Consolas", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label3.ForeColor = System.Drawing.Color.GreenYellow;
-            this.label3.Location = new System.Drawing.Point(51, 126);
+            this.label3.Location = new System.Drawing.Point(25, 124);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(125, 29);
             this.label3.TabIndex = 33;
@@ -845,5 +922,11 @@
         public RadioButton singleLoco;
         public RadioButton freightTrain;
         public RadioButton doubleTrain;
+        private TextBox distanceTextBox;
+        private Label label17;
+        private TextBox electricityFactorTextBox;
+        private Label label18;
+        private Label elAmountRequiredValue;
+        private Label label19;
     }
 }

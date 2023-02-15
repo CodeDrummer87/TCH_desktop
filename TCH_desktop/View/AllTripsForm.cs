@@ -195,7 +195,7 @@ namespace TCH_desktop.View
             }
 
             int totalCount = GetTotalTripsCount();
-            string total = offset == 0 ? String.Empty : $"({8 + tripsList.Count})";
+            string total = offset == 0 ? String.Empty : $"({offset * 8 + tripsList.Count})";
             currentMessage.Text = $"Показано {tripsList.Count}{total} {TransformWord(tripsList.Count)} " +
                 $"из {totalCount}";
 
