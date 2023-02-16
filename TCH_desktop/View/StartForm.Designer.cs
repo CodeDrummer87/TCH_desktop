@@ -79,8 +79,8 @@
             this.newTripMenu.Text = "НОВАЯ ПОЕЗДКА";
             this.newTripMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.newTripMenu.Click += new System.EventHandler(this.newTripMenu_Click);
-            this.newTripMenu.MouseEnter += new System.EventHandler(this.newTripMenu_MouseEnter);
-            this.newTripMenu.MouseLeave += new System.EventHandler(this.newTripMenu_MouseLeave);
+            this.newTripMenu.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.newTripMenu.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // allTripsMenu
             // 
@@ -94,8 +94,8 @@
             this.allTripsMenu.Text = "ВСЕ ПОЕЗДКИ";
             this.allTripsMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.allTripsMenu.Click += new System.EventHandler(this.allTripsMenu_Click);
-            this.allTripsMenu.MouseEnter += new System.EventHandler(this.allTripsMenu_MouseEnter);
-            this.allTripsMenu.MouseLeave += new System.EventHandler(this.allTripsMenu_MouseLeave);
+            this.allTripsMenu.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.allTripsMenu.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // personDataMenu
             // 
@@ -109,8 +109,8 @@
             this.personDataMenu.Text = "ЛИЧНЫЕ ДАННЫЕ";
             this.personDataMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.personDataMenu.Click += new System.EventHandler(this.personDataMenu_Click);
-            this.personDataMenu.MouseEnter += new System.EventHandler(this.personDataMenu_MouseEnter);
-            this.personDataMenu.MouseLeave += new System.EventHandler(this.personDataMenu_MouseLeave);
+            this.personDataMenu.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.personDataMenu.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // developerEmail
             // 
@@ -147,8 +147,8 @@
             this.statisticsScreenMenu.Text = "ЭКРАН СТАТИСТИКИ";
             this.statisticsScreenMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.statisticsScreenMenu.Click += new System.EventHandler(this.statisticsScreenMenu_Click);
-            this.statisticsScreenMenu.MouseEnter += new System.EventHandler(this.statisticsScreenMenu_MouseEnter);
-            this.statisticsScreenMenu.MouseLeave += new System.EventHandler(this.statisticsScreenMenu_MouseLeave);
+            this.statisticsScreenMenu.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.statisticsScreenMenu.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // StartForm
             // 

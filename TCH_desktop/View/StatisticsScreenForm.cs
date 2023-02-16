@@ -51,7 +51,6 @@ namespace TCH_desktop.View
                     result = reader.GetInt32(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -60,6 +59,7 @@ namespace TCH_desktop.View
                     "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return result;
         }
 
@@ -89,7 +89,6 @@ namespace TCH_desktop.View
                 }
 
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -97,6 +96,8 @@ namespace TCH_desktop.View
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private void GetTotalTripsByTrafficRoute()
@@ -118,7 +119,6 @@ namespace TCH_desktop.View
                         Statistics tempStat = tripStat[i] with { totalTrips = reader.GetInt32(0) };  
                         tripStat[i] = tempStat;
                     }
-                    DataBase.CloseConnection();
 
                     reader.Close();                  
                 }
@@ -129,6 +129,8 @@ namespace TCH_desktop.View
                         $"Обратитесь к системному администратору для устранения ошибки.",
                         "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
+
+                DataBase.CloseConnection();
             }     
         }
 
@@ -282,7 +284,6 @@ namespace TCH_desktop.View
             }
 
             DataBase.CloseConnection();
-
             return result;
         }
 
@@ -318,7 +319,6 @@ namespace TCH_desktop.View
             }
 
             DataBase.CloseConnection();
-
             return series;
         }
 
@@ -367,7 +367,6 @@ namespace TCH_desktop.View
             }
 
             DataBase.CloseConnection();
-
             return locoSeries + '-' + TransformLocoNumber(locoNumber);
         }
 
@@ -410,7 +409,6 @@ namespace TCH_desktop.View
             }
 
             DataBase.CloseConnection();
-
             return locoTripsCounter;
         }
 
@@ -516,7 +514,6 @@ namespace TCH_desktop.View
             }
 
             DataBase.CloseConnection();
-
             return result;
         }
 
@@ -552,7 +549,6 @@ namespace TCH_desktop.View
             }
 
             DataBase.CloseConnection();
-
             return result;
         }
 

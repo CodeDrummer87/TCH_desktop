@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.notesTextBox = new System.Windows.Forms.RichTextBox();
             this.cancelButton = new System.Windows.Forms.Label();
             this.addNotes = new System.Windows.Forms.Label();
-            this.notesTextBox = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +47,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Заметки в пути ";
             // 
+            // notesTextBox
+            // 
+            this.notesTextBox.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.notesTextBox.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.notesTextBox.Location = new System.Drawing.Point(10, 37);
+            this.notesTextBox.Name = "notesTextBox";
+            this.notesTextBox.Size = new System.Drawing.Size(803, 298);
+            this.notesTextBox.TabIndex = 0;
+            this.notesTextBox.Text = "Используйте \';\' в качестве разделителя между отдельными записями";
+            this.notesTextBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notesTextBox_MouseClick);
+            // 
             // cancelButton
             // 
             this.cancelButton.AutoSize = true;
@@ -59,8 +70,8 @@
             this.cancelButton.TabIndex = 1;
             this.cancelButton.Text = "Отмена";
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-            this.cancelButton.MouseEnter += new System.EventHandler(this.cancelButton_MouseEnter);
-            this.cancelButton.MouseLeave += new System.EventHandler(this.cancelButton_MouseLeave);
+            this.cancelButton.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.cancelButton.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // addNotes
             // 
@@ -74,16 +85,8 @@
             this.addNotes.TabIndex = 2;
             this.addNotes.Text = "Добавить";
             this.addNotes.Click += new System.EventHandler(this.addNotes_Click);
-            this.addNotes.MouseEnter += new System.EventHandler(this.addNotes_MouseEnter);
-            this.addNotes.MouseLeave += new System.EventHandler(this.addNotes_MouseLeave);
-            // 
-            // notesTextBox
-            // 
-            this.notesTextBox.Location = new System.Drawing.Point(10, 37);
-            this.notesTextBox.Name = "notesTextBox";
-            this.notesTextBox.Size = new System.Drawing.Size(803, 298);
-            this.notesTextBox.TabIndex = 0;
-            this.notesTextBox.Text = "";
+            this.addNotes.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.addNotes.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // NotesForm
             // 

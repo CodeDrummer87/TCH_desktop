@@ -146,8 +146,8 @@
             this.addAccountPicture.TabStop = false;
             this.authFormToolTip.SetToolTip(this.addAccountPicture, "Создать аккаунт\r\n");
             this.addAccountPicture.Click += new System.EventHandler(this.addAccountPicture_Click);
-            this.addAccountPicture.MouseEnter += new System.EventHandler(this.addAccountPicture_MouseEnter);
-            this.addAccountPicture.MouseLeave += new System.EventHandler(this.addAccountPicture_MouseLeave);
+            this.addAccountPicture.MouseEnter += new System.EventHandler(this.pictureMouseEnter);
+            this.addAccountPicture.MouseLeave += new System.EventHandler(this.pictureMouseLeave);
             // 
             // showHidePasswordPicture
             // 
@@ -163,8 +163,8 @@
             this.showHidePasswordPicture.TabStop = false;
             this.authFormToolTip.SetToolTip(this.showHidePasswordPicture, "Показать / Скрыть пароль");
             this.showHidePasswordPicture.Click += new System.EventHandler(this.showHidePasswordPicture_Click);
-            this.showHidePasswordPicture.MouseEnter += new System.EventHandler(this.showHidePasswordPicture_MouseEnter);
-            this.showHidePasswordPicture.MouseLeave += new System.EventHandler(this.showHidePasswordPicture_MouseLeave);
+            this.showHidePasswordPicture.MouseEnter += new System.EventHandler(this.pictureMouseEnter);
+            this.showHidePasswordPicture.MouseLeave += new System.EventHandler(this.pictureMouseLeave);
             // 
             // AuthForm
             // 

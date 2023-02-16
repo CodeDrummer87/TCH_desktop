@@ -79,7 +79,6 @@ namespace TCH_desktop.View
                     });
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -87,6 +86,8 @@ namespace TCH_desktop.View
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
 
@@ -118,28 +119,20 @@ namespace TCH_desktop.View
             Dispose();
         }
 
-        private void cancelButton_MouseEnter(object sender, EventArgs e)
+        private void labelMouseEnter(object sender, EventArgs e)
         {
-            cancelButton.ForeColor = Color.Yellow;
-            cancelButton.BackColor = Color.DimGray;
+            Label label_ = sender as Label;
+
+            label_.ForeColor = Color.Yellow;
+            label_.BackColor = Color.DimGray;
         }
 
-        private void cancelButton_MouseLeave(object sender, EventArgs e)
+        private void labelMouseLeave(object sender, EventArgs e)
         {
-            cancelButton.ForeColor = Color.GreenYellow;
-            cancelButton.BackColor = SystemColors.InfoText;
-        }
+            Label label_ = sender as Label;
 
-        private void addPastStationButton_MouseEnter(object sender, EventArgs e)
-        {
-            addPastStationButton.ForeColor = Color.Yellow;
-            addPastStationButton.BackColor = Color.DimGray;
-        }
-
-        private void addPastStationButton_MouseLeave(object sender, EventArgs e)
-        {
-            addPastStationButton.ForeColor = Color.GreenYellow;
-            addPastStationButton.BackColor = SystemColors.InfoText;
+            label_.ForeColor = Color.GreenYellow;
+            label_.BackColor = SystemColors.InfoText;
         }
 
         private void addNewStation_Click(object sender, EventArgs e)

@@ -47,7 +47,6 @@ namespace TCH_desktop.View
                 locoTypeSelect.SelectedIndex = 0;
 
                 reader.Close();
-                DataBase.CloseConnection();
                 isReadyReader = true;
             }
             catch (Exception ex)
@@ -56,6 +55,8 @@ namespace TCH_desktop.View
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private void LoadLocoSeriesData()
@@ -87,7 +88,6 @@ namespace TCH_desktop.View
                 locoSeriesSelect.SelectedIndex = 1;
 
                 reader.Close();
-                DataBase.CloseConnection();
                 isReadyReader = true;
             }
             catch (Exception ex)
@@ -96,6 +96,8 @@ namespace TCH_desktop.View
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private void LoadAllocationData()
@@ -123,7 +125,6 @@ namespace TCH_desktop.View
                 allocationSelect.SelectedIndex = 0;
 
                 reader.Close();
-                DataBase.CloseConnection();
                 isReadyReader = true;
             }
             catch (Exception ex)
@@ -132,6 +133,8 @@ namespace TCH_desktop.View
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private Locomotive GetDataFromFields()
@@ -164,7 +167,6 @@ namespace TCH_desktop.View
                 DataBase.OpenConnection();
 
                 command.ExecuteNonQuery();
-                DataBase.CloseConnection();
                 isReadyReader = true;
             }
             catch (Exception ex)
@@ -173,6 +175,8 @@ namespace TCH_desktop.View
                         $"Обратитесь к системному администратору для устранения ошибки.",
                         "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private string SaveLocomotivePhoto()
@@ -246,7 +250,6 @@ namespace TCH_desktop.View
                 DataTable table = new();
                 DataBase.adapter.SelectCommand = command;
                 DataBase.adapter.Fill(table);
-                DataBase.CloseConnection();
 
                 isReadyReader = true;
                 return table.Rows.Count == 1 ? true : false;
@@ -256,9 +259,10 @@ namespace TCH_desktop.View
                 MessageBox.Show($"Произошла ошибка при попытке проверить наличие локомотива в Базе Данных:" +
                     $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для её устранения.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
-                return false;
             }
+
+            DataBase.CloseConnection();
+            return false;
         }
 
         private void ApplyLocoPhoto()
@@ -317,28 +321,20 @@ namespace TCH_desktop.View
             Dispose();
         }
 
-        private void cancelButton_MouseEnter(object sender, EventArgs e)
+        private void labelMouseEnter(object sender, EventArgs e)
         {
-            cancelButton.ForeColor = Color.Yellow;
-            cancelButton.BackColor = Color.DimGray;
+            Label label_ = (Label)sender;
+
+            label_.ForeColor = Color.Yellow;
+            label_.BackColor = Color.DimGray;
         }
 
-        private void cancelButton_MouseLeave(object sender, EventArgs e)
+        private void labelMouseLeave(object sender, EventArgs e)
         {
-            cancelButton.ForeColor = Color.YellowGreen;
-            cancelButton.BackColor = SystemColors.InfoText;
-        }
+            Label label_ = (Label)sender;
 
-        private void addNewLocoButton_MouseEnter(object sender, EventArgs e)
-        {
-            addNewLocoButton.ForeColor = Color.Yellow;
-            addNewLocoButton.BackColor = Color.DimGray;
-        }
-
-        private void addNewLocoButton_MouseLeave(object sender, EventArgs e)
-        {
-            addNewLocoButton.ForeColor = Color.YellowGreen;
-            addNewLocoButton.BackColor = SystemColors.InfoText;
+            label_.ForeColor = Color.YellowGreen;
+            label_.BackColor = SystemColors.InfoText;
         }
 
         private void brakeHoldersTrackBar_Scroll(object sender, EventArgs e)

@@ -82,7 +82,6 @@ namespace TCH_desktop.View
                 DataTable table = new();
                 DataBase.adapter.SelectCommand = command;
                 DataBase.adapter.Fill(table);
-                DataBase.CloseConnection();
 
                 return table.Rows.Count == 1 ? true : false;
             }
@@ -91,9 +90,10 @@ namespace TCH_desktop.View
                 MessageBox.Show($"Получена ошибка при попытке проверить фото по умолчанию:" +
                     $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для её устранения.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
-                return false;
             }
+
+            DataBase.CloseConnection();
+            return false;
         }
 
         private void UpdateImagePathForLoco(string path)
@@ -107,7 +107,6 @@ namespace TCH_desktop.View
                 DataBase.OpenConnection();
 
                 command.ExecuteNonQuery();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -115,6 +114,8 @@ namespace TCH_desktop.View
                     $"\"\nОбратитесь к системному администратору для устранения ошибки.",
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
 
@@ -287,7 +288,6 @@ namespace TCH_desktop.View
                 DataBase.OpenConnection();
 
                 command.ExecuteNonQuery();
-                DataBase.CloseConnection();
 
                 PictureBox pBox = tripInfoForm.Controls?.Find("locoImagePB", true).FirstOrDefault() as PictureBox;
                 pBox.ImageLocation = path;
@@ -300,6 +300,8 @@ namespace TCH_desktop.View
                     $"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         #endregion

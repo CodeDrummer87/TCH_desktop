@@ -54,7 +54,6 @@ namespace TCH_desktop.View
                     });
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -62,6 +61,8 @@ namespace TCH_desktop.View
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private void EnableFields(bool value)
@@ -101,7 +102,6 @@ namespace TCH_desktop.View
                     });
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -111,6 +111,8 @@ namespace TCH_desktop.View
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private void SetTrafficLightsComboBox(ComboBox box)
@@ -293,7 +295,6 @@ namespace TCH_desktop.View
                         locoId = reader.GetInt32(0);
                     }
                     reader.Close();
-                    DataBase.CloseConnection();
                 }
                 catch (Exception ex)
                 {
@@ -302,6 +303,7 @@ namespace TCH_desktop.View
                         "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
 
+                DataBase.CloseConnection();
                 return locoId;
             }
             else
@@ -330,7 +332,6 @@ namespace TCH_desktop.View
                     seriesId = reader.GetInt32(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -339,6 +340,7 @@ namespace TCH_desktop.View
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return seriesId;
         }
 
@@ -346,18 +348,18 @@ namespace TCH_desktop.View
         {
             string query = "INSERT Trains VALUES(@numb, @weight, @axles, @length, @tail, @fixation)";
 
-            string fixation = "-";
-            int weight = 0;
-            int axles = 0;
+            string fixation = String.Empty;
+            float weight = 0;
+            float axles = 0;
 
             if (!singleLoco.Checked && trainMass.Text != String.Empty && trainAxles.Text != String.Empty)
             { 
                 weight = Convert.ToInt32(trainMass.Text);
                 axles = Convert.ToInt32(trainAxles.Text);
 
-                int k = weight / axles;
-                double value = k < 7 ? (double)(weight / 400) : (double)(weight * 0.8f / 400);
-                double trainFixation = Math.Ceiling(GetRequiredTrainFixation(value));
+                int k = (int)(weight / axles);
+                float value = k < 7 ? (weight / 400) : (weight * 0.8f / 400);
+                int trainFixation = GetRequiredTrainFixation(value);
 
                 if (trainFixation > brakeHolders)
                     fixation = $"{brakeHolders}ТБ и {trainFixation - brakeHolders}РТ";
@@ -381,7 +383,6 @@ namespace TCH_desktop.View
                 DataBase.OpenConnection();
 
                 command.ExecuteNonQuery();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -390,16 +391,18 @@ namespace TCH_desktop.View
                         "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return GetLastId("Trains");
         }
 
-        private double GetRequiredTrainFixation(double value)
+        private int GetRequiredTrainFixation(double value)
         {
             string valStr = value.ToString();
-            int index = valStr.IndexOf(',');
-            string fixation = valStr.Substring(0, index + 2);
+            int index = valStr.IndexOf(',');    
+            float tenths = Convert.ToSingle(value.ToString().Substring(0, index + 2));
 
-            return Convert.ToDouble(fixation);
+            float remainder = tenths - (int)value;
+            return remainder > 0.0F ? (int)++value : (int)value; 
         }
 
         private int GetLastId(string table)
@@ -419,7 +422,6 @@ namespace TCH_desktop.View
                     Id = reader.GetInt32(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -428,6 +430,7 @@ namespace TCH_desktop.View
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return Id;
         }
 
@@ -449,7 +452,6 @@ namespace TCH_desktop.View
                     brakeHolders = reader.GetInt32(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -458,6 +460,7 @@ namespace TCH_desktop.View
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return brakeHolders;
         }
 
@@ -477,7 +480,6 @@ namespace TCH_desktop.View
                         DataBase.OpenConnection();
 
                         command.ExecuteNonQuery();
-                        DataBase.CloseConnection();
                     }
                     catch (Exception ex)
                     {
@@ -485,16 +487,24 @@ namespace TCH_desktop.View
                                 $"Обратитесь к системному администратору для устранения ошибки.",
                                 "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     }
+
+                    DataBase.CloseConnection();
                 }
             }
         }
 
         private string CheckData(string data) => data == String.Empty ? "н/у" : data;
 
-        private bool CheckValuesForCalc()
+        private bool CheckValuesForCalc(string condition)
         {
-            return (distanceTextBox.Text != String.Empty && trainMass.Text != String.Empty &&
-                electricityFactorTextBox.Text != String.Empty );
+            return condition switch
+            {
+                "elAmount" => (distanceTextBox.Text != String.Empty && trainMass.Text != String.Empty &&
+                electricityFactorTextBox.Text != String.Empty),
+
+                _ => (distanceTextBox.Text != String.Empty && trainMass.Text != String.Empty &&
+                elRecoveryFactorTextBox.Text != String.Empty)
+            };
         }
 
 
@@ -514,7 +524,6 @@ namespace TCH_desktop.View
 
         private void NewTripForm_Load(object sender, EventArgs e)
         {
-            Opacity = 80;
             departureStation.Items.Clear();
             departureStation.ResetText();
             arrivalStation.Items.Clear();
@@ -588,76 +597,20 @@ namespace TCH_desktop.View
             this.Close();
         }
 
-        private void backToStartForm_MouseEnter(object sender, EventArgs e)
+        private void labelMouseEnter(object sender, EventArgs e)
         {
-            backToStartForm.ForeColor = Color.Yellow;
-            backToStartForm.BackColor = Color.DimGray;
+            Label label_ = sender as Label;
+
+            label_.ForeColor = Color.Yellow;
+            label_.BackColor = Color.DimGray;
         }
 
-        private void backToStartForm_MouseLeave(object sender, EventArgs e)
+        private void labelMouseLeave(object sender, EventArgs e)
         {
-            backToStartForm.ForeColor = Color.YellowGreen;
-            backToStartForm.BackColor = SystemColors.InfoText;
-        }
+            Label label_ = sender as Label;
 
-        private void saveDataTrip_MouseEnter(object sender, EventArgs e)
-        {
-            saveDataTrip.ForeColor = Color.Yellow;
-            saveDataTrip.BackColor = Color.DimGray;
-        }
-
-        private void saveDataTrip_MouseLeave(object sender, EventArgs e)
-        {
-            saveDataTrip.ForeColor = Color.YellowGreen;
-            saveDataTrip.BackColor = SystemColors.InfoText;
-        }
-
-        private void addLocomotive_MouseEnter(object sender, EventArgs e)
-        {
-            addLocomotive.ForeColor = Color.Yellow;
-            addLocomotive.BackColor = Color.DimGray;
-        }
-
-        private void addLocomotive_MouseLeave(object sender, EventArgs e)
-        {
-            addLocomotive.ForeColor = Color.YellowGreen;
-            addLocomotive.BackColor = SystemColors.InfoText;
-        }
-
-        private void addPassedStations_MouseEnter(object sender, EventArgs e)
-        {
-            addPassedStations.ForeColor = Color.Yellow;
-            addPassedStations.BackColor = Color.DimGray;
-        }
-
-        private void addPassedStations_MouseLeave(object sender, EventArgs e)
-        {
-            addPassedStations.ForeColor = Color.YellowGreen;
-            addPassedStations.BackColor = SystemColors.InfoText;
-        }
-
-        private void addSpeedLimits_MouseEnter(object sender, EventArgs e)
-        {
-            addSpeedLimits.ForeColor = Color.Yellow;
-            addSpeedLimits.BackColor = Color.DimGray;
-        }
-
-        private void addSpeedLimits_MouseLeave(object sender, EventArgs e)
-        {
-            addSpeedLimits.ForeColor = Color.YellowGreen;
-            addSpeedLimits.BackColor = SystemColors.InfoText;
-        }
-
-        private void addNotes_MouseEnter(object sender, EventArgs e)
-        {
-            addNotes.ForeColor = Color.Yellow;
-            addNotes.BackColor = Color.DimGray;
-        }
-
-        private void addNotes_MouseLeave(object sender, EventArgs e)
-        {
-            addNotes.ForeColor = Color.YellowGreen;
-            addNotes.BackColor = SystemColors.InfoText;
+            label_.ForeColor = Color.YellowGreen;
+            label_.BackColor = SystemColors.InfoText;
         }
 
         private void addLocomotive_Click(object sender, EventArgs e)
@@ -702,68 +655,28 @@ namespace TCH_desktop.View
             DisplayLocoNumber(false);
         }
 
-        private void removeLocomotive_MouseEnter(object sender, EventArgs e)
+        private void anotherLabelMouseEnter(object sender, EventArgs e)
         {
-            removeLocomotive.ForeColor = Color.LightCoral;
-            removeLocomotive.BorderStyle = BorderStyle.FixedSingle;
+            Label label_ = sender as Label;
+
+            label_.ForeColor = Color.LightCoral;
+            label_.BorderStyle = BorderStyle.FixedSingle;
         }
 
-        private void removeLocomotive_MouseLeave(object sender, EventArgs e)
+        private void anotherLabelMouseLeave(object sender, EventArgs e)
         {
-            removeLocomotive.ForeColor = Color.Red;
-            removeLocomotive.BorderStyle = BorderStyle.None;
+            Label label_ = sender as Label;
+
+            label_.ForeColor = Color.Red;
+            label_.BorderStyle = BorderStyle.None;
         }
 
-        private void trainNumber_KeyPress(object sender, KeyPressEventArgs e)
+        private void checkKeyPress(object sender, KeyPressEventArgs e)
         {
             char number = e.KeyChar;
 
             if (!Char.IsDigit(number) && number != 8)
                 e.Handled = true;
-        }
-
-        private void trainMass_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            char number = e.KeyChar;
-
-            if (!Char.IsDigit(number) && number != 8)
-                e.Handled = true;
-        }
-
-        private void trainAxles_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            char number = e.KeyChar;
-
-            if (!Char.IsDigit(number) && number != 8)
-                e.Handled = true;
-        }
-
-        private void trainSpecificLength_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            char number = e.KeyChar;
-
-            if (!Char.IsDigit(number) && number != 8)
-                e.Handled = true;
-        }
-
-        private void trainTailCar_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            char number = e.KeyChar;
-
-            if (!Char.IsDigit(number) && number != 8)
-                e.Handled = true;
-        }
-
-        private void addBrakeTest_MouseEnter(object sender, EventArgs e)
-        {
-            addBrakeTest.ForeColor = Color.Yellow;
-            addBrakeTest.BackColor = Color.DimGray;
-        }
-
-        private void addBrakeTest_MouseLeave(object sender, EventArgs e)
-        {
-            addBrakeTest.ForeColor = Color.YellowGreen;
-            addBrakeTest.BackColor = SystemColors.InfoText;
         }
 
         private void addBrakeTest_Click(object sender, EventArgs e)
@@ -773,18 +686,6 @@ namespace TCH_desktop.View
             Opacity = 60;
             Enabled = false;
             brakeTestForm.Show();
-        }
-
-        private void removeBrakeTest_MouseEnter(object sender, EventArgs e)
-        {
-            removeBrakeTest.ForeColor = Color.LightCoral;
-            removeBrakeTest.BorderStyle = BorderStyle.FixedSingle;
-        }
-
-        private void removeBrakeTest_MouseLeave(object sender, EventArgs e)
-        {
-            removeBrakeTest.ForeColor = Color.Red;
-            removeBrakeTest.BorderStyle = BorderStyle.None;
         }
 
         private void removeBrakeTest_Click(object sender, EventArgs e)
@@ -841,16 +742,18 @@ namespace TCH_desktop.View
                 int brakeHolders = GetBrakeHolders(locoId);
                 int trainId = SaveTrainData(brakeHolders);
 
-                float elFactor = electricityFactorTextBox.Text != String.Empty ?
-                    Convert.ToSingle(electricityFactorTextBox.Text.Replace('.', ',')) : 0.0F;
-                int elAmountReq = elAmountRequiredValue.Text != String.Empty ?
-                    Convert.ToInt32(elAmountRequiredValue.Text) : 0;
+                string elFactor = electricityFactorTextBox.Text != String.Empty ?
+                    electricityFactorTextBox.Text.Replace('.', ',') : "0.0";
+                string elAmountReq = elAmountRequiredValue.Text != String.Empty ? 
+                    elAmountRequiredValue.Text : "0";
+                string elRecoveryReq = elRecoveryRequiredValue.Text != String.Empty ?
+                    elRecoveryRequiredValue.Text : "0.0";
 
                 string query = "INSERT INTO Trips (AttendanceTime, Locomotive, TrafficRoute, " +
                     "ElectricityFactor, Departure, Arrival, PassedStations, SpeedLimits, " +
-                    "ElectricityAmountRequired, Notes, Train, UserId) " +
+                    "ElectricityAmountRequired, ElectricityRecoveryRequired, Notes, Train, UserId) " +
                     "VALUES (@atTime, @locoId, @route, @eF, @dep, @arr, @pasSt, @spLim, " +
-                    "@elAmountRequired, @notes, @trainId, @userId)";
+                    "@elAmountRequired, @elRecoveryRequired, @notes, @trainId, @userId)";
 
                 try
                 {
@@ -864,6 +767,7 @@ namespace TCH_desktop.View
                     command.Parameters.Add("@pasSt", SqlDbType.NVarChar).Value = pStations;
                     command.Parameters.Add("@spLim", SqlDbType.NVarChar).Value = limits;
                     command.Parameters.Add("@elAmountRequired", SqlDbType.Int).Value = elAmountReq;
+                    command.Parameters.Add("@elRecoveryRequired", SqlDbType.Float).Value = elRecoveryReq;
                     //command.Parameters.Add("@techSp", SqlDbType.Float).Value = 0.0F;  //.:: temporary code
                     command.Parameters.Add("@notes", SqlDbType.NVarChar).Value = notes;
                     command.Parameters.Add("@trainId", SqlDbType.Int).Value = trainId;
@@ -871,7 +775,6 @@ namespace TCH_desktop.View
                     DataBase.OpenConnection();
 
                     command.ExecuteNonQuery();
-                    DataBase.CloseConnection();
 
                     int tripId = GetLastId("Trips");
                     SaveBrakeTests(tripId);
@@ -883,6 +786,7 @@ namespace TCH_desktop.View
                             "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
 
+                DataBase.CloseConnection();
                 startForm.Enabled = true;
                 startForm.wasSavedTrip = true;
                 this.Close();
@@ -927,17 +831,9 @@ namespace TCH_desktop.View
             }
         }
 
-        private void distanceTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        private void CalcElectricityAmount(object sender, EventArgs e)
         {
-            char number = e.KeyChar;
-
-            if (!Char.IsDigit(number) && number != 8)
-                e.Handled = true;
-        }
-
-        private void electricityFactorTextBox_Leave(object sender, EventArgs e)
-        {
-            if (CheckValuesForCalc())
+            if (CheckValuesForCalc("elAmount"))
             {
                 float k = Convert.ToSingle(electricityFactorTextBox.Text.Replace('.', ','));
                 float weight = Convert.ToSingle(trainMass.Text);
@@ -961,9 +857,38 @@ namespace TCH_desktop.View
             electricityFactorTextBox.Focus();
         }
 
-        private void electricityFactorTextBox_Enter(object sender, EventArgs e)
+        private void ClearTextBox(object sender, EventArgs e)
         {
-            electricityFactorTextBox.Text = String.Empty;
+            TextBox tBox = sender as TextBox;
+            tBox.Text = String.Empty;
+        }
+
+        private void CalcElectricityRecoveryRequired(object sender, EventArgs e)
+        {
+            if (CheckValuesForCalc("elRecovery"))
+            {
+                float k = Convert.ToSingle(elRecoveryFactorTextBox.Text.Replace('.', ','));
+                float weight = Convert.ToSingle(trainMass.Text);
+                float distance = Convert.ToSingle(distanceTextBox.Text);
+
+                float value = (k * weight * distance / 1000000);
+                int index = value.ToString().IndexOf(',');
+
+                float hundredths = Convert.ToSingle(value.ToString().Substring(0, index + 3));
+                float tenths = Convert.ToSingle(value.ToString().Substring(0, index + 2));
+
+                float remainder = hundredths - tenths;
+                float tenRemainder = tenths - (int)value;
+
+                elRecoveryRequiredValue.Text = ((remainder > 0.00F && tenRemainder > 0.0F) ?
+                    tenths += 0.1F : tenths).ToString();
+            }
+        }
+
+        private void CalcElectricityIndicators(object sender, EventArgs e)
+        {
+            CalcElectricityAmount(sender, e);
+            CalcElectricityRecoveryRequired(sender, e);
         }
 
         #endregion

@@ -94,8 +94,8 @@
             this.cancelButton.TabIndex = 1;
             this.cancelButton.Text = "Отмена";
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-            this.cancelButton.MouseEnter += new System.EventHandler(this.cancelButton_MouseEnter);
-            this.cancelButton.MouseLeave += new System.EventHandler(this.cancelButton_MouseLeave);
+            this.cancelButton.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.cancelButton.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // addPastStationButton
             // 
@@ -109,8 +109,8 @@
             this.addPastStationButton.TabIndex = 2;
             this.addPastStationButton.Text = "Добавить";
             this.addPastStationButton.Click += new System.EventHandler(this.addPastStationButton_Click);
-            this.addPastStationButton.MouseEnter += new System.EventHandler(this.addPastStationButton_MouseEnter);
-            this.addPastStationButton.MouseLeave += new System.EventHandler(this.addPastStationButton_MouseLeave);
+            this.addPastStationButton.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.addPastStationButton.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // StationMarksForm
             // 

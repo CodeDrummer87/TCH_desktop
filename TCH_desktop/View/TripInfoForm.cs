@@ -1,7 +1,5 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using System.Windows.Forms;
-using System.Xml.Linq;
 using TCH_desktop.Models;
 
 namespace TCH_desktop.View
@@ -49,7 +47,7 @@ namespace TCH_desktop.View
 
             GroupBox tripGroupBox = new GroupBox();
             tripGroupBox.Text = $" Поездка \"{trip.TrafficRoute}\" от {trip.AttendanceTime.ToString("D")}";
-            tripGroupBox.Font = new ("Courier New", 14.0F, FontStyle.Bold, GraphicsUnit.Point);
+            tripGroupBox.Font = new("Courier New", 14.0F, FontStyle.Bold, GraphicsUnit.Point);
             tripGroupBox.ForeColor = Color.Orange;
             tripGroupBox.Location = new(13, 23);
             tripGroupBox.Size = new(1274, 767);
@@ -58,14 +56,14 @@ namespace TCH_desktop.View
             Label attendanceTime = new Label();
             attendanceTime.AutoSize = true;
             attendanceTime.ForeColor = Color.PaleGoldenrod;
-            attendanceTime.Font = new ("Courier New", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            attendanceTime.Font = new("Courier New", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
             attendanceTime.Text = "Время явки:";
             attendanceTime.Location = new(22, 66);
             tripGroupBox.Controls.Add(attendanceTime);
 
             Label attendanceTimeValue = new Label();
             attendanceTimeValue.AutoSize = true;
-            attendanceTimeValue.Font = new ("Courier New", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            attendanceTimeValue.Font = new("Courier New", 12F, FontStyle.Bold, GraphicsUnit.Point);
             attendanceTimeValue.ForeColor = Color.PaleGreen;
             attendanceTimeValue.Location = new Point(193, 69);
             attendanceTimeValue.Size = new Size(70, 23);
@@ -74,11 +72,11 @@ namespace TCH_desktop.View
             tripGroupBox.Controls.Add(attendanceTimeValue);
 
             Label locomotive = new Label();
-            locomotive.Font = new ("Courier New", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            locomotive.Font = new("Courier New", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
             locomotive.ForeColor = Color.PaleGreen;
             locomotive.Location = new Point(374, 66);
             locomotive.Size = new Size(860, 27);
-            locomotive.Text = locoType + ' ' + locoSeries + 
+            locomotive.Text = locoType + ' ' + locoSeries +
                 $"-{allTripsForm.GetThreeDigitNumber(loco.Number)} ({loco.Allocation})";
             locomotive.TextAlign = ContentAlignment.MiddleRight;
             tripGroupBox.Controls.Add(locomotive);
@@ -96,9 +94,9 @@ namespace TCH_desktop.View
             else
                 pictureBox.ImageLocation = loco.ImagePath;
 
-            string path = Environment.CurrentDirectory + 
+            string path = Environment.CurrentDirectory +
                 @$"\Фотографии\{locoType}ы\{locoSeries}\{locoSeries}-{loco.Number}";
-            
+
             dirPath = path;
 
             var directory = new DirectoryInfo(path);
@@ -205,7 +203,7 @@ namespace TCH_desktop.View
             notes.ForeColor = Color.PaleGreen;
             notes.Location = new Point(6, 24);
             notes.Size = new Size(378, 158);
-            notes.Text = trip.Notes;
+            notes.Text = trip.Notes.Replace(";", "\n\n");
             notes.TextAlign = ContentAlignment.MiddleCenter;
             notesGroupBox.Controls.Add(notes);
 
@@ -393,7 +391,7 @@ namespace TCH_desktop.View
             if (brakeTests.Count > 0)
             {
                 int posY = 0;
-                foreach(string data in brakeTests)
+                foreach (string data in brakeTests)
                 {
                     Label label = new Label();
 
@@ -521,21 +519,21 @@ namespace TCH_desktop.View
                         AttendanceTime = reader.GetDateTime(1),
                         Locomotive = reader.GetInt32(2),
                         TrafficRoute = reader.GetString(3),
-                        ElectricityFactor = reader.IsDBNull(4) ? 0.0f : reader.GetFloat(4),
+                        ElectricityFactor = reader.IsDBNull(4) ? 0.0f : Convert.ToSingle(reader.GetDouble(4)),
                         Departure = reader.GetString(5),
                         Arrival = reader.GetString(6),
                         PassedStations = reader.IsDBNull(7) ? "" : reader.GetString(7),
                         SpeedLimits = reader.IsDBNull(8) ? "" : reader.GetString(8),
                         ElectricityAmountRequired = reader.IsDBNull(9) ? 0 : reader.GetInt32(9),
-                        ElectricityRecoveryRequired = reader.IsDBNull(10) ? 0.0f : reader.GetFloat(10),
-                        TechnicalSpeed = reader.IsDBNull(11) ? 0.0f : reader.GetFloat(11),
+                        ElectricityRecoveryRequired = reader.IsDBNull(10) ? 0.0f :
+                            Convert.ToSingle(reader.GetDouble(10)),
+                        TechnicalSpeed = reader.IsDBNull(11) ? 0.0f : Convert.ToSingle(reader.GetDouble(11)),
                         Notes = reader.IsDBNull(12) ? "" : reader.GetString(12),
                         Train = reader.GetInt32(13)
                     };
                 }
 
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -544,6 +542,7 @@ namespace TCH_desktop.View
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return trip;
         }
 
@@ -574,7 +573,6 @@ namespace TCH_desktop.View
                 }
 
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -583,6 +581,7 @@ namespace TCH_desktop.View
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return loco;
         }
 
@@ -604,7 +603,6 @@ namespace TCH_desktop.View
                 }
 
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -613,6 +611,7 @@ namespace TCH_desktop.View
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return result;
         }
 
@@ -634,7 +633,6 @@ namespace TCH_desktop.View
                 }
 
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -643,13 +641,13 @@ namespace TCH_desktop.View
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return result;
         }
 
         private Train GetTrainData(int trainId)
         {
             Train train = null;
-
             string query = "SELECT * FROM Trains WHERE Id=@trainId";
 
             try
@@ -674,7 +672,6 @@ namespace TCH_desktop.View
                 }
 
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -683,6 +680,7 @@ namespace TCH_desktop.View
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return train;
         }
 
@@ -704,7 +702,6 @@ namespace TCH_desktop.View
                 }
 
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -713,6 +710,7 @@ namespace TCH_desktop.View
                     "Ошибка работы Базы Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return brakeTests;
         }
 
@@ -757,7 +755,7 @@ namespace TCH_desktop.View
         public void SetDisplaySlider(bool isDisplaySlider)
         {
             PictureBox pictureBox = Controls?.Find("locoImagePB", true).FirstOrDefault() as PictureBox;
-            
+
             if (isDisplaySlider)
             {
                 toolTip.SetToolTip(pictureBox, "Для просмотра фотографий щёлкните тут");

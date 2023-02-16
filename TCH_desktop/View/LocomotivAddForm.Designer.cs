@@ -61,8 +61,8 @@
             this.cancelButton.TabIndex = 0;
             this.cancelButton.Text = "Отмена";
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-            this.cancelButton.MouseEnter += new System.EventHandler(this.cancelButton_MouseEnter);
-            this.cancelButton.MouseLeave += new System.EventHandler(this.cancelButton_MouseLeave);
+            this.cancelButton.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.cancelButton.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // addNewLocoButton
             // 
@@ -77,8 +77,8 @@
             this.addNewLocoButton.TabIndex = 1;
             this.addNewLocoButton.Text = "Добавить";
             this.addNewLocoButton.Click += new System.EventHandler(this.addNewLocoButton_Click);
-            this.addNewLocoButton.MouseEnter += new System.EventHandler(this.addNewLocoButton_MouseEnter);
-            this.addNewLocoButton.MouseLeave += new System.EventHandler(this.addNewLocoButton_MouseLeave);
+            this.addNewLocoButton.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.addNewLocoButton.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // groupBox1
             // 

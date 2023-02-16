@@ -11,6 +11,12 @@
             this.tripForm = tripForm_;
         }
 
+        private void ClearInputField()
+        {
+            if (limitsTextBox.Text == "Используйте ';' в качестве разделителя между отдельными записями")
+                limitsTextBox.Text = String.Empty;
+        }
+
         #region Interactive
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -21,32 +27,25 @@
             Dispose();
         }
 
-        private void cancelButton_MouseEnter(object sender, EventArgs e)
+        private void labelMouseEnter(object sender, EventArgs e)
         {
-            cancelButton.ForeColor = Color.Yellow;
-            cancelButton.BackColor = Color.DimGray;
+            Label label_ = sender as Label;
+
+            label_.ForeColor = Color.Yellow;
+            label_.BackColor = Color.DimGray;
         }
 
-        private void cancelButton_MouseLeave(object sender, EventArgs e)
+        private void labelMouseLeave(object sender, EventArgs e)
         {
-            cancelButton.ForeColor = Color.YellowGreen;
-            cancelButton.BackColor = SystemColors.InfoText;
-        }
+            Label label_ = sender as Label;
 
-        private void addSpeedLimits_MouseEnter(object sender, EventArgs e)
-        {
-            addSpeedLimits.ForeColor = Color.Yellow;
-            addSpeedLimits.BackColor = Color.DimGray;
-        }
-
-        private void addSpeedLimits_MouseLeave(object sender, EventArgs e)
-        {
-            addSpeedLimits.ForeColor = Color.YellowGreen;
-            addSpeedLimits.BackColor = SystemColors.InfoText;
+            label_.ForeColor = Color.YellowGreen;
+            label_.BackColor = SystemColors.InfoText;
         }
 
         private void addSpeedLimits_Click(object sender, EventArgs e)
         {
+            ClearInputField();
             tripForm.limits = limitsTextBox.Text.Trim();
 
             tripForm.Enabled = true;
@@ -54,7 +53,13 @@
             Dispose();
         }
 
-        #endregion
+        private void limitsTextBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            ClearInputField();
+            limitsTextBox.ForeColor = SystemColors.WindowText;
+            limitsTextBox.Font = new("Lucida Console", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+        }
 
+        #endregion
     }
 }

@@ -41,6 +41,10 @@
             this.addNotes = new System.Windows.Forms.Label();
             this.removeLocomotive = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.elRecoveryFactorTextBox = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.elRecoveryRequiredValue = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.elAmountRequiredValue = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -103,8 +107,8 @@
             this.backToStartForm.TabIndex = 0;
             this.backToStartForm.Text = "Отмена";
             this.backToStartForm.Click += new System.EventHandler(this.backToStartForm_Click);
-            this.backToStartForm.MouseEnter += new System.EventHandler(this.backToStartForm_MouseEnter);
-            this.backToStartForm.MouseLeave += new System.EventHandler(this.backToStartForm_MouseLeave);
+            this.backToStartForm.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.backToStartForm.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // saveDataTrip
             // 
@@ -117,8 +121,8 @@
             this.saveDataTrip.TabIndex = 1;
             this.saveDataTrip.Text = "Сохранить Поездку";
             this.saveDataTrip.Click += new System.EventHandler(this.saveDataTrip_Click);
-            this.saveDataTrip.MouseEnter += new System.EventHandler(this.saveDataTrip_MouseEnter);
-            this.saveDataTrip.MouseLeave += new System.EventHandler(this.saveDataTrip_MouseLeave);
+            this.saveDataTrip.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.saveDataTrip.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // arrivalTimePicker
             // 
@@ -159,8 +163,8 @@
             this.addLocomotive.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.NewTripFormToolTip.SetToolTip(this.addLocomotive, "Добавьте локомотив, на котором совершалась поездка");
             this.addLocomotive.Click += new System.EventHandler(this.addLocomotive_Click);
-            this.addLocomotive.MouseEnter += new System.EventHandler(this.addLocomotive_MouseEnter);
-            this.addLocomotive.MouseLeave += new System.EventHandler(this.addLocomotive_MouseLeave);
+            this.addLocomotive.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.addLocomotive.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // addPassedStations
             // 
@@ -176,8 +180,8 @@
             this.addPassedStations.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.NewTripFormToolTip.SetToolTip(this.addPassedStations, "Добавьте ключевые станции и время их проследования");
             this.addPassedStations.Click += new System.EventHandler(this.addPassedStations_Click);
-            this.addPassedStations.MouseEnter += new System.EventHandler(this.addPassedStations_MouseEnter);
-            this.addPassedStations.MouseLeave += new System.EventHandler(this.addPassedStations_MouseLeave);
+            this.addPassedStations.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.addPassedStations.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // addSpeedLimits
             // 
@@ -193,8 +197,8 @@
             this.addSpeedLimits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.NewTripFormToolTip.SetToolTip(this.addSpeedLimits, "Добавьте ограничения скорости");
             this.addSpeedLimits.Click += new System.EventHandler(this.addSpeedLimits_Click);
-            this.addSpeedLimits.MouseEnter += new System.EventHandler(this.addSpeedLimits_MouseEnter);
-            this.addSpeedLimits.MouseLeave += new System.EventHandler(this.addSpeedLimits_MouseLeave);
+            this.addSpeedLimits.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.addSpeedLimits.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // addNotes
             // 
@@ -210,8 +214,8 @@
             this.addNotes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.NewTripFormToolTip.SetToolTip(this.addNotes, "Добавьте станции, где останавливался поезд");
             this.addNotes.Click += new System.EventHandler(this.addNotes_Click);
-            this.addNotes.MouseEnter += new System.EventHandler(this.addNotes_MouseEnter);
-            this.addNotes.MouseLeave += new System.EventHandler(this.addNotes_MouseLeave);
+            this.addNotes.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.addNotes.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // removeLocomotive
             // 
@@ -228,12 +232,16 @@
             this.NewTripFormToolTip.SetToolTip(this.removeLocomotive, "Отвязать локомотив от текущей поездки");
             this.removeLocomotive.Visible = false;
             this.removeLocomotive.Click += new System.EventHandler(this.removeLocomotive_Click);
-            this.removeLocomotive.MouseEnter += new System.EventHandler(this.removeLocomotive_MouseEnter);
-            this.removeLocomotive.MouseLeave += new System.EventHandler(this.removeLocomotive_MouseLeave);
+            this.removeLocomotive.MouseEnter += new System.EventHandler(this.anotherLabelMouseEnter);
+            this.removeLocomotive.MouseLeave += new System.EventHandler(this.anotherLabelMouseLeave);
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.elRecoveryFactorTextBox);
+            this.groupBox1.Controls.Add(this.label21);
+            this.groupBox1.Controls.Add(this.elRecoveryRequiredValue);
+            this.groupBox1.Controls.Add(this.label20);
             this.groupBox1.Controls.Add(this.elAmountRequiredValue);
             this.groupBox1.Controls.Add(this.label19);
             this.groupBox1.Controls.Add(this.label18);
@@ -294,6 +302,49 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Новая поездка ";
             // 
+            // elRecoveryFactorTextBox
+            // 
+            this.elRecoveryFactorTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.elRecoveryFactorTextBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.elRecoveryFactorTextBox.Location = new System.Drawing.Point(710, 439);
+            this.elRecoveryFactorTextBox.Name = "elRecoveryFactorTextBox";
+            this.elRecoveryFactorTextBox.Size = new System.Drawing.Size(77, 25);
+            this.elRecoveryFactorTextBox.TabIndex = 86;
+            this.elRecoveryFactorTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.elRecoveryFactorTextBox.TextChanged += new System.EventHandler(this.CalcElectricityRecoveryRequired);
+            this.elRecoveryFactorTextBox.Enter += new System.EventHandler(this.ClearTextBox);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label21.Location = new System.Drawing.Point(710, 424);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(77, 15);
+            this.label21.TabIndex = 85;
+            this.label21.Text = "Коэфф-т";
+            // 
+            // elRecoveryRequiredValue
+            // 
+            this.elRecoveryRequiredValue.Font = new System.Drawing.Font("Verdana", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.elRecoveryRequiredValue.ForeColor = System.Drawing.Color.Yellow;
+            this.elRecoveryRequiredValue.Location = new System.Drawing.Point(712, 383);
+            this.elRecoveryRequiredValue.Name = "elRecoveryRequiredValue";
+            this.elRecoveryRequiredValue.Size = new System.Drawing.Size(72, 25);
+            this.elRecoveryRequiredValue.TabIndex = 84;
+            this.elRecoveryRequiredValue.Text = "0";
+            this.elRecoveryRequiredValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label20.Location = new System.Drawing.Point(700, 353);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(96, 18);
+            this.label20.TabIndex = 83;
+            this.label20.Text = "Рекуперация";
+            // 
             // elAmountRequiredValue
             // 
             this.elAmountRequiredValue.Font = new System.Drawing.Font("Verdana", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -334,8 +385,8 @@
             this.electricityFactorTextBox.Size = new System.Drawing.Size(77, 25);
             this.electricityFactorTextBox.TabIndex = 79;
             this.electricityFactorTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.electricityFactorTextBox.Enter += new System.EventHandler(this.electricityFactorTextBox_Enter);
-            this.electricityFactorTextBox.Leave += new System.EventHandler(this.electricityFactorTextBox_Leave);
+            this.electricityFactorTextBox.TextChanged += new System.EventHandler(this.CalcElectricityAmount);
+            this.electricityFactorTextBox.Enter += new System.EventHandler(this.ClearTextBox);
             // 
             // label17
             // 
@@ -356,7 +407,8 @@
             this.distanceTextBox.Size = new System.Drawing.Size(145, 31);
             this.distanceTextBox.TabIndex = 77;
             this.distanceTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.distanceTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.distanceTextBox_KeyPress);
+            this.distanceTextBox.TextChanged += new System.EventHandler(this.CalcElectricityIndicators);
+            this.distanceTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkKeyPress);
             this.distanceTextBox.Leave += new System.EventHandler(this.distanceTextBox_Leave);
             // 
             // trainType
@@ -421,6 +473,8 @@
             this.removeNotes.TabIndex = 75;
             this.removeNotes.Text = "X";
             this.removeNotes.Click += new System.EventHandler(this.removeNotes_Click);
+            this.removeNotes.MouseEnter += new System.EventHandler(this.anotherLabelMouseEnter);
+            this.removeNotes.MouseLeave += new System.EventHandler(this.anotherLabelMouseLeave);
             // 
             // notesInfo
             // 
@@ -445,6 +499,8 @@
             this.removeSpeedLimits.TabIndex = 73;
             this.removeSpeedLimits.Text = "X";
             this.removeSpeedLimits.Click += new System.EventHandler(this.removeSpeedLimits_Click);
+            this.removeSpeedLimits.MouseEnter += new System.EventHandler(this.anotherLabelMouseEnter);
+            this.removeSpeedLimits.MouseLeave += new System.EventHandler(this.anotherLabelMouseLeave);
             // 
             // speedLimitsInfo
             // 
@@ -470,6 +526,8 @@
             this.removePastStations.TabIndex = 71;
             this.removePastStations.Text = "X";
             this.removePastStations.Click += new System.EventHandler(this.removePastStations_Click);
+            this.removePastStations.MouseEnter += new System.EventHandler(this.anotherLabelMouseEnter);
+            this.removePastStations.MouseLeave += new System.EventHandler(this.anotherLabelMouseLeave);
             // 
             // pastStationsInfo
             // 
@@ -508,8 +566,8 @@
             this.removeBrakeTest.Text = "X";
             this.removeBrakeTest.Visible = false;
             this.removeBrakeTest.Click += new System.EventHandler(this.removeBrakeTest_Click);
-            this.removeBrakeTest.MouseEnter += new System.EventHandler(this.removeBrakeTest_MouseEnter);
-            this.removeBrakeTest.MouseLeave += new System.EventHandler(this.removeBrakeTest_MouseLeave);
+            this.removeBrakeTest.MouseEnter += new System.EventHandler(this.anotherLabelMouseEnter);
+            this.removeBrakeTest.MouseLeave += new System.EventHandler(this.anotherLabelMouseLeave);
             // 
             // addBrakeTest
             // 
@@ -524,8 +582,8 @@
             this.addBrakeTest.TabIndex = 66;
             this.addBrakeTest.Text = "+";
             this.addBrakeTest.Click += new System.EventHandler(this.addBrakeTest_Click);
-            this.addBrakeTest.MouseEnter += new System.EventHandler(this.addBrakeTest_MouseEnter);
-            this.addBrakeTest.MouseLeave += new System.EventHandler(this.addBrakeTest_MouseLeave);
+            this.addBrakeTest.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.addBrakeTest.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // addBrakeTestLabel
             // 
@@ -612,7 +670,7 @@
             this.trainTailCar.Size = new System.Drawing.Size(207, 25);
             this.trainTailCar.TabIndex = 52;
             this.trainTailCar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.trainTailCar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainTailCar_KeyPress);
+            this.trainTailCar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkKeyPress);
             this.trainTailCar.Leave += new System.EventHandler(this.trainTailCar_Leave);
             // 
             // label11
@@ -634,7 +692,7 @@
             this.trainSpecificLength.Size = new System.Drawing.Size(207, 25);
             this.trainSpecificLength.TabIndex = 50;
             this.trainSpecificLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.trainSpecificLength.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainSpecificLength_KeyPress);
+            this.trainSpecificLength.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkKeyPress);
             // 
             // label10
             // 
@@ -655,7 +713,7 @@
             this.trainAxles.Size = new System.Drawing.Size(207, 25);
             this.trainAxles.TabIndex = 48;
             this.trainAxles.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.trainAxles.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainAxles_KeyPress);
+            this.trainAxles.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkKeyPress);
             // 
             // label9
             // 
@@ -676,7 +734,8 @@
             this.trainMass.Size = new System.Drawing.Size(205, 25);
             this.trainMass.TabIndex = 46;
             this.trainMass.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.trainMass.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainMass_KeyPress);
+            this.trainMass.TextChanged += new System.EventHandler(this.CalcElectricityIndicators);
+            this.trainMass.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkKeyPress);
             // 
             // label8
             // 
@@ -697,7 +756,7 @@
             this.trainNumber.Size = new System.Drawing.Size(205, 25);
             this.trainNumber.TabIndex = 44;
             this.trainNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.trainNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.trainNumber_KeyPress);
+            this.trainNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkKeyPress);
             this.trainNumber.Leave += new System.EventHandler(this.trainNumber_Leave);
             // 
             // label7
@@ -928,5 +987,9 @@
         private Label label18;
         private Label elAmountRequiredValue;
         private Label label19;
+        private Label label20;
+        private Label elRecoveryRequiredValue;
+        private TextBox elRecoveryFactorTextBox;
+        private Label label21;
     }
 }

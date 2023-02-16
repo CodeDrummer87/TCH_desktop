@@ -98,7 +98,6 @@ namespace TCH_desktop.View
                     result = reader.GetString(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -108,6 +107,7 @@ namespace TCH_desktop.View
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return result;
         }
 
@@ -178,40 +178,20 @@ namespace TCH_desktop.View
             exitButton.ForeColor = SystemColors.ButtonHighlight;
         }
 
-        private void newTripMenu_MouseEnter(object sender, EventArgs e)
+        private void labelMouseEnter(object sender, EventArgs e)
         {
-            newTripMenu.ForeColor = Color.GreenYellow;
-            newTripMenu.BackColor = Color.DimGray;
+            Label label_ = sender as Label;
+
+            label_.ForeColor = Color.GreenYellow;
+            label_.BackColor = Color.DimGray;
         }
 
-        private void newTripMenu_MouseLeave(object sender, EventArgs e)
+        private void labelMouseLeave(object sender, EventArgs e)
         {
-            newTripMenu.ForeColor = SystemColors.Control;
-            newTripMenu.BackColor = Color.Transparent;
-        }
+            Label label_ = sender as Label;
 
-        private void allTripsMenu_MouseEnter(object sender, EventArgs e)
-        {
-            allTripsMenu.ForeColor = Color.GreenYellow;
-            allTripsMenu.BackColor = Color.DimGray;
-        }
-
-        private void allTripsMenu_MouseLeave(object sender, EventArgs e)
-        {
-            allTripsMenu.ForeColor = SystemColors.Control;
-            allTripsMenu.BackColor = Color.Transparent;
-        }
-
-        private void personDataMenu_MouseEnter(object sender, EventArgs e)
-        {
-            personDataMenu.ForeColor = Color.GreenYellow;
-            personDataMenu.BackColor = Color.DimGray;
-        }
-
-        private void personDataMenu_MouseLeave(object sender, EventArgs e)
-        {
-            personDataMenu.ForeColor = SystemColors.Control;
-            personDataMenu.BackColor = Color.Transparent;
+            label_.ForeColor = SystemColors.Control;
+            label_.BackColor = Color.Transparent;
         }
 
         private void TimerTick(object? sender, EventArgs e)
@@ -224,18 +204,6 @@ namespace TCH_desktop.View
                 timePeriod = 3;
                 currentMessage.Text = String.Empty;
             }
-        }
-
-        private void statisticsScreenMenu_MouseEnter(object sender, EventArgs e)
-        {
-            statisticsScreenMenu.ForeColor = Color.GreenYellow;
-            statisticsScreenMenu.BackColor = Color.DimGray;
-        }
-
-        private void statisticsScreenMenu_MouseLeave(object sender, EventArgs e)
-        {
-            statisticsScreenMenu.ForeColor = SystemColors.Control;
-            statisticsScreenMenu.BackColor = Color.Transparent;
         }
 
         private void statisticsScreenMenu_Click(object sender, EventArgs e)

@@ -91,7 +91,7 @@
             this.additionalBrakeTest6.TabIndex = 7;
             this.additionalBrakeTest6.Text = "Добавить дополнительную пробу тормозов";
             this.additionalBrakeTest6.Visible = false;
-            this.additionalBrakeTest6.Click += new System.EventHandler(this.additionalBrakeTest16_Click);
+            this.additionalBrakeTest6.Click += new System.EventHandler(this.addBrakeTestClick);
             // 
             // additionalBrakeTest5
             // 
@@ -105,7 +105,7 @@
             this.additionalBrakeTest5.TabIndex = 6;
             this.additionalBrakeTest5.Text = "Добавить дополнительную пробу тормозов";
             this.additionalBrakeTest5.Visible = false;
-            this.additionalBrakeTest5.Click += new System.EventHandler(this.additionalBrakeTest15_Click);
+            this.additionalBrakeTest5.Click += new System.EventHandler(this.addBrakeTestClick);
             // 
             // additionalBrakeTest4
             // 
@@ -119,7 +119,7 @@
             this.additionalBrakeTest4.TabIndex = 5;
             this.additionalBrakeTest4.Text = "Добавить дополнительную пробу тормозов";
             this.additionalBrakeTest4.Visible = false;
-            this.additionalBrakeTest4.Click += new System.EventHandler(this.additionalBrakeTest4_Click);
+            this.additionalBrakeTest4.Click += new System.EventHandler(this.addBrakeTestClick);
             // 
             // additionalBrakeTest3
             // 
@@ -133,7 +133,7 @@
             this.additionalBrakeTest3.TabIndex = 4;
             this.additionalBrakeTest3.Text = "Добавить дополнительную пробу тормозов";
             this.additionalBrakeTest3.Visible = false;
-            this.additionalBrakeTest3.Click += new System.EventHandler(this.additionalBrakeTest13_Click);
+            this.additionalBrakeTest3.Click += new System.EventHandler(this.addBrakeTestClick);
             // 
             // additionalBrakeTest2
             // 
@@ -147,7 +147,7 @@
             this.additionalBrakeTest2.TabIndex = 3;
             this.additionalBrakeTest2.Text = "Добавить дополнительную пробу тормозов";
             this.additionalBrakeTest2.Visible = false;
-            this.additionalBrakeTest2.Click += new System.EventHandler(this.additionalBrakeTest2_Click);
+            this.additionalBrakeTest2.Click += new System.EventHandler(this.addBrakeTestClick);
             // 
             // additionalBrakeTest1
             // 
@@ -161,7 +161,7 @@
             this.additionalBrakeTest1.TabIndex = 2;
             this.additionalBrakeTest1.Text = "Добавить дополнительную пробу тормозов";
             this.additionalBrakeTest1.Visible = false;
-            this.additionalBrakeTest1.Click += new System.EventHandler(this.additionalBrakeTest1_Click);
+            this.additionalBrakeTest1.Click += new System.EventHandler(this.addBrakeTestClick);
             // 
             // brakeTestSelect
             // 
@@ -198,8 +198,8 @@
             this.cancelButton.TabIndex = 1;
             this.cancelButton.Text = "Отмена";
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-            this.cancelButton.MouseEnter += new System.EventHandler(this.cancelButton_MouseEnter);
-            this.cancelButton.MouseLeave += new System.EventHandler(this.cancelButton_MouseLeave);
+            this.cancelButton.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.cancelButton.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // addBrakeTests
             // 
@@ -213,8 +213,8 @@
             this.addBrakeTests.TabIndex = 2;
             this.addBrakeTests.Text = "Добавить";
             this.addBrakeTests.Click += new System.EventHandler(this.addBrakeTests_Click);
-            this.addBrakeTests.MouseEnter += new System.EventHandler(this.addBrakeTests_MouseEnter);
-            this.addBrakeTests.MouseLeave += new System.EventHandler(this.addBrakeTests_MouseLeave);
+            this.addBrakeTests.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.addBrakeTests.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // BrakeTestForm
             // 

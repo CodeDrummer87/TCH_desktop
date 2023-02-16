@@ -10,6 +10,11 @@
             this.tripForm = tripForm_;
         }
 
+        private void ClearInputField()
+        {
+            if (notesTextBox.Text == "Используйте ';' в качестве разделителя между отдельными записями")
+                notesTextBox.Text = String.Empty;
+        }
 
         #region Interactive
 
@@ -22,32 +27,25 @@
             Dispose();
         }
 
-        private void cancelButton_MouseEnter(object sender, EventArgs e)
+        private void labelMouseEnter(object sender, EventArgs e)
         {
-            cancelButton.ForeColor = Color.Yellow;
-            cancelButton.BackColor = Color.DimGray;
+            Label label_ = sender as Label;
+
+            label_.ForeColor = Color.Yellow;
+            label_.BackColor = Color.DimGray;
         }
 
-        private void cancelButton_MouseLeave(object sender, EventArgs e)
+        private void labelMouseLeave(object sender, EventArgs e)
         {
-            cancelButton.ForeColor = Color.YellowGreen;
-            cancelButton.BackColor = SystemColors.InfoText;
-        }
+            Label label_ = sender as Label;
 
-        private void addNotes_MouseEnter(object sender, EventArgs e)
-        {
-            addNotes.ForeColor = Color.Yellow;
-            addNotes.BackColor = Color.DimGray;
-        }
-
-        private void addNotes_MouseLeave(object sender, EventArgs e)
-        {
-            addNotes.ForeColor = Color.YellowGreen;
-            addNotes.BackColor = SystemColors.InfoText;
+            label_.ForeColor = Color.YellowGreen;
+            label_.BackColor = SystemColors.InfoText;
         }
 
         private void addNotes_Click(object sender, EventArgs e)
         {
+            ClearInputField();
             tripForm.notes = notesTextBox.Text.Trim();
 
             tripForm.Enabled = true;
@@ -55,7 +53,13 @@
             Dispose();
         }
 
-        #endregion
+        private void notesTextBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            ClearInputField();
+            notesTextBox.ForeColor = SystemColors.WindowText;
+            notesTextBox.Font = new("Lucida Console", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+        }
 
+        #endregion
     }
 }

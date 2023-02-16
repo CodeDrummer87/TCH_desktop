@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpeedLimitsForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.limitsTextBox = new System.Windows.Forms.RichTextBox();
             this.cancelButton = new System.Windows.Forms.Label();
@@ -50,11 +49,14 @@
             // 
             // limitsTextBox
             // 
+            this.limitsTextBox.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.limitsTextBox.ForeColor = System.Drawing.SystemColors.AppWorkspace;
             this.limitsTextBox.Location = new System.Drawing.Point(10, 37);
             this.limitsTextBox.Name = "limitsTextBox";
             this.limitsTextBox.Size = new System.Drawing.Size(803, 298);
             this.limitsTextBox.TabIndex = 0;
-            this.limitsTextBox.Text = "";
+            this.limitsTextBox.Text = "Используйте \';\' в качестве разделителя между отдельными записями";
+            this.limitsTextBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.limitsTextBox_MouseClick);
             // 
             // cancelButton
             // 
@@ -68,8 +70,8 @@
             this.cancelButton.TabIndex = 1;
             this.cancelButton.Text = "Отмена";
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-            this.cancelButton.MouseEnter += new System.EventHandler(this.cancelButton_MouseEnter);
-            this.cancelButton.MouseLeave += new System.EventHandler(this.cancelButton_MouseLeave);
+            this.cancelButton.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.cancelButton.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // addSpeedLimits
             // 
@@ -83,8 +85,8 @@
             this.addSpeedLimits.TabIndex = 2;
             this.addSpeedLimits.Text = "Добавить";
             this.addSpeedLimits.Click += new System.EventHandler(this.addSpeedLimits_Click);
-            this.addSpeedLimits.MouseEnter += new System.EventHandler(this.addSpeedLimits_MouseEnter);
-            this.addSpeedLimits.MouseLeave += new System.EventHandler(this.addSpeedLimits_MouseLeave);
+            this.addSpeedLimits.MouseEnter += new System.EventHandler(this.labelMouseEnter);
+            this.addSpeedLimits.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
             // SpeedLimitsForm
             // 
@@ -96,7 +98,6 @@
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SpeedLimitsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ТЧ: Выписки из ДУ-61";

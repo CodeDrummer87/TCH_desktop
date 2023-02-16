@@ -101,7 +101,6 @@ namespace TCH_desktop.View
                     });
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -109,6 +108,8 @@ namespace TCH_desktop.View
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private void LoadAvailableLocomotiveDepots()
@@ -142,7 +143,6 @@ namespace TCH_desktop.View
                         });
                     }
                     reader.Close();
-                    DataBase.CloseConnection();
                 }
                 catch (Exception ex)
                 {
@@ -150,6 +150,8 @@ namespace TCH_desktop.View
                         $"Обратитесь к системному администратору для устранения ошибки.",
                         "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
+
+                DataBase.CloseConnection();
             }
         }
 
@@ -173,7 +175,6 @@ namespace TCH_desktop.View
                     });
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -181,6 +182,8 @@ namespace TCH_desktop.View
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private void LoadAvailableColumns()
@@ -213,7 +216,6 @@ namespace TCH_desktop.View
                         });
                     }
                     reader.Close();
-                    DataBase.CloseConnection();
                 }
                 catch (Exception ex)
                 {
@@ -221,6 +223,8 @@ namespace TCH_desktop.View
                         $"Обратитесь к системному администратору для устранения ошибки.",
                         "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
+
+                DataBase.CloseConnection();
             }
         }
 
@@ -265,8 +269,6 @@ namespace TCH_desktop.View
                 DataBase.OpenConnection();
 
                 command.ExecuteNonQuery();
-                DataBase.CloseConnection();
-
                 startForm.SetUserData(surname, firstname, patronymic, bDate);
             }
             catch (Exception ex)
@@ -275,6 +277,8 @@ namespace TCH_desktop.View
                         $"Обратитесь к системному администратору для устранения ошибки.",
                         "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private void SaveEmployeeData()
@@ -294,7 +298,6 @@ namespace TCH_desktop.View
                 DataBase.OpenConnection();
 
                 command.ExecuteNonQuery();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -302,6 +305,8 @@ namespace TCH_desktop.View
                         $"Обратитесь к системному администратору для устранения ошибки.",
                         "Ошибка в работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private bool CheckEmployeeForExist(int userId)
@@ -318,7 +323,7 @@ namespace TCH_desktop.View
 
                 DataBase.adapter.SelectCommand = command;
                 DataBase.adapter.Fill(table);
-                DataBase.CloseConnection();
+
                 return table.Rows.Count == 1 ? true : false;
             }
             catch (Exception ex)
@@ -326,9 +331,10 @@ namespace TCH_desktop.View
                 MessageBox.Show($"Получена ошибка со следующим содержанием:\n\"{ex.Message}\"\n" +
                     $"Обратитесь к системному администратору для её устранения.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
-                return false;
             }
+
+            DataBase.CloseConnection();
+            return false;
         }
 
         private void DisplayCurrentPersonData()
@@ -343,7 +349,6 @@ namespace TCH_desktop.View
 
             tabNumberInp.Text = (employee.TabNumber).ToString();
         }
-
 
 
 
@@ -389,22 +394,7 @@ namespace TCH_desktop.View
             cancelButton.BackColor = Color.LightBlue;
         }
 
-        private void tabNumberInp_TextChanged(object sender, EventArgs e)
-        {
-            saveUserDataButton.Enabled = ValidateUserData();
-        }
-
-        private void surNameInp_TextChanged(object sender, EventArgs e)
-        {
-            saveUserDataButton.Enabled = ValidateUserData();
-        }
-
-        private void firstNameInp_TextChanged(object sender, EventArgs e)
-        {
-            saveUserDataButton.Enabled = ValidateUserData();
-        }
-
-        private void patronymicInp_TextChanged(object sender, EventArgs e)
+        private void textBoxTextChanged(object sender, EventArgs e)
         {
             saveUserDataButton.Enabled = ValidateUserData();
         }

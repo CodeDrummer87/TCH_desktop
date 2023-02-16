@@ -61,7 +61,6 @@ namespace TCH_desktop.View
                     });
                 }
                 reader.Close();
-                DataBase.CloseConnection();
 
                 brakeTestSelect.DisplayMember = "RailwayLine";
                 brakeTestSelect.SelectedIndex = 0;
@@ -75,6 +74,8 @@ namespace TCH_desktop.View
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private void ClickAdditionalBrakeTest(object sender)
@@ -128,28 +129,20 @@ namespace TCH_desktop.View
             Dispose();
         }
 
-        private void cancelButton_MouseEnter(object sender, EventArgs e)
+        private void labelMouseEnter(object sender, EventArgs e)
         {
-            cancelButton.ForeColor = Color.Yellow;
-            cancelButton.BackColor = Color.DimGray;
+            Label label_ = sender as Label;
+
+            label_.ForeColor = Color.Yellow;
+            label_.BackColor = Color.DimGray;
         }
 
-        private void cancelButton_MouseLeave(object sender, EventArgs e)
+        private void labelMouseLeave(object sender, EventArgs e)
         {
-            cancelButton.ForeColor = Color.YellowGreen;
-            cancelButton.BackColor = SystemColors.InfoText;
-        }
+            Label label_ = sender as Label;
 
-        private void addBrakeTests_MouseEnter(object sender, EventArgs e)
-        {
-            addBrakeTests.ForeColor = Color.Yellow;
-            addBrakeTests.BackColor = Color.DimGray;
-        }
-
-        private void addBrakeTests_MouseLeave(object sender, EventArgs e)
-        {
-            addBrakeTests.ForeColor = Color.YellowGreen;
-            addBrakeTests.BackColor = SystemColors.InfoText;
+            label_.ForeColor = Color.YellowGreen;
+            label_.BackColor = SystemColors.InfoText;
         }
 
         private void brakeTest_Click(object sender, EventArgs e)
@@ -215,32 +208,7 @@ namespace TCH_desktop.View
             if (nextLabel != null) nextLabel.Visible = true;
         }
 
-        private void additionalBrakeTest1_Click(object sender, EventArgs e)
-        {
-            ClickAdditionalBrakeTest(sender);
-        }
-
-        private void additionalBrakeTest2_Click(object sender, EventArgs e)
-        {
-            ClickAdditionalBrakeTest(sender);
-        }
-
-        private void additionalBrakeTest13_Click(object sender, EventArgs e)
-        {
-            ClickAdditionalBrakeTest(sender);
-        }
-
-        private void additionalBrakeTest4_Click(object sender, EventArgs e)
-        {
-            ClickAdditionalBrakeTest(sender);
-        }
-
-        private void additionalBrakeTest15_Click(object sender, EventArgs e)
-        {
-            ClickAdditionalBrakeTest(sender);
-        }
-
-        private void additionalBrakeTest16_Click(object sender, EventArgs e)
+        private void addBrakeTestClick(object sender, EventArgs e)
         {
             ClickAdditionalBrakeTest(sender);
         }

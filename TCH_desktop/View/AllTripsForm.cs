@@ -50,20 +50,20 @@ namespace TCH_desktop.View
                         AttendanceTime = reader.GetDateTime(1),
                         Locomotive = reader.GetInt32(2),
                         TrafficRoute = reader.GetString(3),
-                        ElectricityFactor = reader.IsDBNull(4) ? 0.0f : reader.GetFloat(4),
+                        ElectricityFactor = reader.IsDBNull(4) ? 0.0f : Convert.ToSingle(reader.GetDouble(4)),
                         Departure = reader.GetString(5),
                         Arrival = reader.GetString(6),
                         PassedStations = reader.IsDBNull(7) ? "" : reader.GetString(7),
                         SpeedLimits = reader.IsDBNull(8) ? "" : reader.GetString(8),
                         ElectricityAmountRequired = reader.IsDBNull(9) ? 0 : reader.GetInt32(9),
-                        ElectricityRecoveryRequired = reader.IsDBNull(10) ? 0.0f : reader.GetFloat(10),
-                        TechnicalSpeed = reader.IsDBNull(11) ? 0.0f : reader.GetFloat(11),
+                        ElectricityRecoveryRequired = reader.IsDBNull(10) ? 0.0f :
+                            Convert.ToSingle(reader.GetDouble(10)),
+                        TechnicalSpeed = reader.IsDBNull(11) ? 0.0f : Convert.ToSingle(reader.GetDouble(11)),
                         Notes = reader.IsDBNull(12) ? "" : reader.GetString(12),
                         Train =reader.GetInt32(13)
                     });
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -71,6 +71,8 @@ namespace TCH_desktop.View
                     $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
                     "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         private void GetTrainsById()
@@ -102,7 +104,6 @@ namespace TCH_desktop.View
                         });
                     }
                     reader.Close();
-                    DataBase.CloseConnection();
                 }
                 catch (Exception ex)
                 {
@@ -110,6 +111,8 @@ namespace TCH_desktop.View
                         $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
                         "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
+
+                DataBase.CloseConnection();
             }
         }
 
@@ -142,7 +145,7 @@ namespace TCH_desktop.View
                         });
                     }
                     reader.Close();
-                    DataBase.CloseConnection();
+                    
                 }
                 catch (Exception ex)
                 {
@@ -150,6 +153,8 @@ namespace TCH_desktop.View
                         $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
                         "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
+
+                DataBase.CloseConnection();
             }
         }
 
@@ -235,7 +240,6 @@ namespace TCH_desktop.View
                     result = reader.GetString(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -244,6 +248,7 @@ namespace TCH_desktop.View
                     "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return result;
         }
 
@@ -291,7 +296,6 @@ namespace TCH_desktop.View
                     result = reader.GetInt32(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -300,6 +304,7 @@ namespace TCH_desktop.View
                     "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return result;
         }
 

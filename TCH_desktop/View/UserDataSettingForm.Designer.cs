@@ -152,7 +152,7 @@
             this.patronymicInp.Name = "patronymicInp";
             this.patronymicInp.Size = new System.Drawing.Size(447, 34);
             this.patronymicInp.TabIndex = 5;
-            this.patronymicInp.TextChanged += new System.EventHandler(this.patronymicInp_TextChanged);
+            this.patronymicInp.TextChanged += new System.EventHandler(this.textBoxTextChanged);
             // 
             // label3
             // 
@@ -170,7 +170,7 @@
             this.firstNameInp.Name = "firstNameInp";
             this.firstNameInp.Size = new System.Drawing.Size(447, 34);
             this.firstNameInp.TabIndex = 3;
-            this.firstNameInp.TextChanged += new System.EventHandler(this.firstNameInp_TextChanged);
+            this.firstNameInp.TextChanged += new System.EventHandler(this.textBoxTextChanged);
             // 
             // label2
             // 
@@ -188,7 +188,7 @@
             this.surNameInp.Name = "surNameInp";
             this.surNameInp.Size = new System.Drawing.Size(447, 34);
             this.surNameInp.TabIndex = 1;
-            this.surNameInp.TextChanged += new System.EventHandler(this.surNameInp_TextChanged);
+            this.surNameInp.TextChanged += new System.EventHandler(this.textBoxTextChanged);
             // 
             // label1
             // 
@@ -264,7 +264,7 @@
             this.tabNumberInp.Size = new System.Drawing.Size(146, 34);
             this.tabNumberInp.TabIndex = 5;
             this.tabNumberInp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tabNumberInp.TextChanged += new System.EventHandler(this.tabNumberInp_TextChanged);
+            this.tabNumberInp.TextChanged += new System.EventHandler(this.textBoxTextChanged);
             // 
             // label7
             // 

@@ -125,29 +125,21 @@ namespace TCH_desktop.View
                 authFormErrorMessage.Text = String.Empty;
         }
 
-        private void addAccountPicture_MouseEnter(object? sender, EventArgs e)
+        private void pictureMouseEnter(object? sender, EventArgs e)
         {
-            addAccountPicture.BackColor = Color.LightGreen;
+            PictureBox picture_ = sender as PictureBox;
+            picture_.BackColor = Color.LightGreen;
         }
 
-        private void addAccountPicture_MouseLeave(object? sender, EventArgs e)
+        private void pictureMouseLeave(object? sender, EventArgs e)
         {
-            addAccountPicture.BackColor = SystemColors.InactiveCaption;
+            PictureBox picture_ = sender as PictureBox;
+            picture_.BackColor = SystemColors.InactiveCaption;
         }
 
         private void addAccountPicture_Click(object? sender, EventArgs e)
         {
             RegForm regForm = new RegForm(this, account);
-        }
-
-        private void showHidePasswordPicture_MouseEnter(object? sender, EventArgs e)
-        {
-            showHidePasswordPicture.BackColor = Color.LightGreen;
-        }
-
-        private void showHidePasswordPicture_MouseLeave(object? sender, EventArgs e)
-        {
-            showHidePasswordPicture.BackColor = SystemColors.InactiveCaption;
         }
 
         private void showHidePasswordPicture_Click(object? sender, EventArgs e)
