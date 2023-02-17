@@ -507,6 +507,83 @@ namespace TCH_desktop.View
             };
         }
 
+        private float GetTechSpeed(string notes_)
+        {
+            this.TopMost = false;
+            startForm.TopMost = false;
+
+            string departureTime = departureTimePicker.Value.Hour.ToString() + ':'
+                + departureTimePicker.Value.Minute;
+            string arrivalTime = arrivalTimePicker.Value.Hour.ToString() + ':'
+                + arrivalTimePicker.Value.Minute;
+
+            int tripTimeInMinutes = GetMinutes(departureTime, arrivalTime);
+
+            if ((notes_.Contains("стоянки") || notes_.Contains("остановки")) && notes_.Contains("||"))
+            {
+                int index = notes_.IndexOf("||");
+                string newNotes = notes_.Substring(index - 6);
+
+                string addDepTime = String.Empty;
+                string addArrivalTime = String.Empty;
+
+                while (newNotes.Contains("||"))
+                {
+                    index = newNotes.IndexOf("||");
+                    addDepTime = newNotes.Substring(index - 6, 5);
+                    addArrivalTime = newNotes.Substring(index + 3, 5);
+
+                    tripTimeInMinutes -= GetMinutes(addDepTime, addArrivalTime);
+
+                    newNotes = newNotes.Substring(index + 3);
+                }
+            }
+
+            float tripTimeInHours = (float)tripTimeInMinutes / 60;
+            float distance = distanceTextBox.Text != String.Empty ? Convert.ToSingle(distanceTextBox.Text) : 0.0F;
+
+            return distance / tripTimeInHours;
+        }
+
+        private int GetMinutes(string from, string to)
+        {
+            int fHour;
+            int fMin;
+            ParseTimeString(from, out fHour, out fMin);
+
+            int tHour;
+            int tMin;
+            ParseTimeString(to, out tHour, out tMin);
+
+            int totalHours = 0;
+            int totalMinutes;
+
+            if (tHour != fHour)
+            {
+                while (tHour != fHour)
+                {
+                    tHour = SubtractAnHour(tHour);
+                    ++totalHours;
+                }
+
+                totalMinutes = totalHours * 60 - fMin + tMin;
+            }
+            else
+                totalMinutes = tMin - fMin;
+
+            return totalMinutes;
+        }
+
+        private void ParseTimeString(string time, out int hours, out int minutes)
+        {
+            int length = time.Length;
+            int index = time.IndexOf(":");
+            hours = Convert.ToInt32(time.Substring(0, index));
+            minutes = Convert.ToInt32(time.Substring(++index, length - index));
+        }
+
+        private int SubtractAnHour(int hour) => --hour == -1 ? 23 : hour;
+
 
 
         #region Interactive
@@ -749,11 +826,13 @@ namespace TCH_desktop.View
                 string elRecoveryReq = elRecoveryRequiredValue.Text != String.Empty ?
                     elRecoveryRequiredValue.Text : "0.0";
 
+                string techSpeed = GetTechSpeed(notes).ToString().Substring(0, 4);
+
                 string query = "INSERT INTO Trips (AttendanceTime, Locomotive, TrafficRoute, " +
                     "ElectricityFactor, Departure, Arrival, PassedStations, SpeedLimits, " +
-                    "ElectricityAmountRequired, ElectricityRecoveryRequired, Notes, Train, UserId) " +
+                    "ElectricityAmountRequired, ElectricityRecoveryRequired, TechnicalSpeed, Notes, Train, UserId) " +
                     "VALUES (@atTime, @locoId, @route, @eF, @dep, @arr, @pasSt, @spLim, " +
-                    "@elAmountRequired, @elRecoveryRequired, @notes, @trainId, @userId)";
+                    "@elAmountRequired, @elRecoveryRequired, @techSp, @notes, @trainId, @userId)";
 
                 try
                 {
@@ -768,7 +847,7 @@ namespace TCH_desktop.View
                     command.Parameters.Add("@spLim", SqlDbType.NVarChar).Value = limits;
                     command.Parameters.Add("@elAmountRequired", SqlDbType.Int).Value = elAmountReq;
                     command.Parameters.Add("@elRecoveryRequired", SqlDbType.Float).Value = elRecoveryReq;
-                    //command.Parameters.Add("@techSp", SqlDbType.Float).Value = 0.0F;  //.:: temporary code
+                    command.Parameters.Add("@techSp", SqlDbType.Float).Value = techSpeed;
                     command.Parameters.Add("@notes", SqlDbType.NVarChar).Value = notes;
                     command.Parameters.Add("@trainId", SqlDbType.Int).Value = trainId;
                     command.Parameters.Add("@userId", SqlDbType.Int).Value = startForm.GetCurrentUserId();
