@@ -509,8 +509,7 @@ namespace TCH_desktop.View
 
         private float GetTechSpeed(string notes_)
         {
-            this.TopMost = false;
-            startForm.TopMost = false;
+            this.TopMost = startForm.TopMost = false;
 
             string departureTime = departureTimePicker.Value.Hour.ToString() + ':'
                 + departureTimePicker.Value.Minute;
@@ -752,7 +751,18 @@ namespace TCH_desktop.View
         {
             char number = e.KeyChar;
 
-            if (!Char.IsDigit(number) && number != 8)
+            if (!Char.IsDigit(number) && number != 8)   // ASCII: 8 = Backspace
+                e.Handled = true;
+        }
+
+        private void checkKeyPressForFactor(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+            TextBox field = sender as TextBox;
+            if (ch == ',' && field.Text.IndexOf(',') != -1)
+                e.Handled = true;
+
+            if (!Char.IsDigit(ch) && ch != 8 && ch != ',')
                 e.Handled = true;
         }
 
@@ -800,7 +810,8 @@ namespace TCH_desktop.View
 
         private void saveDataTrip_Click(object sender, EventArgs e)
         {
-            if (trainNumber.Text != String.Empty && locoNumbStr != String.Empty)
+            if (trainNumber.Text != String.Empty && locoNumbStr != String.Empty 
+                && distanceTextBox.Text != String.Empty)
             {
                 int locoId = GetLocoId(locoNumbStr);
                 DateTime attendaceTime = attendanceTimePicker.Value;
@@ -826,7 +837,16 @@ namespace TCH_desktop.View
                 string elRecoveryReq = elRecoveryRequiredValue.Text != String.Empty ?
                     elRecoveryRequiredValue.Text : "0.0";
 
-                string techSpeed = GetTechSpeed(notes).ToString().Substring(0, 4);
+                if (elRecoveryReq != "0.0")
+                {
+                    int ind = elRecoveryReq.IndexOf(',');
+                    elRecoveryReq = elRecoveryReq.Substring(0, ind + 2);
+                }
+
+                string techSpeed = GetTechSpeed(notes).ToString();
+                int index = techSpeed.IndexOf(',');
+                int length = techSpeed.Length;
+                techSpeed = index + 2 <= length ? techSpeed.Substring(0, index + 2) : techSpeed;
 
                 string query = "INSERT INTO Trips (AttendanceTime, Locomotive, TrafficRoute, " +
                     "ElectricityFactor, Departure, Arrival, PassedStations, SpeedLimits, " +
@@ -873,11 +893,13 @@ namespace TCH_desktop.View
             else
             {
                 string message = "Невозможно сохранить данные о поездке";
-                if (trainNumber.Text == String.Empty && locoNumbStr != String.Empty)
+                if (trainNumber.Text == String.Empty && locoNumbStr != String.Empty && distanceTextBox.Text != String.Empty)
                     message += ": не указан номер поезда.";
-                else if (trainNumber.Text != String.Empty && locoNumbStr == String.Empty)
+                else if (trainNumber.Text != String.Empty && locoNumbStr == String.Empty && distanceTextBox.Text != String.Empty)
                     message += ": не указан локомотив.";
-                else message += ": не указаны номер поезда и локомотив";
+                else if (trainNumber.Text != String.Empty && locoNumbStr != String.Empty && distanceTextBox.Text == String.Empty)
+                    message += ": не указана длина обслуживаемого участка";
+                else message += ": не указаны номер поезда и локомотив, а также длина обслуживаемого участка";
                 MessageBox.Show(message, "Не указаны важные сведения о поездке", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

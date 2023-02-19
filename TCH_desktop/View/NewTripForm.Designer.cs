@@ -313,6 +313,7 @@
             this.elRecoveryFactorTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.elRecoveryFactorTextBox.TextChanged += new System.EventHandler(this.CalcElectricityRecoveryRequired);
             this.elRecoveryFactorTextBox.Enter += new System.EventHandler(this.ClearTextBox);
+            this.elRecoveryFactorTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkKeyPressForFactor);
             // 
             // label21
             // 
@@ -387,6 +388,7 @@
             this.electricityFactorTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.electricityFactorTextBox.TextChanged += new System.EventHandler(this.CalcElectricityAmount);
             this.electricityFactorTextBox.Enter += new System.EventHandler(this.ClearTextBox);
+            this.electricityFactorTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkKeyPressForFactor);
             // 
             // label17
             // 

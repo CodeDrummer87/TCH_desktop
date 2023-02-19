@@ -199,11 +199,12 @@ namespace TCH_desktop.View
             tripGroupBox.Controls.Add(notesGroupBox);
 
             Label notes = new Label();
-            notes.Font = new Font("Courier New", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            notes.ForeColor = Color.PaleGreen;
+            notes.Font = new Font("Verdana", 8.5F, FontStyle.Regular, GraphicsUnit.Point);
+            notes.ForeColor = Color.LightGoldenrodYellow;
             notes.Location = new Point(6, 24);
             notes.Size = new Size(378, 158);
-            notes.Text = trip.Notes.Replace(";", "\n\n");
+            trip.Notes += $";;Техническая скорость: {trip.TechnicalSpeed} км/ч";
+            notes.Text = trip.Notes.Replace(";", "\n");
             notes.TextAlign = ContentAlignment.MiddleCenter;
             notesGroupBox.Controls.Add(notes);
 

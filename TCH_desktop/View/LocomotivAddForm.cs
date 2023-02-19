@@ -85,7 +85,7 @@ namespace TCH_desktop.View
                     });
                 }
                 locoSeriesSelect.DisplayMember = "Series";
-                locoSeriesSelect.SelectedIndex = 1;
+                locoSeriesSelect.SelectedIndex = 5;
 
                 reader.Close();
                 isReadyReader = true;

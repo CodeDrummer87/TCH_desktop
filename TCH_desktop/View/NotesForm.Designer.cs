@@ -56,7 +56,7 @@
             this.notesTextBox.Name = "notesTextBox";
             this.notesTextBox.Size = new System.Drawing.Size(803, 298);
             this.notesTextBox.TabIndex = 0;
-            this.notesTextBox.Text = "Используйте \';\' в качестве разделителя между отдельными записями";
+            this.notesTextBox.Text = resources.GetString("notesTextBox.Text");
             this.notesTextBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notesTextBox_MouseClick);
             // 
             // cancelButton
