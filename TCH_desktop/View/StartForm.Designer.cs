@@ -37,6 +37,7 @@
             this.developerEmail = new System.Windows.Forms.Label();
             this.currentMessage = new System.Windows.Forms.Label();
             this.statisticsScreenMenu = new System.Windows.Forms.Label();
+            this.birthdayLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // exitButton
@@ -150,6 +151,19 @@
             this.statisticsScreenMenu.MouseEnter += new System.EventHandler(this.labelMouseEnter);
             this.statisticsScreenMenu.MouseLeave += new System.EventHandler(this.labelMouseLeave);
             // 
+            // birthdayLabel
+            // 
+            this.birthdayLabel.BackColor = System.Drawing.Color.Transparent;
+            this.birthdayLabel.Font = new System.Drawing.Font("Bahnschrift Condensed", 1.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.birthdayLabel.ForeColor = System.Drawing.Color.DarkOrchid;
+            this.birthdayLabel.Location = new System.Drawing.Point(40, 64);
+            this.birthdayLabel.Name = "birthdayLabel";
+            this.birthdayLabel.Size = new System.Drawing.Size(1122, 133);
+            this.birthdayLabel.TabIndex = 9;
+            this.birthdayLabel.Text = "С ДНЁМ РОЖДЕНИЯ!";
+            this.birthdayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.birthdayLabel.Visible = false;
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -159,6 +173,7 @@
             this.BackgroundImage = global::TCH_desktop.Properties.Resources.start_form_background_image;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1200, 900);
+            this.Controls.Add(this.birthdayLabel);
             this.Controls.Add(this.statisticsScreenMenu);
             this.Controls.Add(this.currentMessage);
             this.Controls.Add(this.developerEmail);
@@ -189,5 +204,6 @@
         private Label developerEmail;
         private Label currentMessage;
         private Label statisticsScreenMenu;
+        private Label birthdayLabel;
     }
 }

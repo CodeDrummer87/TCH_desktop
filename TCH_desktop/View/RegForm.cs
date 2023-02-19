@@ -92,7 +92,7 @@ namespace TCH_desktop.View
 
         private void confirmPswdInp_TextChanged(object sender, EventArgs e)
         {
-            if (pswdInp.Text == confirmPswdInp.Text && !regButton.Enabled)
+            if (pswdInp.Text.ToLower() == confirmPswdInp.Text.ToLower() && !regButton.Enabled)
             {
                 regButton.Enabled = true;
                 regButton.BackColor = Color.PaleGreen;
@@ -108,9 +108,9 @@ namespace TCH_desktop.View
         {
             string message = String.Empty;
 
-            string email = loginInp.Text.Trim();
-            string password = pswdInp.Text.Trim();
-            string confirmedPassword = confirmPswdInp.Text.Trim();
+            string email = loginInp.Text.ToLower().Trim();
+            string password = pswdInp.Text.ToLower().Trim();
+            string confirmedPassword = confirmPswdInp.Text.ToLower().Trim();
 
             if (email != String.Empty && email != null)
             {

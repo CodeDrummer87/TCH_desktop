@@ -63,8 +63,8 @@ namespace TCH_desktop.View
 
         private void authButton_Click(object? sender, EventArgs e)
         {
-            string uEmail = loginInp.Text.Trim();
-            string uPswd = pswdInp.Text.Trim();
+            string uEmail = loginInp.Text.ToLower().Trim();
+            string uPswd = pswdInp.Text.ToLower().Trim();
 
             if (CheckInput(uEmail, false) && CheckInput(uPswd, true))
             {

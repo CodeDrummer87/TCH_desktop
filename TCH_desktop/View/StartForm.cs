@@ -18,6 +18,10 @@ namespace TCH_desktop.View
         public bool wasSavedTrip;
         public bool wasSavedUserData;
 
+        private System.Windows.Forms.Timer birthdayTimer;
+        int bTimePeriod;
+        float fontSize;
+
         public StartForm(AuthForm authForm, AccountAction account, int currentUserLoginId)
         {
             InitializeComponent();
@@ -40,6 +44,17 @@ namespace TCH_desktop.View
 
             wasSavedTrip = false;
             wasSavedUserData = false;
+
+            this.TopMost = false;
+
+            birthdayLabel.Visible = user.BirthDate.Month == DateTime.Now.Month &&
+                user.BirthDate.Day == DateTime.Now.Day ? true : false;
+
+            birthdayTimer = new System.Windows.Forms.Timer { Interval = 50 };
+            bTimePeriod = 140;
+            fontSize = 2.0F;
+            birthdayTimer.Tick += BirthdayTimerTick;
+            if (birthdayLabel.Visible) birthdayTimer.Start();
         }
 
         public int GetCurrentUserId() => user.Id;
@@ -213,6 +228,18 @@ namespace TCH_desktop.View
             Opacity = 60;
             this.Enabled = false;
             statScreen.Show();
+        }
+
+        private void BirthdayTimerTick(object? sender, EventArgs e)
+        {
+            bTimePeriod--;
+            birthdayLabel.Font = new Font("Bahnschrift Condensed", fontSize+=0.5F, FontStyle.Bold, GraphicsUnit.Point);
+
+            if (bTimePeriod <= 0)
+            {
+                birthdayTimer.Stop();
+                birthdayLabel.Visible = false;
+            }
         }
 
         #endregion
