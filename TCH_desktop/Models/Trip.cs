@@ -19,5 +19,6 @@ namespace TCH_desktop.Models
         public float TechnicalSpeed { get; set; }
         public string Notes { get; set; }
         public int Train { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -254,7 +254,10 @@ namespace TCH_desktop.View
 
         private void DisplayDataTable()
         {
-            GetTrips();
+            if (searchByLoco.Text == String.Empty)
+                GetTrips();
+            else GetTripsByLoco();
+
             if (tripsList.Count > 0)
             {
                 GetTrainsById();
@@ -362,6 +365,66 @@ namespace TCH_desktop.View
                 (numb > 9 && numb < 100) ? "0" + numb : numb.ToString();
         }
 
+        private void GetTripsByLoco()
+        {
+            tripsList.Clear();
+            string condition = $"'%{searchByLoco.Text}%'";
+
+            string query = $"SELECT t.Id, t.AttendanceTime, t.Locomotive, t.TrafficRoute, " +
+                $" t.ElectricityFactor, t.Departure, t.Arrival, t.PassedStations, " +
+                $"t.SpeedLimits, t.ElectricityAmountRequired, t.ElectricityRecoveryRequired, " +
+                $"t.TechnicalSpeed, t.Notes, t.Train, t.UserId " +
+                $"FROM Trips t " +
+                $"INNER JOIN Locomotives l " +
+                $"ON l.id=t.Locomotive " +
+                $"INNER JOIN LocoSeries ls " +
+                $"ON ls.id=l.Series " +
+                $"WHERE UserId=@uId AND CONCAT(ls.Series, '-', l.Number) LIKE {condition} " +
+                $"ORDER BY AttendanceTime DESC OFFSET @offset ROWS FETCH NEXT 8 ROWS ONLY";
+
+            try
+            {
+                SqlCommand command = new(query, DataBase.GetConnection());
+                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
+                command.Parameters.Add("@offset", SqlDbType.Int).Value = offset * 8;
+                DataBase.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    tripsList.Add(new Trip
+                    {
+                        Id = reader.GetInt32(0),
+                        AttendanceTime = reader.GetDateTime(1),
+                        Locomotive = reader.GetInt32(2),
+                        TrafficRoute = reader.GetString(3),
+                        ElectricityFactor = reader.IsDBNull(4) ? 0.0f : Convert.ToSingle(reader.GetDouble(4)),
+                        Departure = reader.GetString(5),
+                        Arrival = reader.GetString(6),
+                        PassedStations = reader.IsDBNull(7) ? "" : reader.GetString(7),
+                        SpeedLimits = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                        ElectricityAmountRequired = reader.IsDBNull(9) ? 0 : reader.GetInt32(9),
+                        ElectricityRecoveryRequired = reader.IsDBNull(10) ? 0.0f :
+                            Convert.ToSingle(reader.GetDouble(10)),
+                        TechnicalSpeed = reader.IsDBNull(11) ? 0.0f : Convert.ToSingle(reader.GetDouble(11)),
+                        Notes = reader.IsDBNull(12) ? "" : reader.GetString(12),
+                        Train = reader.GetInt32(13),
+                        UserId = reader.GetInt32(14)
+                    });
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось загрузить список поездок по номеру локомотива c {offset} " +
+                    $"по {offset + 8}:" +
+                    $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
+                    "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            DataBase.CloseConnection();
+        }
+
 
 
         #region Interactive
@@ -440,6 +503,14 @@ namespace TCH_desktop.View
             arrowLeft.Image = Properties.Resources.left_arrow;
         }
 
+        private void searchByLoco_TextChanged(object sender, EventArgs e)
+        {
+            GetTripsByLoco();
+            ClearTable();
+            DisplayDataTable();
+        }
+
         #endregion
+
     }
 }

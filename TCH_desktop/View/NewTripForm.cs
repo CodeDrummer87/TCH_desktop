@@ -516,32 +516,37 @@ namespace TCH_desktop.View
             string arrivalTime = arrivalTimePicker.Value.Hour.ToString() + ':'
                 + arrivalTimePicker.Value.Minute;
 
-            int tripTimeInMinutes = GetMinutes(departureTime, arrivalTime);
-
-            if ((notes_.Contains("стоянки") || notes_.Contains("остановки")) && notes_.Contains("||"))
+            if (arrivalTime != departureTime)
             {
-                int index = notes_.IndexOf("||");
-                string newNotes = notes_.Substring(index - 6);
+                int tripTimeInMinutes = GetMinutes(departureTime, arrivalTime);
 
-                string addDepTime = String.Empty;
-                string addArrivalTime = String.Empty;
-
-                while (newNotes.Contains("||"))
+                if ((notes_.Contains("стоянки") || notes_.Contains("остановки")) && notes_.Contains("||"))
                 {
-                    index = newNotes.IndexOf("||");
-                    addDepTime = newNotes.Substring(index - 6, 5);
-                    addArrivalTime = newNotes.Substring(index + 3, 5);
+                    int index = notes_.IndexOf("||");
+                    string newNotes = notes_.Substring(index - 6);
 
-                    tripTimeInMinutes -= GetMinutes(addDepTime, addArrivalTime);
+                    string addDepTime = String.Empty;
+                    string addArrivalTime = String.Empty;
 
-                    newNotes = newNotes.Substring(index + 3);
+                    while (newNotes.Contains("||"))
+                    {
+                        index = newNotes.IndexOf("||");
+                        addDepTime = newNotes.Substring(index - 6, 5);
+                        addArrivalTime = newNotes.Substring(index + 3, 5);
+
+                        tripTimeInMinutes -= GetMinutes(addDepTime, addArrivalTime);
+
+                        newNotes = newNotes.Substring(index + 3);
+                    }
                 }
+
+                float tripTimeInHours = (float)tripTimeInMinutes / 60;
+                float distance = distanceTextBox.Text != String.Empty ? Convert.ToSingle(distanceTextBox.Text) : 0.0F;
+
+                return distance / tripTimeInHours;
             }
 
-            float tripTimeInHours = (float)tripTimeInMinutes / 60;
-            float distance = distanceTextBox.Text != String.Empty ? Convert.ToSingle(distanceTextBox.Text) : 0.0F;
-
-            return distance / tripTimeInHours;
+            return 0.0F;
         }
 
         private int GetMinutes(string from, string to)
@@ -762,6 +767,9 @@ namespace TCH_desktop.View
             if (ch == ',' && field.Text.IndexOf(',') != -1)
                 e.Handled = true;
 
+            if (ch == ',' && field.Text.Length < 1)
+                e.Handled = true;
+
             if (!Char.IsDigit(ch) && ch != 8 && ch != ',')
                 e.Handled = true;
         }
@@ -810,6 +818,8 @@ namespace TCH_desktop.View
 
         private void saveDataTrip_Click(object sender, EventArgs e)
         {
+            this.TopMost = startForm.TopMost = false;
+
             if (trainNumber.Text != String.Empty && locoNumbStr != String.Empty 
                 && distanceTextBox.Text != String.Empty)
             {

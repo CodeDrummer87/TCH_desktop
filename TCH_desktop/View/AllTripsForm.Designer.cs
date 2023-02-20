@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AllTripsForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.searchByLoco = new System.Windows.Forms.TextBox();
             this.arrowLeft = new System.Windows.Forms.PictureBox();
             this.currentMessage = new System.Windows.Forms.Label();
             this.arrowRight = new System.Windows.Forms.PictureBox();
@@ -49,6 +51,8 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.searchByLoco);
             this.groupBox1.Controls.Add(this.arrowLeft);
             this.groupBox1.Controls.Add(this.currentMessage);
             this.groupBox1.Controls.Add(this.arrowRight);
@@ -61,6 +65,30 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Все поездки ";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label6.Location = new System.Drawing.Point(661, 35);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(193, 18);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Поиск по локомотиву:";
+            // 
+            // searchByLoco
+            // 
+            this.searchByLoco.BackColor = System.Drawing.SystemColors.InfoText;
+            this.searchByLoco.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.searchByLoco.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.searchByLoco.Font = new System.Drawing.Font("Tahoma", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.searchByLoco.ForeColor = System.Drawing.Color.Tan;
+            this.searchByLoco.Location = new System.Drawing.Point(661, 56);
+            this.searchByLoco.Name = "searchByLoco";
+            this.searchByLoco.Size = new System.Drawing.Size(190, 29);
+            this.searchByLoco.TabIndex = 4;
+            this.searchByLoco.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.searchByLoco.TextChanged += new System.EventHandler(this.searchByLoco_TextChanged);
             // 
             // arrowLeft
             // 
@@ -215,6 +243,7 @@
             this.TopMost = true;
             this.Load += new System.EventHandler(this.AllTripsForm_Load);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).EndInit();
             this.tripsTable.ResumeLayout(false);
@@ -237,5 +266,7 @@
         private PictureBox arrowRight;
         private Label currentMessage;
         private PictureBox arrowLeft;
+        private Label label6;
+        private TextBox searchByLoco;
     }
 }
