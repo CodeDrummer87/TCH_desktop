@@ -520,7 +520,8 @@ namespace TCH_desktop.View
             {
                 int tripTimeInMinutes = GetMinutes(departureTime, arrivalTime);
 
-                if ((notes_.Contains("стоянки") || notes_.Contains("остановки")) && notes_.Contains("||"))
+                if ((notes_.ToLower().Contains("стоянки") || notes_.ToLower().Contains("остановки")) &&
+                    notes_.Contains("||"))
                 {
                     int index = notes_.IndexOf("||");
                     string newNotes = notes_.Substring(index - 6);
@@ -531,8 +532,8 @@ namespace TCH_desktop.View
                     while (newNotes.Contains("||"))
                     {
                         index = newNotes.IndexOf("||");
-                        addDepTime = newNotes.Substring(index - 6, 5);
-                        addArrivalTime = newNotes.Substring(index + 3, 5);
+                        addDepTime = GetTimeString(newNotes, index, true);
+                        addArrivalTime = GetTimeString(newNotes, index, false);
 
                         tripTimeInMinutes -= GetMinutes(addDepTime, addArrivalTime);
 
@@ -587,6 +588,41 @@ namespace TCH_desktop.View
         }
 
         private int SubtractAnHour(int hour) => --hour == -1 ? 23 : hour;
+
+        private string GetTimeString(string str, int index, bool isDepartment)
+        {
+            this.TopMost = startForm.TopMost = false;
+            string timeResult = String.Empty;
+
+            if (isDepartment)
+            {
+                for (int i = 0; i < index; i++)
+                    if (str[i] == ':' || Char.IsDigit(str[i]))
+                        timeResult += str[i];
+                    else if (str[i] == '-')
+                        timeResult = String.Empty;
+            }
+            else
+            {
+                str = str.Substring(++index);
+                bool wasRecorded = false;
+
+                for (int i = 0; i < str.Length; i++)
+                {
+                    if (Char.IsDigit(str[i])) timeResult += str[i];
+
+                    if (str[i] == ':' && !wasRecorded)
+                    {
+                        timeResult += str[i];
+                        wasRecorded = true;
+                    }
+
+                    if (wasRecorded && str[i] != ':' && !Char.IsDigit(str[i])) break;
+                }
+            }
+
+            return timeResult;
+        }
 
 
 
@@ -818,8 +854,6 @@ namespace TCH_desktop.View
 
         private void saveDataTrip_Click(object sender, EventArgs e)
         {
-            this.TopMost = startForm.TopMost = false;
-
             if (trainNumber.Text != String.Empty && locoNumbStr != String.Empty 
                 && distanceTextBox.Text != String.Empty)
             {

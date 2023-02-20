@@ -149,11 +149,16 @@ namespace TCH_desktop.View
                 panel.Location = new(x, y);
 
                 groupBox.Controls.Add(panel);
+
+                tabTip.Visible = true;
+                tabTip.Location = new(x, y + 45);
+
                 if (panelCount == 5)
                 {
                     x = 427;
                     y = -23;
                 }
+
                 if (panelCount < 10)
                     addNewStation.Location = new(x - 5, y + 75);
                 else if (panelCount >= 10)
@@ -169,6 +174,7 @@ namespace TCH_desktop.View
             {
                 addNewStation.Visible = true;
                 removeEntry.Visible = true;
+                tabTip.Visible = false;
 
                 Label entry = new();
                 entry.Name = "entry" + (panelCount);

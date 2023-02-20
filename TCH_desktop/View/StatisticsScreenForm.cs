@@ -421,30 +421,39 @@ namespace TCH_desktop.View
                 if (locoCounters[i].Count >= maxValue)
                     maxValue = locoCounters[i].Count;
 
-            int sameMeaning = 0;
-
-            mostPopularLocoResult.Text = String.Empty;
-            foreach (LocomotiveTripsCounter c in locoCounters)
-                if (c.Count == maxValue)
-                {
-                    ++sameMeaning;
-                    if (mostPopularLocoResult.Text == String.Empty)
-                        mostPopularLocoResult.Text += c.Locomotive;
-                    else
-                        mostPopularLocoResult.Text += ",\n" + c.Locomotive;
-                }
-
-
-            if (sameMeaning > 1)
+            if (maxValue > 1)
             {
-                mostPopularLocoLabel.Text = "Самые популярные локомотивы:";
-                mostPopularLocoResult.Text += $"    (по {maxValue} {TransformWord(maxValue, "поездка")})";
+                int sameMeaning = 0;
+
+                mostPopularLocoResult.Visible = true;
+                mostPopularLocoResult.Text = String.Empty;
+                foreach (LocomotiveTripsCounter c in locoCounters)
+                    if (c.Count == maxValue)
+                    {
+                        ++sameMeaning;
+                        if (mostPopularLocoResult.Text == String.Empty)
+                            mostPopularLocoResult.Text += c.Locomotive;
+                        else
+                            mostPopularLocoResult.Text += ",\n" + c.Locomotive;
+                    }
+
+
+                if (sameMeaning > 1)
+                {
+                    mostPopularLocoLabel.Text = "Самые популярные локомотивы:";
+                    mostPopularLocoResult.Text += $"    (по {maxValue} {TransformWord(maxValue, "поездка")})";
+                }
+                else
+                    mostPopularLocoResult.Text += $"    ({maxValue} {TransformWord(maxValue, "поездка")})";
+
+                int x = mostPopularLocoLabel.Location.X + mostPopularLocoLabel.Width;
+                mostPopularLocoResult.Location = new Point(x, mostPopularLocoLabel.Location.Y);
             }
             else
-                mostPopularLocoResult.Text += $"    ({maxValue} {TransformWord(maxValue, "поездка")})";
-
-            int x = mostPopularLocoLabel.Location.X + mostPopularLocoLabel.Width;
-            mostPopularLocoResult.Location = new Point(x, mostPopularLocoLabel.Location.Y);
+            {
+                mostPopularLocoResult.Visible = false;
+                mostPopularLocoLabel.Text = "Самый популярный локомотив пока что не выявлен.";
+            }
         }
 
         private string TransformWord(int value, string word)

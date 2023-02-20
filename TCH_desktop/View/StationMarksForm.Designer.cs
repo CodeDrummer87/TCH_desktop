@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StationMarksForm));
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.tabTip = new System.Windows.Forms.Label();
             this.removeEntry = new System.Windows.Forms.Label();
             this.addNewStation = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Label();
@@ -39,6 +40,8 @@
             // 
             // groupBox
             // 
+            this.groupBox.AutoSize = true;
+            this.groupBox.Controls.Add(this.tabTip);
             this.groupBox.Controls.Add(this.removeEntry);
             this.groupBox.Controls.Add(this.addNewStation);
             this.groupBox.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -49,6 +52,17 @@
             this.groupBox.TabIndex = 0;
             this.groupBox.TabStop = false;
             this.groupBox.Text = " Отметки о проследовании станций ";
+            // 
+            // tabTip
+            // 
+            this.tabTip.ForeColor = System.Drawing.Color.DimGray;
+            this.tabTip.Location = new System.Drawing.Point(51, 92);
+            this.tabTip.Name = "tabTip";
+            this.tabTip.Size = new System.Drawing.Size(333, 17);
+            this.tabTip.TabIndex = 2;
+            this.tabTip.Text = "нажмите Tab для фиксации";
+            this.tabTip.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tabTip.Visible = false;
             // 
             // removeEntry
             // 
@@ -142,5 +156,6 @@
         private Label addPastStationButton;
         private Label addNewStation;
         private Label removeEntry;
+        private Label tabTip;
     }
 }
