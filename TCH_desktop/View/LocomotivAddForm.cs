@@ -1,11 +1,13 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using Microsoft.Data.Sqlite;
 using TCH_desktop.Models;
 
 namespace TCH_desktop.View
 {
     public partial class LocomotivAddForm : Form
     {
+        private SqliteCommand command;
+        private SqliteDataReader reader;
+
         private bool isReadyReader;
         private NewTripForm tripForm;
         private string tempImageFullName;
@@ -31,10 +33,11 @@ namespace TCH_desktop.View
             try
             {
                 isReadyReader = false;
-                SqlCommand command = new(query, DataBase.GetConnection());
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     locoTypeSelect.Items.Add(new LocomotiveType
@@ -69,12 +72,13 @@ namespace TCH_desktop.View
             try
             {
                 isReadyReader = false;
-                SqlCommand command = new(query, DataBase.GetConnection());
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
                 LocomotiveType locType = (LocomotiveType)locoTypeSelect.SelectedItem;
-                command.Parameters.Add("@locType", SqlDbType.Int).Value = locType.Id;
-                DataBase.OpenConnection();
+                command.Parameters.Add("@locType", SqliteType.Integer).Value = locType.Id;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     locoSeriesSelect.Items.Add(new LocomotiveSeries
@@ -105,7 +109,7 @@ namespace TCH_desktop.View
             allocationSelect.Items.Clear();
             allocationSelect.ResetText();
 
-            string query = "SELECT	CONCAT(d.ShortTitle, ', ', r.Abbreviation) 'allocation'"
+            string query = "SELECT	(d.ShortTitle || ', ' || r.Abbreviation) 'allocation'"
                             + "FROM LocomotiveDepots d "
                             + "INNER JOIN Railroads r "
                             + "ON r.Id = d.Railroad";
@@ -113,10 +117,11 @@ namespace TCH_desktop.View
             try
             {
                 isReadyReader = false;
-                SqlCommand command = new(query, DataBase.GetConnection());
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     allocationSelect.Items.Add(reader.GetString(0));
@@ -152,20 +157,22 @@ namespace TCH_desktop.View
 
         private void SaveLocomotiveData(Locomotive loco)
         {
-            string query = "INSERT Locomotives VALUES(@locType, @series, @numb, @alloc, @brakeHolders, @iPath)";
+            string query = "INSERT INTO Locomotives(LocoType, Series, Number, Allocation, NumberOfBrakeHolders, " +
+                "ImagePath) VALUES(@locType, @series, @numb, @alloc, @brakeHolders, @iPath)";
 
             try
             {
                 isReadyReader = false;
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@locType", SqlDbType.Int).Value = loco.LocoType;
-                command.Parameters.Add("@series", SqlDbType.Int).Value = loco.Series;
-                command.Parameters.Add("@numb", SqlDbType.Int).Value = loco.Number;
-                command.Parameters.Add("@alloc", SqlDbType.NVarChar).Value = loco.Allocation;
-                command.Parameters.Add("@brakeHolders", SqlDbType.Int).Value = loco.NumberOfBrakeHolders;
-                command.Parameters.Add("@iPath", SqlDbType.NVarChar).Value = loco.ImagePath;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@locType", SqliteType.Integer).Value = loco.LocoType;
+                command.Parameters.Add("@series", SqliteType.Integer).Value = loco.Series;
+                command.Parameters.Add("@numb", SqliteType.Integer).Value = loco.Number;
+                command.Parameters.Add("@alloc", SqliteType.Text).Value = loco.Allocation;
+                command.Parameters.Add("@brakeHolders", SqliteType.Integer).Value = loco.NumberOfBrakeHolders;
+                command.Parameters.Add("@iPath", SqliteType.Text).Value = loco.ImagePath;
 
+                DataBase.OpenConnection();
                 command.ExecuteNonQuery();
                 isReadyReader = true;
             }
@@ -237,22 +244,22 @@ namespace TCH_desktop.View
             int seriesId = ((LocomotiveSeries)locoSeriesSelect.SelectedItem).Id;
             int number = Convert.ToInt32(locoNumberInp.Text);
 
-            string query = "SELECT * FROM Locomotives WHERE LocoType =@lT AND Series = @lS AND Number = @lN";
+            string query = "SELECT * FROM Locomotives WHERE (LocoType=@lT) AND (Series=@lS) AND (Number=@lN)";
 
             try
             {
                 isReadyReader = false;
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@lT", SqlDbType.Int).Value = typeId;
-                command.Parameters.Add("@lS", SqlDbType.Int).Value = seriesId;
-                command.Parameters.Add("@lN", SqlDbType.Int).Value = number;
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@lT", SqliteType.Integer).Value = typeId;
+                command.Parameters.Add("@lS", SqliteType.Integer).Value = seriesId;
+                command.Parameters.Add("@lN", SqliteType.Integer).Value = number;
 
-                DataTable table = new();
-                DataBase.adapter.SelectCommand = command;
-                DataBase.adapter.Fill(table);
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
 
                 isReadyReader = true;
-                return table.Rows.Count == 1 ? true : false;
+                return reader.HasRows;
             }
             catch (Exception ex)
             {

@@ -1,10 +1,13 @@
-﻿using System.Data.SqlClient;
+﻿using Microsoft.Data.Sqlite;
 using TCH_desktop.Models;
 
 namespace TCH_desktop.View
 {
     public partial class StationMarksForm : Form
     {
+        private SqliteCommand command;
+        private SqliteDataReader reader;
+
         private int panelCount;
         NewTripForm tripForm;
         private List<Station> stationsList = new();
@@ -64,10 +67,11 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     stationsList.Add(new Station
@@ -191,7 +195,7 @@ namespace TCH_desktop.View
                 string text = $"ст.{((Station)station.SelectedItem).Title} в {hour}:{minute}";
                 entry.Text = text;
                 tripForm.pastStations.Add(text);
-                
+
                 entry.Location = new(panel.Location.X - 7, panel.Location.Y + 17);
                 entry.Cursor = Cursors.Hand;
                 entry.Click += new System.EventHandler(ChangeEntry);

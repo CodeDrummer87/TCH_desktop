@@ -1,11 +1,13 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using Microsoft.Data.Sqlite;
 using TCH_desktop.Models;
 
 namespace TCH_desktop.View
 {
     public partial class AllTripsForm : Form
     {
+        private SqliteCommand command;
+        private SqliteDataReader reader;
+
         private int userId;
         private StartForm startForm;
         private List<Trip> tripsList = new();
@@ -32,16 +34,17 @@ namespace TCH_desktop.View
             tripsList.Clear();
 
             string query = $"SELECT * FROM Trips WHERE UserId=@uId " +
-                $"ORDER BY AttendanceTime DESC OFFSET @offset ROWS FETCH NEXT 8 ROWS ONLY";
+                $"ORDER BY AttendanceTime DESC LIMIT 8 OFFSET @offset";
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                command.Parameters.Add("@offset", SqlDbType.Int).Value = offset * 8;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
+                command.Parameters.Add("@offset", SqliteType.Integer).Value = offset * 8;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     tripsList.Add(new Trip
@@ -60,7 +63,7 @@ namespace TCH_desktop.View
                             Convert.ToSingle(reader.GetDouble(10)),
                         TechnicalSpeed = reader.IsDBNull(11) ? 0.0f : Convert.ToSingle(reader.GetDouble(11)),
                         Notes = reader.IsDBNull(12) ? "" : reader.GetString(12),
-                        Train =reader.GetInt32(13)
+                        Train = reader.GetInt32(13)
                     });
                 }
                 reader.Close();
@@ -85,11 +88,12 @@ namespace TCH_desktop.View
 
                 try
                 {
-                    SqlCommand command = new(query, DataBase.GetConnection());
-                    command.Parameters.Add("@trainId", SqlDbType.Int).Value = tripsList[i].Train;
-                    DataBase.OpenConnection();
+                    command = DataBase.GetConnection().CreateCommand();
+                    command.CommandText = query;
+                    command.Parameters.Add("@trainId", SqliteType.Integer).Value = tripsList[i].Train;
 
-                    SqlDataReader reader = command.ExecuteReader();
+                    DataBase.OpenConnection();
+                    reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         trainsList.Add(new Train
@@ -126,11 +130,12 @@ namespace TCH_desktop.View
 
                 try
                 {
-                    SqlCommand command = new(query, DataBase.GetConnection());
-                    command.Parameters.Add("@locoId", SqlDbType.Int).Value = tripsList[i].Locomotive;
-                    DataBase.OpenConnection();
+                    command = DataBase.GetConnection().CreateCommand();
+                    command.CommandText = query;
+                    command.Parameters.Add("@locoId", SqliteType.Integer).Value = tripsList[i].Locomotive;
 
-                    SqlDataReader reader = command.ExecuteReader();
+                    DataBase.OpenConnection();
+                    reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         locomotivesList.Add(new Locomotive
@@ -145,7 +150,6 @@ namespace TCH_desktop.View
                         });
                     }
                     reader.Close();
-                    
                 }
                 catch (Exception ex)
                 {
@@ -230,11 +234,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@sId", SqlDbType.Int).Value = seriesId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@sId", SqliteType.Integer).Value = seriesId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     result = reader.GetString(0);
@@ -264,7 +269,7 @@ namespace TCH_desktop.View
                 GetLocoById();
 
                 DisplayTripsData();
-            }   
+            }
         }
 
         private void ClearTable()
@@ -289,11 +294,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     result = reader.GetInt32(0);
@@ -315,7 +321,7 @@ namespace TCH_desktop.View
         {
             return count == 1 ? "поездка" :
                 count > 1 && count < 5 ? "поездки" : "поездок";
-        } 
+        }
 
         private void HoverLabel(object? sender, EventArgs e)
         {
@@ -380,16 +386,17 @@ namespace TCH_desktop.View
                 $"INNER JOIN LocoSeries ls " +
                 $"ON ls.id=l.Series " +
                 $"WHERE UserId=@uId AND CONCAT(ls.Series, '-', l.Number) LIKE {condition} " +
-                $"ORDER BY AttendanceTime DESC OFFSET @offset ROWS FETCH NEXT 8 ROWS ONLY";
+                $"ORDER BY AttendanceTime DESC LIMIT 8 OFFSET @offset";
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                command.Parameters.Add("@offset", SqlDbType.Int).Value = offset * 8;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
+                command.Parameters.Add("@offset", SqliteType.Integer).Value = offset * 8;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     tripsList.Add(new Trip
@@ -470,7 +477,7 @@ namespace TCH_desktop.View
             startForm.Enabled = true;
             this.Close();
         }
-        
+
         private void backToStartForm_MouseEnter(object sender, EventArgs e)
         {
             backToStartForm.ForeColor = Color.Yellow;

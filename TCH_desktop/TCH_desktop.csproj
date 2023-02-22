@@ -8,6 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>source\images\favicon.ico</ApplicationIcon>
     <IsPublishable>False</IsPublishable>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,7 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="7.0.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>

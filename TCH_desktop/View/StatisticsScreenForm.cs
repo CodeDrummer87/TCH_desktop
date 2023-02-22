@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using Microsoft.Data.Sqlite;
 using TCH_desktop.Models;
 using TCH_desktop.Presenter;
 
@@ -7,6 +6,9 @@ namespace TCH_desktop.View
 {
     public partial class StatisticsScreenForm : Form
     {
+        private SqliteCommand command;
+        private SqliteDataReader reader;
+
         private StartForm startForm;
         private int userId;
         private List<Statistics> tripStat = new();
@@ -41,11 +43,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     result = reader.GetInt32(0);
@@ -75,11 +78,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     tripStat.Add(new Statistics
@@ -108,19 +112,20 @@ namespace TCH_desktop.View
             {
                 try
                 {
-                    SqlCommand command = new(query, DataBase.GetConnection());
-                    command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                    command.Parameters.Add("@tRoute", SqlDbType.NVarChar).Value = tripStat[i].trafficRoute;
-                    DataBase.OpenConnection();
+                    command = DataBase.GetConnection().CreateCommand();
+                    command.CommandText = query;
+                    command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
+                    command.Parameters.Add("@tRoute", SqliteType.Text).Value = tripStat[i].trafficRoute;
 
-                    SqlDataReader reader = command.ExecuteReader();
+                    DataBase.OpenConnection();
+                    reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        Statistics tempStat = tripStat[i] with { totalTrips = reader.GetInt32(0) };  
+                        Statistics tempStat = tripStat[i] with { totalTrips = reader.GetInt32(0) };
                         tripStat[i] = tempStat;
                     }
 
-                    reader.Close();                  
+                    reader.Close();
                 }
                 catch (Exception ex)
                 {
@@ -131,7 +136,7 @@ namespace TCH_desktop.View
                 }
 
                 DataBase.CloseConnection();
-            }     
+            }
         }
 
         private int CheckIndex(int index)
@@ -164,7 +169,7 @@ namespace TCH_desktop.View
             int resHours = 0;
             int resMinutes = 0;
 
-            while(eHours != stHours)
+            while (eHours != stHours)
             {
                 --eHours;
                 if (eHours == -1) eHours = 23;
@@ -215,14 +220,15 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    tripsTime.Add(new TripTime 
+                    tripsTime.Add(new TripTime
                     {
                         departure = reader.GetString(0),
                         arrival = reader.GetString(1)
@@ -265,11 +271,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     result = reader.GetInt32(0);
@@ -289,7 +296,7 @@ namespace TCH_desktop.View
 
         private List<string> GetAvailableLocoSeries()
         {
-            List<string> series = new ();
+            List<string> series = new();
             string query = "SELECT DISTINCT ls.Series " +
                 "FROM Trips t " +
                 "INNER JOIN Locomotives l " +
@@ -300,11 +307,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     series.Add(reader.GetString(0));
@@ -346,12 +354,13 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                command.Parameters.Add("@locoSeries", SqlDbType.NVarChar).Value = locoSeries;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
+                command.Parameters.Add("@locoSeries", SqliteType.Text).Value = locoSeries;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     locoNumber = reader.GetInt32(0);
@@ -374,26 +383,27 @@ namespace TCH_desktop.View
         {
             List<LocomotiveTripsCounter> locoTripsCounter = new();
 
-            string query = "SELECT CONCAT(ls.Series, '-', l.Number), " +
-                "COUNT(CONCAT(ls.Series, '-', l.Number)) " +
+            string query = "SELECT (ls.Series || '-' || l.Number), " +
+                "COUNT((ls.Series || '-' || l.Number)) " +
                 "FROM Trips t " +
                 "INNER JOIN Locomotives l " +
                 "ON l.Id=t.Locomotive " +
                 "INNER JOIN LocoSeries ls " +
                 "ON ls.Id=l.Series " +
                 "WHERE UserId=@uId " +
-                "GROUP BY CONCAT(ls.Series, '-', l.Number)";
+                "GROUP BY (ls.Series || '-' || l.Number)";
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    locoTripsCounter.Add(new LocomotiveTripsCounter 
+                    locoTripsCounter.Add(new LocomotiveTripsCounter
                     {
                         Locomotive = reader.GetString(0),
                         Count = reader.GetInt32(1)
@@ -417,7 +427,7 @@ namespace TCH_desktop.View
             List<LocomotiveTripsCounter> locoCounters = GetLocoCounters();
             int maxValue = 0;
 
-            for (int i = 0; i < locoCounters.Count; i++) 
+            for (int i = 0; i < locoCounters.Count; i++)
                 if (locoCounters[i].Count >= maxValue)
                     maxValue = locoCounters[i].Count;
 
@@ -470,7 +480,7 @@ namespace TCH_desktop.View
         {
             totalTripsBySeries.Text = series[seriesCountIndex];
 
-            int y = mostPopularLocoResult.Location.Y + mostPopularLocoResult.Height + 45; 
+            int y = mostPopularLocoResult.Location.Y + mostPopularLocoResult.Height + 45;
             totalTripsBySeriesLabel.Location = new Point(29, y);
 
             SetColonLabel2(y);
@@ -503,12 +513,13 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                command.Parameters.Add("@locoSeries", SqlDbType.NVarChar).Value = locoSeries;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
+                command.Parameters.Add("@locoSeries", SqliteType.Text).Value = locoSeries;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     result = reader.GetInt32(0);
@@ -539,11 +550,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     result = $"{reader.GetDateTime(0):f}";
@@ -583,7 +595,7 @@ namespace TCH_desktop.View
 
             int x = label6.Location.X;
             int y = totalTripsBySeriesLabel.Location.Y + 72;
-            
+
             label6.Location = new Point(x, y);
 
             x += label6.Width;

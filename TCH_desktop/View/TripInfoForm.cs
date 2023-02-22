@@ -1,11 +1,13 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using Microsoft.Data.Sqlite;
 using TCH_desktop.Models;
 
 namespace TCH_desktop.View
 {
     public partial class TripInfoForm : Form
     {
+        private SqliteCommand command;
+        private SqliteDataReader reader;
+
         private AllTripsForm allTripsForm;
         private int tripId;
 
@@ -507,11 +509,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@tripId", SqlDbType.Int).Value = tripId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@tripId", SqliteType.Integer).Value = tripId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     trip = new Trip
@@ -554,11 +557,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@locoId", SqlDbType.Int).Value = locoId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@locoId", SqliteType.Integer).Value = locoId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     loco = new Locomotive
@@ -593,11 +597,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@locoTypeId", SqlDbType.Int).Value = locoTypeId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@locoTypeId", SqliteType.Integer).Value = locoTypeId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     result = reader.GetString(0);
@@ -623,11 +628,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@seriesId", SqlDbType.Int).Value = seriesId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@seriesId", SqliteType.Integer).Value = seriesId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     result = reader.GetString(0);
@@ -653,11 +659,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@trainId", SqlDbType.Int).Value = trainId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@trainId", SqliteType.Integer).Value = trainId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     train = new Train
@@ -692,11 +699,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@tripId", SqlDbType.Int).Value = tripId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@tripId", SqliteType.Integer).Value = tripId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     brakeTests.Enqueue(reader.GetString(0));

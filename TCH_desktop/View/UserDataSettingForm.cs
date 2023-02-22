@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Microsoft.Data.Sqlite;
+using System.Data;
 using System.Data.SqlClient;
 using TCH_desktop.Models;
 
@@ -6,6 +7,9 @@ namespace TCH_desktop.View
 {
     public partial class UserDataSettingForm : Form
     {
+        private SqliteCommand command;
+        private SqliteDataReader reader;
+
         private bool isEdit = true;
         StartForm startForm;
         AuthForm authForm;
@@ -86,10 +90,11 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
                 DataBase.OpenConnection();
 
-                SqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     railroads.Add(new Railroad
@@ -125,11 +130,12 @@ namespace TCH_desktop.View
             {
                 try
                 {
-                    SqlCommand command = new(query, DataBase.GetConnection());
-                    command.Parameters.Add("@Id", SqlDbType.Int).Value = railroad?.Id;
+                    command = DataBase.GetConnection().CreateCommand();
+                    command.CommandText = query;
+                    command.Parameters.Add("@Id", SqliteType.Integer).Value = railroad?.Id;
+                    
                     DataBase.OpenConnection();
-
-                    SqlDataReader reader = command.ExecuteReader();
+                    reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         locoDepots.Add(new LocomotiveDepot
@@ -161,10 +167,11 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                    
                 DataBase.OpenConnection();
-
-                SqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     positionsList.Add(new Position
@@ -199,11 +206,12 @@ namespace TCH_desktop.View
             {
                 try
                 {
-                    SqlCommand command = new(query, DataBase.GetConnection());
-                    command.Parameters.Add("@Id", SqlDbType.Int).Value = currentDepot?.Id;
+                    command = DataBase.GetConnection().CreateCommand();
+                    command.CommandText = query;
+                    command.Parameters.Add("@Id", SqliteType.Integer).Value = currentDepot?.Id;
+                    
                     DataBase.OpenConnection();
-
-                    SqlDataReader reader = command.ExecuteReader();
+                    reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         columnsList.Add(new Column
@@ -260,14 +268,15 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@sN", SqlDbType.NVarChar).Value = surname;
-                command.Parameters.Add("@fN", SqlDbType.NVarChar).Value = firstname;
-                command.Parameters.Add("@p", SqlDbType.NVarChar).Value = patronymic;
-                command.Parameters.Add("@bD", SqlDbType.DateTime).Value = bDate;
-                command.Parameters.Add("@loginId", SqlDbType.Int).Value = startForm.GetCurrentUserLoginId();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@sN", SqliteType.Text).Value = surname;
+                command.Parameters.Add("@fN", SqliteType.Text).Value = firstname;
+                command.Parameters.Add("@p", SqliteType.Text).Value = patronymic;
+                command.Parameters.Add("@bD", SqliteType.Text).Value = bDate;
+                command.Parameters.Add("@loginId", SqliteType.Integer).Value = startForm.GetCurrentUserLoginId();
+                
                 DataBase.OpenConnection();
-
                 command.ExecuteNonQuery();
                 startForm.SetUserData(surname, firstname, patronymic, bDate);
             }
@@ -285,18 +294,20 @@ namespace TCH_desktop.View
         {
             bool isExist = CheckEmployeeForExist(startForm.GetCurrentUserId());
 
-            string query = isExist ? "UPDATE Employees SET TabNumber=@tN, PositionId=@pId, ColumnId=@cId WHERE UserId=@uId"
-                : "INSERT Employees VALUES (@tN, @uId, @pId, @cId)";
+            string query = isExist ? "UPDATE Employees SET TabNumber=@tN, PositionId=@pId, ColumnId=@cId " +
+                "WHERE UserId=@uId"
+                : "INSERT INTO Employees(TabNumber, UserId, PositionId, ColumnId) VALUES (@tN, @uId, @pId, @cId)";
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@tN", SqlDbType.Int).Value = tabNumberInp.Text;
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = startForm.GetCurrentUserId();
-                command.Parameters.Add("@pId", SqlDbType.Int).Value = ((Position)positions.SelectedItem).Id;
-                command.Parameters.Add("@cId", SqlDbType.Int).Value = ((Column)columns.SelectedItem).Id;
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@tN", SqliteType.Integer).Value = tabNumberInp.Text;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = startForm.GetCurrentUserId();
+                command.Parameters.Add("@pId", SqliteType.Integer).Value = ((Position)positions.SelectedItem).Id;
+                command.Parameters.Add("@cId", SqliteType.Integer).Value = ((Column)columns.SelectedItem).Id;
+                
                 DataBase.OpenConnection();
-
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -315,16 +326,14 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.VarChar).Value = userId;
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Text).Value = userId;
+               
                 DataBase.OpenConnection();
+                reader = command.ExecuteReader();
 
-                DataTable table = new();
-
-                DataBase.adapter.SelectCommand = command;
-                DataBase.adapter.Fill(table);
-
-                return table.Rows.Count == 1 ? true : false;
+                return reader.HasRows;
             }
             catch (Exception ex)
             {

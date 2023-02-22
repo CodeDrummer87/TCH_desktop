@@ -1,4 +1,4 @@
-﻿using System.Data;
+﻿using Microsoft.Data.Sqlite;
 using System.Data.SqlClient;
 using TCH_desktop.Models;
 
@@ -6,6 +6,9 @@ namespace TCH_desktop.View
 {
     public partial class NewTripForm : Form
     {
+        private SqliteCommand command;
+        private SqliteDataReader reader;
+
         private StartForm startForm;
         private List<Station> stationsList = new();
         private List<TrafficLight> trafficLightsList = new();
@@ -39,10 +42,11 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     stationsList.Add(new Station
@@ -85,12 +89,13 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@stationId", SqlDbType.Int).Value = stationId;
-                command.Parameters.Add("@isEvenDir", SqlDbType.Bit).Value = isEvenDirection ? 1 : 0;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@stationId", SqliteType.Integer).Value = stationId;
+                command.Parameters.Add("@isEvenDir", SqliteType.Integer).Value = isEvenDirection ? 1 : 0;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     trafficLightsList.Add(new TrafficLight
@@ -140,7 +145,7 @@ namespace TCH_desktop.View
                 locoNumber.Location = new Point(700, 57);
 
                 removeLocomotive.Visible = true;
-                removeLocomotive.Location = 
+                removeLocomotive.Location =
                     new Point(locoNumber.Location.X + locoNumber.Width, 59);
             }
             else
@@ -177,7 +182,7 @@ namespace TCH_desktop.View
                 addBrakeTest.Visible = false;
                 int x = brakeTestInfo.Location.X + brakeTestInfo.Width + 2;
                 removeBrakeTest.Location = new(x, brakeTestInfo.Location.Y + 3);
-                removeBrakeTest.Visible = true;              
+                removeBrakeTest.Visible = true;
             }
         }
 
@@ -284,12 +289,13 @@ namespace TCH_desktop.View
 
                 try
                 {
-                    SqlCommand command = new(query, DataBase.GetConnection());
-                    command.Parameters.Add("@sId", SqlDbType.Int).Value = seriesId;
-                    command.Parameters.Add("@number", SqlDbType.Int).Value = number;
-                    DataBase.OpenConnection();
+                    command = DataBase.GetConnection().CreateCommand();
+                    command.CommandText = query;
+                    command.Parameters.Add("@sId", SqliteType.Integer).Value = seriesId;
+                    command.Parameters.Add("@number", SqliteType.Integer).Value = number;
 
-                    SqlDataReader reader = command.ExecuteReader();
+                    DataBase.OpenConnection();
+                    reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         locoId = reader.GetInt32(0);
@@ -322,11 +328,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@s", SqlDbType.NVarChar).Value = series;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@s", SqliteType.Text).Value = series;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     seriesId = reader.GetInt32(0);
@@ -346,14 +353,15 @@ namespace TCH_desktop.View
 
         private int SaveTrainData(int brakeHolders)
         {
-            string query = "INSERT Trains VALUES(@numb, @weight, @axles, @length, @tail, @fixation)";
+            string query = "INSERT INTO Trains(Number, Weight, Axles, SpecificLength, TailCar, TrainFixation) " +
+                "VALUES(@numb, @weight, @axles, @length, @tail, @fixation)";
 
             string fixation = String.Empty;
             float weight = 0;
             float axles = 0;
 
             if (!singleLoco.Checked && trainMass.Text != String.Empty && trainAxles.Text != String.Empty)
-            { 
+            {
                 weight = Convert.ToInt32(trainMass.Text);
                 axles = Convert.ToInt32(trainAxles.Text);
 
@@ -369,19 +377,19 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@numb", SqlDbType.NChar).Value = trainNumber.Text;
-                command.Parameters.Add("@weight", SqlDbType.NChar).Value = weight;
-                command.Parameters.Add("@axles", SqlDbType.NChar).Value = axles;
-                command.Parameters.Add("@length", SqlDbType.NChar).Value = !singleLoco.Checked ? 
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@numb", SqliteType.Text).Value = trainNumber.Text;
+                command.Parameters.Add("@weight", SqliteType.Text).Value = weight;
+                command.Parameters.Add("@axles", SqliteType.Text).Value = axles;
+                command.Parameters.Add("@length", SqliteType.Text).Value = !singleLoco.Checked ?
                     trainSpecificLength.Text : 0;
-                command.Parameters.Add("@tail", SqlDbType.NChar).Value = !singleLoco.Checked ? 
+                command.Parameters.Add("@tail", SqliteType.Text).Value = !singleLoco.Checked ?
                     trainTailCar.Text : 0;
-                command.Parameters.Add("@fixation", SqlDbType.NVarChar).Value = !singleLoco.Checked ?
+                command.Parameters.Add("@fixation", SqliteType.Text).Value = !singleLoco.Checked ?
                     fixation : 0;
 
                 DataBase.OpenConnection();
-
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -395,16 +403,6 @@ namespace TCH_desktop.View
             return GetLastId("Trains");
         }
 
-        private int GetRequiredTrainFixation(double value)
-        {
-            string valStr = value.ToString();
-            int index = valStr.IndexOf(',');    
-            float tenths = Convert.ToSingle(value.ToString().Substring(0, index + 2));
-
-            float remainder = tenths - (int)value;
-            return remainder > 0.0F ? (int)++value : (int)value; 
-        }
-
         private int GetLastId(string table)
         {
             int Id = 0;
@@ -413,10 +411,11 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                
                 DataBase.OpenConnection();
-
-                SqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     Id = reader.GetInt32(0);
@@ -425,13 +424,24 @@ namespace TCH_desktop.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Не удалось получить ID последней записи в таблице \"Поезда\":\n\"{ex.Message}\"\n" +
+                string tableName = table == "Trains" ? "Поезда" : "Поездки";
+                MessageBox.Show($"Не удалось получить ID последней записи в таблице \"{tableName}\":\n\"{ex.Message}\"\n" +
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
             DataBase.CloseConnection();
             return Id;
+        }
+
+        private int GetRequiredTrainFixation(double value)
+        {
+            string valStr = value.ToString();
+            int index = valStr.IndexOf(',');
+            float tenths = Convert.ToSingle(value.ToString().Substring(0, index + 2));
+
+            float remainder = tenths - (int)value;
+            return remainder > 0.0F ? (int)++value : (int)value;
         }
 
         private int GetBrakeHolders(int locoId)
@@ -442,11 +452,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@locoId", SqlDbType.Int).Value = locoId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@locoId", SqliteType.Integer).Value = locoId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     brakeHolders = reader.GetInt32(0);
@@ -468,17 +479,18 @@ namespace TCH_desktop.View
         {
             if (brakeTests.Count > 0)
             {
-                string query = "INSERT TripsBrakeTests VALUES(@tripId, @brakeTest)";
+                string query = "INSERT INTO TripsBrakeTests(Trip, BrakeTest) VALUES(@tripId, @brakeTest)";
 
                 for (int i = 0; i < brakeTests.Count; i++)
                 {
                     try
                     {
-                        SqlCommand command = new(query, DataBase.GetConnection());
-                        command.Parameters.Add("@tripId", SqlDbType.Int).Value = tripId;
-                        command.Parameters.Add("@brakeTest", SqlDbType.NVarChar).Value = brakeTests[i];
-                        DataBase.OpenConnection();
+                        command = DataBase.GetConnection().CreateCommand();
+                        command.CommandText = query;
+                        command.Parameters.Add("@tripId", SqliteType.Integer).Value = tripId;
+                        command.Parameters.Add("@brakeTest", SqliteType.Text).Value = brakeTests[i];
 
+                        DataBase.OpenConnection();
                         command.ExecuteNonQuery();
                     }
                     catch (Exception ex)
@@ -854,7 +866,7 @@ namespace TCH_desktop.View
 
         private void saveDataTrip_Click(object sender, EventArgs e)
         {
-            if (trainNumber.Text != String.Empty && locoNumbStr != String.Empty 
+            if (trainNumber.Text != String.Empty && locoNumbStr != String.Empty
                 && distanceTextBox.Text != String.Empty)
             {
                 int locoId = GetLocoId(locoNumbStr);
@@ -876,7 +888,7 @@ namespace TCH_desktop.View
 
                 string elFactor = electricityFactorTextBox.Text != String.Empty ?
                     electricityFactorTextBox.Text.Replace('.', ',') : "0.0";
-                string elAmountReq = elAmountRequiredValue.Text != String.Empty ? 
+                string elAmountReq = elAmountRequiredValue.Text != String.Empty ?
                     elAmountRequiredValue.Text : "0";
                 string elRecoveryReq = elRecoveryRequiredValue.Text != String.Empty ?
                     elRecoveryRequiredValue.Text : "0.0";
@@ -900,23 +912,24 @@ namespace TCH_desktop.View
 
                 try
                 {
-                    SqlCommand command = new(query, DataBase.GetConnection());
-                    command.Parameters.Add("@atTime", SqlDbType.DateTime).Value = attendaceTime;
-                    command.Parameters.Add("@locoId", SqlDbType.Int).Value = locoId;
-                    command.Parameters.Add("@route", SqlDbType.NVarChar).Value = trafficRoute;
-                    command.Parameters.Add("@eF", SqlDbType.Float).Value = elFactor;
-                    command.Parameters.Add("@dep", SqlDbType.NVarChar).Value = departure;
-                    command.Parameters.Add("@arr", SqlDbType.NVarChar).Value = arrival;
-                    command.Parameters.Add("@pasSt", SqlDbType.NVarChar).Value = pStations;
-                    command.Parameters.Add("@spLim", SqlDbType.NVarChar).Value = limits;
-                    command.Parameters.Add("@elAmountRequired", SqlDbType.Int).Value = elAmountReq;
-                    command.Parameters.Add("@elRecoveryRequired", SqlDbType.Float).Value = elRecoveryReq;
-                    command.Parameters.Add("@techSp", SqlDbType.Float).Value = techSpeed;
-                    command.Parameters.Add("@notes", SqlDbType.NVarChar).Value = notes;
-                    command.Parameters.Add("@trainId", SqlDbType.Int).Value = trainId;
-                    command.Parameters.Add("@userId", SqlDbType.Int).Value = startForm.GetCurrentUserId();
-                    DataBase.OpenConnection();
+                    command = DataBase.GetConnection().CreateCommand();
+                    command.CommandText = query;
+                    command.Parameters.Add("@atTime", SqliteType.Text).Value = attendaceTime;
+                    command.Parameters.Add("@locoId", SqliteType.Integer).Value = locoId;
+                    command.Parameters.Add("@route", SqliteType.Text).Value = trafficRoute;
+                    command.Parameters.Add("@eF", SqliteType.Real).Value = elFactor;
+                    command.Parameters.Add("@dep", SqliteType.Text).Value = departure;
+                    command.Parameters.Add("@arr", SqliteType.Text).Value = arrival;
+                    command.Parameters.Add("@pasSt", SqliteType.Text).Value = pStations;
+                    command.Parameters.Add("@spLim", SqliteType.Text).Value = limits;
+                    command.Parameters.Add("@elAmountRequired", SqliteType.Integer).Value = elAmountReq;
+                    command.Parameters.Add("@elRecoveryRequired", SqliteType.Real).Value = elRecoveryReq;
+                    command.Parameters.Add("@techSp", SqliteType.Real).Value = techSpeed;
+                    command.Parameters.Add("@notes", SqliteType.Text).Value = notes;
+                    command.Parameters.Add("@trainId", SqliteType.Integer).Value = trainId;
+                    command.Parameters.Add("@userId", SqliteType.Integer).Value = startForm.GetCurrentUserId();
 
+                    DataBase.OpenConnection();
                     command.ExecuteNonQuery();
 
                     int tripId = GetLastId("Trips");
@@ -958,7 +971,7 @@ namespace TCH_desktop.View
                     trainMass.Enabled = trainAxles.Enabled = trainSpecificLength.Enabled =
                         trainTailCar.Enabled = false;
 
-                    trainMass.BackColor = trainAxles.BackColor = trainSpecificLength.BackColor = 
+                    trainMass.BackColor = trainAxles.BackColor = trainSpecificLength.BackColor =
                         trainTailCar.BackColor = SystemColors.InactiveCaption;
 
                     label8.ForeColor = label9.ForeColor = label10.ForeColor = label11.ForeColor = Color.Gray;

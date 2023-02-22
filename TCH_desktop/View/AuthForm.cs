@@ -5,8 +5,6 @@ namespace TCH_desktop.View
 {
     public partial class AuthForm : Form
     {
-        private DbCreator dbCreator;
-
         private  AccountAction account;
         private bool isHiddenPassword;
 
@@ -16,8 +14,6 @@ namespace TCH_desktop.View
         public AuthForm()
         {
             InitializeComponent();
-
-            dbCreator = new DbCreator();
 
             account = new AccountAction();
             isHiddenPassword = true;

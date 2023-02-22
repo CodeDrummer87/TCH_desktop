@@ -1,6 +1,4 @@
-﻿using System.Data;
-using System.Data.SqlClient;
-using TCH_desktop.Models;
+﻿using TCH_desktop.Models;
 using TCH_desktop.Presenter;
 
 namespace TCH_desktop.View
@@ -84,48 +82,6 @@ namespace TCH_desktop.View
             user.BirthDate = bDate;
         }
 
-        private string GetInfoAboutEmployee()
-        {
-            string result = String.Empty;
-            string query = "SELECT	concat(p.Abbreviate, ' ', u.Surname, ' ', u.FirstName, ' ', " +
-                " u.Patronymic, ' (таб.N', CHAR(0176), ' ', e.TabNumber, ', колонна N', " +
-                "CHAR(0176), ' ', c.ColumnNumber, ') ',  d.ShortTitle) " +
-                "FROM Employees e " +
-                "INNER JOIN Users u " +
-                "ON u.Id = e.UserId " +
-                "INNER JOIN Positions p " +
-                "ON p.Id = e.PositionId " +
-                "INNER JOIN Columns c " +
-                "ON c.Id = e.ColumnId " +
-                "INNER JOIN LocomotiveDepots d " +
-                "ON d.Id = c.Depot " +
-                "WHERE e.UserId = @uId";
-
-            try
-            {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = GetCurrentUserId();
-                DataBase.OpenConnection();
-
-                SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    result = reader.GetString(0);
-                }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Не удалось выполнить запрос к Базе Данных на получение данных" +
-                    $" о сотруднике:\n\"{ex.Message}\"\n" +
-                    $"Обратитесь к системному администратору для устранения ошибки.",
-                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
-
-            DataBase.CloseConnection();
-            return result;
-        }
-
 
 
         #region Interactive
@@ -138,7 +94,7 @@ namespace TCH_desktop.View
 
         private void StartForm_Activated(object sender, EventArgs e)
         {
-            infoAboutCurrentUser.Text = GetInfoAboutEmployee();
+            infoAboutCurrentUser.Text = account.GetInfoAboutEmployee(user.Id);
             TopMost = false;
             Opacity = 100;
             Enabled = true;
@@ -233,7 +189,7 @@ namespace TCH_desktop.View
         private void BirthdayTimerTick(object? sender, EventArgs e)
         {
             bTimePeriod--;
-            birthdayLabel.Font = new Font("Bahnschrift Condensed", fontSize+=0.5F, FontStyle.Bold, GraphicsUnit.Point);
+            birthdayLabel.Font = new Font("Bahnschrift Condensed", fontSize += 0.5F, FontStyle.Bold, GraphicsUnit.Point);
 
             if (bTimePeriod <= 0)
             {

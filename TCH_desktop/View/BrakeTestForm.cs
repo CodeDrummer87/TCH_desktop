@@ -1,11 +1,13 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using Microsoft.Data.Sqlite;
 using TCH_desktop.Models;
 
 namespace TCH_desktop.View
 {
     public partial class BrakeTestForm : Form
     {
+        private SqliteCommand command;
+        private SqliteDataReader reader;
+
         private NewTripForm tripForm;
         private int trainNumber;
         private bool isMainTestBrakeAdded;
@@ -41,11 +43,12 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@isEven", SqlDbType.Int).Value = isEven;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@isEven", SqliteType.Integer).Value = isEven;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     brakeTestSelect.Items.Add(new BrakeTest

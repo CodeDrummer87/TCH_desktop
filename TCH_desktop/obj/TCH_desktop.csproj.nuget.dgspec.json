@@ -47,9 +47,9 @@
               "target": "Package",
               "version": "[7.0.0, )"
             },
-            "System.Data.SqlClient": {
+            "Microsoft.Data.Sqlite": {
               "target": "Package",
-              "version": "[4.8.5, )"
+              "version": "[7.0.3, )"
             }
           },
           "imports": [

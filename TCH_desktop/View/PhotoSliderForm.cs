@@ -1,11 +1,12 @@
-﻿using System.Data;
-using System.Data.SqlClient;
-using System.Xml.Linq;
+﻿using Microsoft.Data.Sqlite;
 
 namespace TCH_desktop.View
 {
     public partial class PhotoSliderForm : Form
     {
+        private SqliteCommand command;
+        private SqliteDataReader reader;
+
         private TripInfoForm tripInfoForm;
         private int tripId;
 
@@ -76,14 +77,15 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@imgPath", SqlDbType.VarChar).Value = path;
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@imgPath", SqliteType.Text).Value = path;
 
-                DataTable table = new();
-                DataBase.adapter.SelectCommand = command;
-                DataBase.adapter.Fill(table);
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
+                reader.Close();
 
-                return table.Rows.Count == 1 ? true : false;
+                return reader.HasRows;
             }
             catch (Exception ex)
             {
@@ -102,10 +104,11 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@imgPath", SqlDbType.VarChar).Value = path;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@imgPath", SqliteType.Text).Value = path;
 
+                DataBase.OpenConnection();
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -282,16 +285,17 @@ namespace TCH_desktop.View
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@path", SqlDbType.VarChar).Value = path;
-                command.Parameters.Add("@tripId", SqlDbType.Int).Value = tripId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@path", SqliteType.Text).Value = path;
+                command.Parameters.Add("@tripId", SqliteType.Integer).Value = tripId;
 
+                DataBase.OpenConnection();
                 command.ExecuteNonQuery();
 
                 PictureBox pBox = tripInfoForm.Controls?.Find("locoImagePB", true).FirstOrDefault() as PictureBox;
                 pBox.ImageLocation = path;
-                MessageBox.Show("Фотография локомотива установлена как обложка для текущей поездки", 
+                MessageBox.Show("Фотография локомотива установлена как обложка для текущей поездки",
                     "Настройки сохранены", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)

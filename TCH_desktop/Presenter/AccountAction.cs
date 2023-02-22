@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using System.Security.Cryptography;
 using TCH_desktop.Models;
 
@@ -8,8 +7,8 @@ namespace TCH_desktop.Presenter
 {
     public class AccountAction
     {
-        private SqlCommand command;
-        private SqlDataReader reader;
+        private SqliteCommand command;
+        private SqliteDataReader reader;
 
         public string CreateNewAccount(string email, string password, string confirmedPassword)
         {
@@ -17,28 +16,26 @@ namespace TCH_desktop.Presenter
 
             if (!CheckInputedEmail(email) && (password == confirmedPassword))
             {
-                string query = "INSERT INTO Logins VALUES (@login, @password, @salt)";
+                string query = "INSERT INTO Logins(Email, Password, Salt) VALUES (@login, @password, @salt)";
 
                 try
                 {
                     byte[] salt = GetSalt();
                     string pswdHashImage = GetHashImage(password, salt);
 
-                    command = new(query, DataBase.GetConnection());
-                    command.Parameters.Add("@login", SqlDbType.VarChar).Value = email;
-                    command.Parameters.Add("@password", SqlDbType.NVarChar).Value = pswdHashImage;
-                    command.Parameters.Add("@salt", SqlDbType.VarBinary).Value = salt;
+                    command = DataBase.GetConnection().CreateCommand();
+                    command.CommandText = query;
+                    command.Parameters.Add("@login", SqliteType.Text).Value = email;
+                    command.Parameters.Add("@password", SqliteType.Text).Value = pswdHashImage;
+                    command.Parameters.Add("@salt", SqliteType.Blob).Value = salt;
 
                     DataBase.OpenConnection();
-
                     if (command.ExecuteNonQuery() == 1)
                     {
                         message = $"Аккаунт для {email} успешно зарегистрирован";
                         AttachNewUserData(email);
                     }
                     else message = "Ошибка регистрации";
-
-                    DataBase.CloseConnection();
                 }
                 catch (Exception ex)
                 {
@@ -47,6 +44,7 @@ namespace TCH_desktop.Presenter
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
 
+                DataBase.CloseConnection();
             }
             else message = "Аккаунт с таким email уже существует";
 
@@ -78,42 +76,42 @@ namespace TCH_desktop.Presenter
 
         public bool CheckInputedEmail(string email)
         {
-            string query = "SELECT * FROM Logins WHERE Email = @uEmail";
+            string query = "SELECT * FROM Logins WHERE Email=@uEmail";
 
             try
             {
-                command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uEmail", SqlDbType.VarChar).Value = email;
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uEmail", SqliteType.Text).Value = email;
 
-                DataTable table = new();
-                DataBase.adapter.SelectCommand = command;
-                DataBase.adapter.Fill(table);
-                DataBase.CloseConnection();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
 
-                return table.Rows.Count == 1 ? true : false;
+                return reader.HasRows;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Получена ошибка со следующим содержанием:\n\"{ex.Message}\"\n" +
                     $"Обратитесь к системному администратору для её устранения.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-
-                return false;
             }
+
+            DataBase.CloseConnection();
+            return false;
         }
 
         public LoginModel GetCurrentLoginData(string email)
         {
             LoginModel mLogin = new();
-
             string query = "SELECT * FROM Logins WHERE Email=@e";
 
             try
             {
-                command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@e", SqlDbType.VarChar).Value = email;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@e", SqliteType.Text).Value = email;
 
+                DataBase.OpenConnection();
                 reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -126,7 +124,6 @@ namespace TCH_desktop.Presenter
                     };
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -135,35 +132,45 @@ namespace TCH_desktop.Presenter
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return mLogin;
         }
 
         public User GetCurrentUserData(int loginId)
         {
             User user = new();
-
             string query = "SELECT * FROM Users WHERE LoginId=@Id";
 
-            command = new(query, DataBase.GetConnection());
-            command.Parameters.Add("@Id", SqlDbType.Int).Value = loginId;
-            DataBase.OpenConnection();
-
-            reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                user = new User
-                {
-                    Id = reader.GetInt32(0),
-                    SurName = reader.GetString(1),
-                    FirstName = reader.GetString(2),
-                    Patronymic = reader.GetString(3),
-                    BirthDate = reader.GetDateTime(4),
-                    LoginId = reader.GetInt32(5)
-                };
-            }
-            reader.Close();
-            DataBase.CloseConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@Id", SqliteType.Integer).Value = loginId;
 
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    user = new User
+                    {
+                        Id = reader.GetInt32(0),
+                        SurName = reader.GetString(1),
+                        FirstName = reader.GetString(2),
+                        Patronymic = reader.GetString(3),
+                        BirthDate = reader.GetDateTime(4),
+                        LoginId = reader.GetInt32(5)
+                    };
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось получить данные текущего пользователя:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для её устранения.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            DataBase.CloseConnection();
             return user;
         }
 
@@ -173,17 +180,18 @@ namespace TCH_desktop.Presenter
 
             string dName = "не указано";
             DateTime dateTime = DateTime.Now;
-            string query = $"INSERT INTO Users VALUES ('{dName}', '{dName}', '{dName}', @dt, @loginId)";
-
-            command = new(query, DataBase.GetConnection());
-            command.Parameters.Add("@dt", SqlDbType.DateTime).Value = dateTime;
-            command.Parameters.Add("loginId", SqlDbType.Int).Value = loginId;
+            string query = $"INSERT INTO Users(SurName, FirstName, Patronymic, BirthDate, LoginId) " +
+                $"VALUES ('{dName}', '{dName}', '{dName}', @dt, @loginId)";
 
             try
             {
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@dt", SqliteType.Text).Value = dateTime;
+                command.Parameters.Add("loginId", SqliteType.Integer).Value = loginId;
+
                 DataBase.OpenConnection();
                 command.ExecuteNonQuery();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -191,21 +199,23 @@ namespace TCH_desktop.Presenter
                     $"Обратитесь к системному администратору для её устранения.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+
+            DataBase.CloseConnection();
         }
 
         public Employee GetCurrentEmployeeData(int userId)
         {
             Employee employee = new();
-
             string query = "SELECT * FROM Employees WHERE UserId=@uId";
 
             try
             {
-                SqlCommand command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
-                SqlDataReader reader = command.ExecuteReader();
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     employee = new Employee
@@ -218,16 +228,16 @@ namespace TCH_desktop.Presenter
                     };
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Не удалось выполнить запрос к Базе Данных на получение данных" +
+                MessageBox.Show($"Не удалось получить данные текущего сотрудника:" +
                     $" о сотруднике:\n\"{ex.Message}\"\n" +
                     $"Обратитесь к системному администратору для устранения ошибки.",
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return employee;
         }
 
@@ -245,17 +255,17 @@ namespace TCH_desktop.Presenter
 
             try
             {
-                command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
+                DataBase.OpenConnection();
                 reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     railroadId = reader.GetInt32(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -264,6 +274,7 @@ namespace TCH_desktop.Presenter
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return railroadId;
         }
 
@@ -280,17 +291,17 @@ namespace TCH_desktop.Presenter
 
             try
             {
-                command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
+                DataBase.OpenConnection();
                 reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     depotId = reader.GetInt32(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -299,6 +310,7 @@ namespace TCH_desktop.Presenter
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return depotId;
         }
 
@@ -309,17 +321,17 @@ namespace TCH_desktop.Presenter
 
             try
             {
-                command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
+                DataBase.OpenConnection();
                 reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     positionId = reader.GetInt32(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -328,6 +340,7 @@ namespace TCH_desktop.Presenter
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return positionId;
         }
 
@@ -338,17 +351,17 @@ namespace TCH_desktop.Presenter
 
             try
             {
-                command = new(query, DataBase.GetConnection());
-                command.Parameters.Add("@uId", SqlDbType.Int).Value = userId;
-                DataBase.OpenConnection();
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
 
+                DataBase.OpenConnection();
                 reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     columnId = reader.GetInt32(0);
                 }
                 reader.Close();
-                DataBase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -357,7 +370,51 @@ namespace TCH_desktop.Presenter
                     "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+            DataBase.CloseConnection();
             return columnId;
+        }
+
+        public string GetInfoAboutEmployee(int userId)
+        {
+            string result = String.Empty;
+            string query = "SELECT	(p.Abbreviate || ' ' || u.Surname || ' ' || u.FirstName || ' ' || " +
+                " u.Patronymic || ' (таб.N' || CHAR(0176) || ' ' || e.TabNumber || ', колонна N' || " +
+                "CHAR(0176) || ' ' || c.ColumnNumber || ') ' ||  d.ShortTitle) " +
+                "FROM Employees e " +
+                "INNER JOIN Users u " +
+                "ON u.Id = e.UserId " +
+                "INNER JOIN Positions p " +
+                "ON p.Id = e.PositionId " +
+                "INNER JOIN Columns c " +
+                "ON c.Id = e.ColumnId " +
+                "INNER JOIN LocomotiveDepots d " +
+                "ON d.Id = c.Depot " +
+                "WHERE e.UserId = @uId";
+
+            try
+            {
+                command = DataBase.GetConnection().CreateCommand();
+                command.CommandText = query;
+                command.Parameters.Add("@uId", SqliteType.Integer).Value = userId;
+
+                DataBase.OpenConnection();
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = reader.GetString(0);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось выполнить запрос к Базе Данных на получение данных" +
+                    $" о сотруднике:\n\"{ex.Message}\"\n" +
+                    $"Обратитесь к системному администратору для устранения ошибки.",
+                    "Нет соединения с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+            DataBase.CloseConnection();
+            return result;
         }
     }
 }
