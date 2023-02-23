@@ -517,7 +517,14 @@ namespace TCH_desktop.View
             DisplayDataTable();
         }
 
-        #endregion
+        private void searchByLoco_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
 
+            if (!Char.IsDigit(ch) && ch != 8 && ch == '\'')
+                e.Handled = true;
+        }
+
+        #endregion
     }
 }

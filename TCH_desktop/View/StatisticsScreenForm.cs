@@ -27,11 +27,11 @@ namespace TCH_desktop.View
         {
             InitializeComponent();
 
-            tripsCount = GetTotalTrips();
             this.startForm = startForm;
             Location = new Point(630, 120);
 
             userId = this.startForm.GetCurrentUserId();
+            tripsCount = GetTotalTrips();
 
             if (tripsCount > 0)
             {    
@@ -40,8 +40,6 @@ namespace TCH_desktop.View
                 isOldestLoco = true;
                 series = GetAvailableLocoSeries();
                 isFirstTrip = true;
-
-                this.TopMost = startForm.TopMost = false;
             }
         }
 
@@ -70,7 +68,8 @@ namespace TCH_desktop.View
                     $"\n\"{ex.Message}\"\nОбратитесь к системному администратору для устранения ошибки.",
                     "Ошибка при работе с Базой Данных", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
-
+            Console.Write(
+result);
             DataBase.CloseConnection();
             return result;
         }

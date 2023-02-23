@@ -89,6 +89,7 @@
             this.searchByLoco.TabIndex = 4;
             this.searchByLoco.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.searchByLoco.TextChanged += new System.EventHandler(this.searchByLoco_TextChanged);
+            this.searchByLoco.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.searchByLoco_KeyPress);
             // 
             // arrowLeft
             // 
