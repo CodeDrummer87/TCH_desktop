@@ -6,6 +6,8 @@ namespace TCH_desktop.View
 {
     public partial class StatisticsScreenForm : Form
     {
+        private int tripsCount;
+
         private SqliteCommand command;
         private SqliteDataReader reader;
 
@@ -25,15 +27,22 @@ namespace TCH_desktop.View
         {
             InitializeComponent();
 
+            tripsCount = GetTotalTrips();
             this.startForm = startForm;
             Location = new Point(630, 120);
 
             userId = this.startForm.GetCurrentUserId();
-            tStatIndex = 0;
 
-            isOldestLoco = true;
-            series = GetAvailableLocoSeries();
-            isFirstTrip = true;
+            if (tripsCount > 0)
+            {    
+                tStatIndex = 0;
+
+                isOldestLoco = true;
+                series = GetAvailableLocoSeries();
+                isFirstTrip = true;
+
+                this.TopMost = startForm.TopMost = false;
+            }
         }
 
         private int GetTotalTrips()
@@ -279,7 +288,7 @@ namespace TCH_desktop.View
                 reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    result = reader.GetInt32(0);
+                    result = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
                 }
                 reader.Close();
             }
@@ -579,34 +588,37 @@ namespace TCH_desktop.View
 
         private void StatisticsScreenForm_Load(object sender, EventArgs e)
         {
-            totalTrips.Text = GetTotalTrips().ToString();
+            totalTrips.Text = tripsCount.ToString();
 
-            GetTripStatistics();
-            DisplayTrafficRouteCounter();
+            if (tripsCount > 0)
+            {
+                GetTripStatistics();
+                DisplayTrafficRouteCounter();
 
-            DisplayTotalTravelTime();
-            sumWeight.Text = GetSumWeight().ToString();
+                DisplayTotalTravelTime();
+                sumWeight.Text = GetSumWeight().ToString();
 
-            locoSeriesLabel.Text = series[seriesIndex];
-            locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
+                locoSeriesLabel.Text = series[seriesIndex];
+                locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
 
-            GetMostPopularLoco();
-            DisplayTotalTripsByLocoSeries();
+                GetMostPopularLoco();
+                DisplayTotalTripsByLocoSeries();
 
-            int x = label6.Location.X;
-            int y = totalTripsBySeriesLabel.Location.Y + 72;
+                int x = label6.Location.X;
+                int y = totalTripsBySeriesLabel.Location.Y + 72;
 
-            label6.Location = new Point(x, y);
+                label6.Location = new Point(x, y);
 
-            x += label6.Width;
-            tripStatusLabel.Location = new Point(x, y);
+                x += label6.Width;
+                tripStatusLabel.Location = new Point(x, y);
 
-            x += tripStatusLabel.Width;
-            tripDateLabel.Location = new Point(x, y);
+                x += tripStatusLabel.Width;
+                tripDateLabel.Location = new Point(x, y);
 
-            x += tripDateLabel.Width;
-            tripStatusResult.Location = new Point(x, y);
-            tripStatusResult.Text = GetFirstOrLastTrip();
+                x += tripDateLabel.Width;
+                tripStatusResult.Location = new Point(x, y);
+                tripStatusResult.Text = GetFirstOrLastTrip();
+            }
         }
 
         private void closeScreen_MouseEnter(object sender, EventArgs e)
@@ -681,71 +693,83 @@ namespace TCH_desktop.View
 
         private void locoConditionLabel_Click(object sender, EventArgs e)
         {
-            if (isOldestLoco)
+            if (tripsCount > 0)
             {
-                isOldestLoco = false;
-                locoConditionLabel.Text = "новый";
+                if (isOldestLoco)
+                {
+                    isOldestLoco = false;
+                    locoConditionLabel.Text = "новый";
+                }
+                else
+                {
+                    isOldestLoco = true;
+                    locoConditionLabel.Text = "старый";
+                }
+
+                locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
+
+                int x = locoConditionLabel.Location.X + locoConditionLabel.Width;
+                label7.Location = new Point(x, 304);
+
+                x = label7.Location.X + label7.Width;
+                locoSeriesLabel.Location = new Point(x, 304);
+
+                SetColonLabel();
             }
-            else
-            {
-                isOldestLoco = true;
-                locoConditionLabel.Text = "старый";
-            }
-
-            locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
-
-            int x = locoConditionLabel.Location.X + locoConditionLabel.Width;
-            label7.Location = new Point(x, 304);
-
-            x = label7.Location.X + label7.Width;
-            locoSeriesLabel.Location = new Point(x, 304);
-
-            SetColonLabel();
         }
 
         private void locoSeriesLabel_Click(object sender, EventArgs e)
         {
-            ++seriesIndex;
-            if (seriesIndex == series.Count)
-                seriesIndex = 0;
+            if (tripsCount > 0)
+            {
+                ++seriesIndex;
+                if (seriesIndex == series.Count)
+                    seriesIndex = 0;
 
-            locoSeriesLabel.Text = series[seriesIndex];
-            locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
-            SetColonLabel();
+                locoSeriesLabel.Text = series[seriesIndex];
+                locoResultLabel.Text = GetLocoByCondition(locoSeriesLabel.Text);
+                SetColonLabel();
+            }
         }
 
         private void totalTripsBySeries_Click(object sender, EventArgs e)
         {
-            ++seriesCountIndex;
-            if (seriesCountIndex == series.Count)
-                seriesCountIndex = 0;
+            if (tripsCount > 0)
+            {
+                ++seriesCountIndex;
+                if (seriesCountIndex == series.Count)
+                    seriesCountIndex = 0;
 
-            totalTripsBySeries.Text = series[seriesCountIndex];
-            SetColonLabel2(totalTripsBySeries.Location.Y);
+                totalTripsBySeries.Text = series[seriesCountIndex];
+                SetColonLabel2(totalTripsBySeries.Location.Y);
 
-            int tripsCount = GetTotalTripsBySeriesCount(series[seriesCountIndex]);
-            totalTripsBySeriesResult.Text = $"{tripsCount} {TransformWord(tripsCount, "поездка")}";
+                int tripsCount = GetTotalTripsBySeriesCount(series[seriesCountIndex]);
+                totalTripsBySeriesResult.Text = $"{tripsCount} {TransformWord(tripsCount, "поездка")}";
+            }
         }
 
         private void tripStatusLabel_Click(object sender, EventArgs e)
         {
-            if (isFirstTrip)
+            if (tripsCount > 0)
             {
-                isFirstTrip = false;
-                tripStatusLabel.Text = "последней";
-            }
-            else
-            {
-                isFirstTrip = true;
-                tripStatusLabel.Text = "первой";
-            }
+                if (isFirstTrip)
+                {
+                    isFirstTrip = false;
+                    tripStatusLabel.Text = "последней";
+                }
+                else
+                {
+                    isFirstTrip = true;
+                    tripStatusLabel.Text = "первой";
+                }
 
-            int x = tripStatusLabel.Location.X + tripStatusLabel.Width;
-            tripDateLabel.Location = new Point(x, tripDateLabel.Location.Y);
+                int x = tripStatusLabel.Location.X + tripStatusLabel.Width;
+                tripDateLabel.Location = new Point(x, tripDateLabel.Location.Y);
 
-            x += tripDateLabel.Width;
-            tripStatusResult.Location = new Point(x, tripStatusResult.Location.Y);
-            tripStatusResult.Text = GetFirstOrLastTrip();
+                x += tripDateLabel.Width;
+                tripStatusResult.Location = new Point(x, tripStatusResult.Location.Y);
+                tripStatusResult.Text = GetFirstOrLastTrip();
+            }
         }
 
         #endregion

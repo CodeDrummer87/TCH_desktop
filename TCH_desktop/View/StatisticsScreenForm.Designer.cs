@@ -103,9 +103,9 @@
             this.tripStatusResult.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.tripStatusResult.Location = new System.Drawing.Point(287, 565);
             this.tripStatusResult.Name = "tripStatusResult";
-            this.tripStatusResult.Size = new System.Drawing.Size(65, 22);
+            this.tripStatusResult.Size = new System.Drawing.Size(21, 22);
             this.tripStatusResult.TabIndex = 23;
-            this.tripStatusResult.Text = "result";
+            this.tripStatusResult.Text = "-";
             // 
             // tripDateLabel
             // 
@@ -148,9 +148,9 @@
             this.totalTripsBySeriesResult.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.totalTripsBySeriesResult.Location = new System.Drawing.Point(522, 476);
             this.totalTripsBySeriesResult.Name = "totalTripsBySeriesResult";
-            this.totalTripsBySeriesResult.Size = new System.Drawing.Size(65, 22);
+            this.totalTripsBySeriesResult.Size = new System.Drawing.Size(21, 22);
             this.totalTripsBySeriesResult.TabIndex = 18;
-            this.totalTripsBySeriesResult.Text = "result";
+            this.totalTripsBySeriesResult.Text = "-";
             // 
             // colonLabel2
             // 
@@ -193,9 +193,9 @@
             this.mostPopularLocoResult.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.mostPopularLocoResult.Location = new System.Drawing.Point(374, 376);
             this.mostPopularLocoResult.Name = "mostPopularLocoResult";
-            this.mostPopularLocoResult.Size = new System.Drawing.Size(65, 22);
+            this.mostPopularLocoResult.Size = new System.Drawing.Size(21, 22);
             this.mostPopularLocoResult.TabIndex = 14;
-            this.mostPopularLocoResult.Text = "result";
+            this.mostPopularLocoResult.Text = "-";
             // 
             // mostPopularLocoLabel
             // 
@@ -214,9 +214,9 @@
             this.locoResultLabel.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.locoResultLabel.Location = new System.Drawing.Point(466, 304);
             this.locoResultLabel.Name = "locoResultLabel";
-            this.locoResultLabel.Size = new System.Drawing.Size(65, 22);
+            this.locoResultLabel.Size = new System.Drawing.Size(21, 22);
             this.locoResultLabel.TabIndex = 12;
-            this.locoResultLabel.Text = "result";
+            this.locoResultLabel.Text = "-";
             // 
             // label7
             // 
@@ -283,9 +283,9 @@
             this.sumWeight.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.sumWeight.Location = new System.Drawing.Point(397, 232);
             this.sumWeight.Name = "sumWeight";
-            this.sumWeight.Size = new System.Drawing.Size(22, 22);
+            this.sumWeight.Size = new System.Drawing.Size(21, 22);
             this.sumWeight.TabIndex = 6;
-            this.sumWeight.Text = "0";
+            this.sumWeight.Text = "-";
             // 
             // label3
             // 
@@ -304,9 +304,9 @@
             this.totalTravelTime.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.totalTravelTime.Location = new System.Drawing.Point(620, 57);
             this.totalTravelTime.Name = "totalTravelTime";
-            this.totalTravelTime.Size = new System.Drawing.Size(22, 22);
+            this.totalTravelTime.Size = new System.Drawing.Size(21, 22);
             this.totalTravelTime.TabIndex = 4;
-            this.totalTravelTime.Text = "0";
+            this.totalTravelTime.Text = "-";
             // 
             // label2
             // 
@@ -379,9 +379,9 @@
             this.totalTrips.Font = new System.Drawing.Font("Lucida Sans Unicode", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.totalTrips.Location = new System.Drawing.Point(197, 57);
             this.totalTrips.Name = "totalTrips";
-            this.totalTrips.Size = new System.Drawing.Size(22, 22);
+            this.totalTrips.Size = new System.Drawing.Size(21, 22);
             this.totalTrips.TabIndex = 1;
-            this.totalTrips.Text = "0";
+            this.totalTrips.Text = "-";
             // 
             // label1
             // 

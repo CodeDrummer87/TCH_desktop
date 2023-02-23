@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.Sqlite;
-using System.Data.SqlClient;
 using TCH_desktop.Models;
 
 namespace TCH_desktop.View
@@ -413,7 +412,7 @@ namespace TCH_desktop.View
             {
                 command = DataBase.GetConnection().CreateCommand();
                 command.CommandText = query;
-                
+
                 DataBase.OpenConnection();
                 reader = command.ExecuteReader();
                 while (reader.Read())
