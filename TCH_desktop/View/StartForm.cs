@@ -45,8 +45,8 @@ namespace TCH_desktop.View
 
             this.TopMost = false;
 
-            birthdayLabel.Visible = user.BirthDate.Month == DateTime.Now.Month &&
-                user.BirthDate.Day == DateTime.Now.Day ? true : false;
+            birthdayLabel.Visible = (user.BirthDate.Month == DateTime.Now.Month &&
+                user.BirthDate.Day == DateTime.Now.Day) ? true : false;
 
             birthdayTimer = new System.Windows.Forms.Timer { Interval = 50 };
             bTimePeriod = 140;
@@ -189,7 +189,8 @@ namespace TCH_desktop.View
         private void BirthdayTimerTick(object? sender, EventArgs e)
         {
             bTimePeriod--;
-            birthdayLabel.Font = new Font("Bahnschrift Condensed", fontSize += 0.5F, FontStyle.Bold, GraphicsUnit.Point);
+            birthdayLabel.Font = new Font("Bahnschrift Condensed", fontSize += 0.5F,
+                FontStyle.Bold, GraphicsUnit.Point);
 
             if (bTimePeriod <= 0)
             {

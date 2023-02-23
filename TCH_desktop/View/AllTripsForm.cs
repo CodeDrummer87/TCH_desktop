@@ -385,7 +385,7 @@ namespace TCH_desktop.View
                 $"ON l.id=t.Locomotive " +
                 $"INNER JOIN LocoSeries ls " +
                 $"ON ls.id=l.Series " +
-                $"WHERE UserId=@uId AND CONCAT(ls.Series, '-', l.Number) LIKE {condition} " +
+                $"WHERE UserId=@uId AND (ls.Series || '-' || l.Number) LIKE {condition} " +
                 $"ORDER BY AttendanceTime DESC LIMIT 8 OFFSET @offset";
 
             try
