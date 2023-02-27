@@ -70,6 +70,7 @@ namespace TCH_desktop.View
 
         private void EnableFields(bool value)
         {
+            ChangeDirectionSwitchName(value);
             departureTimePicker.Enabled = value;
             departureTrafficLight.Enabled = value;
 
@@ -635,6 +636,14 @@ namespace TCH_desktop.View
             return timeResult;
         }
 
+        private void ChangeDirectionSwitchName(bool flag)
+        {
+            directionSwitchCheckBox.Enabled = flag;
+
+            int trainNumb = Convert.ToInt32(trainNumber.Text);
+            directionSwitchCheckBox.Text = trainNumb % 2 == 0 ? "Ч~>Н" : "Н~>Ч";
+        }
+
 
 
         #region Interactive
@@ -1046,6 +1055,22 @@ namespace TCH_desktop.View
         {
             CalcElectricityAmount(sender, e);
             CalcElectricityRecoveryRequired(sender, e);
+        }
+
+        private void directionSwitchCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (directionSwitchCheckBox.Checked) 
+            {
+                directionSwitchCheckBox.ForeColor = Color.Gold;
+                int trainNumb = Convert.ToInt32(trainNumber.Text);
+                trainNumber.Text += $" / {++trainNumb}";
+            }
+            else
+            {
+                directionSwitchCheckBox.ForeColor = Color.Silver;
+                int index = trainNumber.Text.IndexOf(' ');
+                trainNumber.Text = trainNumber.Text.Substring(0, index).Trim();
+            }
         }
 
         #endregion

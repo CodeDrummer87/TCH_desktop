@@ -40,6 +40,7 @@
             this.addSpeedLimits = new System.Windows.Forms.Label();
             this.addNotes = new System.Windows.Forms.Label();
             this.removeLocomotive = new System.Windows.Forms.Label();
+            this.directionSwitchCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.elRecoveryFactorTextBox = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
@@ -235,9 +236,26 @@
             this.removeLocomotive.MouseEnter += new System.EventHandler(this.anotherLabelMouseEnter);
             this.removeLocomotive.MouseLeave += new System.EventHandler(this.anotherLabelMouseLeave);
             // 
+            // directionSwitchCheckBox
+            // 
+            this.directionSwitchCheckBox.AutoSize = true;
+            this.directionSwitchCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.directionSwitchCheckBox.Enabled = false;
+            this.directionSwitchCheckBox.Font = new System.Drawing.Font("Bahnschrift", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.directionSwitchCheckBox.ForeColor = System.Drawing.Color.Silver;
+            this.directionSwitchCheckBox.Location = new System.Drawing.Point(586, 265);
+            this.directionSwitchCheckBox.Name = "directionSwitchCheckBox";
+            this.directionSwitchCheckBox.Size = new System.Drawing.Size(78, 25);
+            this.directionSwitchCheckBox.TabIndex = 88;
+            this.directionSwitchCheckBox.Text = "Ч<~>Н";
+            this.NewTripFormToolTip.SetToolTip(this.directionSwitchCheckBox, "Поставьте галочку, если поезд менял направление в пути следования");
+            this.directionSwitchCheckBox.UseVisualStyleBackColor = true;
+            this.directionSwitchCheckBox.CheckedChanged += new System.EventHandler(this.directionSwitchCheckBox_CheckedChanged);
+            // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.directionSwitchCheckBox);
             this.groupBox1.Controls.Add(this.elRecoveryFactorTextBox);
             this.groupBox1.Controls.Add(this.label21);
             this.groupBox1.Controls.Add(this.elRecoveryRequiredValue);
@@ -993,5 +1011,6 @@
         private Label elRecoveryRequiredValue;
         private TextBox elRecoveryFactorTextBox;
         private Label label21;
+        private CheckBox directionSwitchCheckBox;
     }
 }
