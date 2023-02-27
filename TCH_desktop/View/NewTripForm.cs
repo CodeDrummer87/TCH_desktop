@@ -833,7 +833,17 @@ namespace TCH_desktop.View
 
         private void addBrakeTest_Click(object sender, EventArgs e)
         {
-            BrakeTestForm brakeTestForm = new(this, Convert.ToInt32(trainNumber.Text));
+            string trainNumbStr = trainNumber.Text;
+            int trainNumb = 0;
+            if (trainNumbStr.Contains('/'))
+            {
+                int index = trainNumbStr.IndexOf('/');
+                trainNumbStr = trainNumbStr.Substring(0, index);
+            }
+            
+            trainNumb = Convert.ToInt32(trainNumbStr.Trim());
+
+            BrakeTestForm brakeTestForm = new(this, trainNumb);
             TopMost = true;
             Opacity = 60;
             Enabled = false;
@@ -1066,7 +1076,7 @@ namespace TCH_desktop.View
             {
                 directionSwitchCheckBox.ForeColor = Color.Gold;
                 trainNumb = Convert.ToInt32(trainNumber.Text);
-                trainNumber.Text += $" / {++trainNumb}";
+                trainNumber.Text += $"/{++trainNumb}";
 
             }
             else
