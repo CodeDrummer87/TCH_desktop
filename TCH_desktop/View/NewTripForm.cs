@@ -640,8 +640,11 @@ namespace TCH_desktop.View
         {
             directionSwitchCheckBox.Enabled = flag;
 
-            int trainNumb = Convert.ToInt32(trainNumber.Text);
-            directionSwitchCheckBox.Text = trainNumb % 2 == 0 ? "Ч~>Н" : "Н~>Ч";
+            if (trainNumber.Text.Trim() != String.Empty)
+            {
+                int trainNumb = Convert.ToInt32(trainNumber.Text);
+                directionSwitchCheckBox.Text = trainNumb % 2 == 0 ? "Ч~>Н" : "Н~>Ч";
+            }
         }
 
 
@@ -713,8 +716,6 @@ namespace TCH_desktop.View
                 LoadAvailableTrafficLights(trainNumb % 2 == 0, ((Station)(departureStation.SelectedItem)).Id);
                 SetTrafficLightsComboBox(departureTrafficLight);
             }
-
-            distanceTextBox.Focus();
         }
 
         private void arrivalStation_SelectedIndexChanged(object sender, EventArgs e)
@@ -1059,18 +1060,25 @@ namespace TCH_desktop.View
 
         private void directionSwitchCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            int trainNumb;
+
             if (directionSwitchCheckBox.Checked) 
             {
                 directionSwitchCheckBox.ForeColor = Color.Gold;
-                int trainNumb = Convert.ToInt32(trainNumber.Text);
+                trainNumb = Convert.ToInt32(trainNumber.Text);
                 trainNumber.Text += $" / {++trainNumb}";
+
             }
             else
             {
                 directionSwitchCheckBox.ForeColor = Color.Silver;
                 int index = trainNumber.Text.IndexOf(' ');
-                trainNumber.Text = trainNumber.Text.Substring(0, index).Trim();
+                trainNumb = Convert.ToInt32(trainNumber.Text.Substring(0, index).Trim());
+                trainNumber.Text = trainNumb.ToString();
             }
+
+            LoadAvailableTrafficLights(trainNumb % 2 == 0, ((Station)(arrivalStation.SelectedItem)).Id);
+            SetTrafficLightsComboBox(arrivalTrafficLight);
         }
 
         #endregion
